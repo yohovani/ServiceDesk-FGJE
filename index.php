@@ -8,6 +8,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script src="NombreUsuario.js"></script>
 	</head>
 	<body>
 		<nav class="navbar bg-dark navbar-dark">
@@ -15,7 +16,7 @@
 			<?php
 				session_start();
 				if(isset($_SESSION['user'])){
-					echo "<strong style='color: white;'>FGJE - ".$_SESSION['user']."</strong>";
+					echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']." ".$_SESSION['apellidos']."</strong>";
 				}else{
 					echo "<strong style='color: white;'>FGJE - Visitante</strong>";
 				}
@@ -31,9 +32,9 @@
 					</button>
 				</div>";
 			else{
-				        echo" <button style='color:gold' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
-								 <li><a href='#' style='color:gold' data-toggle='modal' data-target='#logout'>Cerrar Ses&oacute;n</a></li>
-						 </button>";
+				echo" <button style='color:gold' class='navbar-toggler' type='button' data-toggle='collapse' >
+						 <li><a href='#' style='color:gold' data-toggle='modal' data-target='#logout'>Cerrar Ses&oacute;n</a></li>
+				 </button>";
 			}
 			?>
 
@@ -48,60 +49,28 @@
 						</div>
 						<div class="modal-body">
 							<form class="form-horizontal" action="Registro.php" method="post">
-								<!---->
-
-								<div class="form-group">
-									<label class="control-label col-sm-2" >Usuario:</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" name="user" placeholder="Nombre">
-									</div>
-								</div>
-								<!---->
-
+								<!- Nombre->
 								<div class="form-group">
 									<label class="control-label col-sm-2" >Nombre:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+										<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre" onKeyUp="nameUser()">
 									</div>
 								</div>
-								<!---->
+								<!- Apellidos->
 								<div class="form-group">
-									<label class="control-label col-sm-2" >Apellido Paterno:</label>
+									<label class="control-label col-sm-2" >Apellidos:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" name="apellidop" placeholder="Apellido Paterno">
+										<input type="text" class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onKeyUp="nameUser()">
 									</div>
 								</div>
-
+								<!- Usuario->
 								<div class="form-group">
-									<label class="control-label col-sm-2" >Apellido Materno:</label>
+									<label class="control-label col-sm-2" id="lUsuario">Usuario:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" name="apellidom" placeholder="Apellido Materno">
+										<input type="text" class="form-control" name="user" placeholder="Nombre de usuario" id="user">
 									</div>
 								</div>
-
-
-
-								<!---->
-
-								<div class="form-group">
-									<label class="control-label col-sm-2">Contrase&ntilde;a:</label>
-									<div class="col-sm-10"> 
-										<input type="password" class="form-control" name="password" placeholder="Contraseña" minlength="8" 
-											   maxlength="15" required pattern="[A-Za-z0-9]+{8,15}"  
-											   title="Letras y números. Tamaño mínimo: 8. Tamaño máximo: 15">
-									</div>
-								</div>
-
-								<!---->
-								<div class="form-group">
-									<label class="control-label col-sm-2">Contrase&ntilde;a:</label>
-									<div class="col-sm-10"> 
-										<input type="password" class="form-control" name="passwordrepit" placeholder="Confirma tu contraseña" minlength="8" 
-											   required pattern="[A-Za-z0-9]+{8,15}" 
-											   title="Letras y números. Tamaño mínimo: 8. Tamaño máximo: 15">
-									</div>
-								</div>
-								<!---->
+								<!-Botón enviar->
 								<div class="form-group"> 
 									<div class="col-sm-offset-2 col-sm-10">
 										<button type="submit" class="btn btn-default">Enviar</button>
@@ -121,7 +90,6 @@
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
 							<h4 class="modal-title">Iniciar Sesi&oacute;n</h4>
 						</div>
 						<div class="modal-body">
@@ -129,7 +97,7 @@
 								<div class="form-group">
 									<label class="control-label col-sm-2" >Usuario:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" name="usuario" id="usuario" placeholder="Usuario" required>
+										<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
 									</div>
 								</div>
 								<div class="form-group">
@@ -141,13 +109,9 @@
 								<div class="form-group"> 
 									<div class="col-sm-offset-2 col-sm-10">
 										<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
-										<div class="g-recaptcha" data-sitekey="6LeVfl4UAAAAAD1eCps5_FoqXSxvOHItFIlrf4QR"></div>
 									</div>
 								</div>
 							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 						</div>
 					</div>
 				</div>
@@ -176,6 +140,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- Container (Portfolio Section) -->
 		<div id="portfolio" class="container-fluid text-center bg-grey">
 			<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
