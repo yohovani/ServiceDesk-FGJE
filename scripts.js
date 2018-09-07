@@ -37,3 +37,24 @@ function nameUser(){
 
 }
 
+function verificarPassword(){
+	//Obtenes la información desde el index mediante el Id de los campos de registro
+	var pass1 = document.getElementById('password');
+	var pass2 = document.getElementById('password2');
+	var btn = document.getElementById('btnEnviar');
+	//Validamos que ambas contraseñas sean iguales
+	if(pass1.value == pass2.value){
+		//Si son iguales el fondo de los campos cambia a verde
+		pass1.style.background = "#2AF20B";
+		pass2.style.background = "#2AF20B";
+		//se habilita el boton para hacer el registro
+		btn.disabled = false;
+	}else{
+		//Si son iguales el fondo de los campos cambia a rojo
+		pass1.style.background = "#CD5555";
+		pass2.style.background = "#CD5555";
+		//se desabilita el boton para hacer el registro
+		btn.disabled = true;
+	}
+}
+

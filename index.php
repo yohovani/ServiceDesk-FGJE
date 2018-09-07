@@ -8,37 +8,52 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-		<script src="NombreUsuario.js"></script>
+		<script src="scripts.js"></script>
 	</head>
 	<body>
-		<nav class="navbar bg-dark navbar-dark">
+		<nav class="navbar" style="background-color:#494983;">
 
 			<?php
 				session_start();
 				if(isset($_SESSION['user'])){
-					echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']." ".$_SESSION['apellidos']."</strong>";
+					if(isset($_SESSION['apellidos']))
+						echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']." ".$_SESSION['apellidos']."</strong>";
+					else
+						echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']."</strong>";
 				}else{
 					echo "<strong style='color: white;'>FGJE - Visitante</strong>";
 				}
+				
 			?>
 			<?php
-			if(!isset($_SESSION['user']))
-				echo "<div id='contenedor' style='align-content: flex-end'>
-					<button style='color:gold' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
-						Registrarse
-					</button>
-					<button style='color:gold' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar2'>
-						Iniciar Sesion
-					</button>
-				</div>";
-			else{
-				echo" <button style='color:gold' class='navbar-toggler' type='button' data-toggle='collapse' >
-						 <li><a href='#' style='color:gold' data-toggle='modal' data-target='#logout'>Cerrar Ses&oacute;n</a></li>
-				 </button>";
-			}
+				if(!isset($_SESSION['user']))
+					echo "<div id='contenedor' style='align-content: flex-end'>
+						<button style='color:white' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
+							Registrarse
+						</button>
+						<button style='color:white' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar2'>
+							Iniciar Sesion
+						</button>
+					</div>";
+				else{
+					if(isset($_SESSION['admin'])){
+						if($_SESSION['admin'] == true){
+							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbarRT'>
+								Registrar T&eacute;cnicos
+							</button>";
+						}else{
+							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='collapse' data-target='#collapsibleNavbar'>
+								Registrar
+							</button>";
+						}
+					}
+					echo "<form class='form-horizontal' action='cerrarSesion.php' method='post'>
+								<center><button style='color:white' class='navbar-toggler' data-toggle='collapse type='submit' >Cerrar Sesi&oacute;n</button></center>
+							</form>";
+				}
 			?>
 
-			<!-- Modal para Registrarse-->
+			<!-- Modal para Registrarse Usuarios Comunes-->
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<div class="modal-dialog">
 					<!-- Modal content-->
@@ -65,15 +80,82 @@
 								</div>
 								<!- Usuario->
 								<div class="form-group">
-									<label class="control-label col-sm-2" id="lUsuario">Usuario:</label>
+									<label class="control-label col-sm-2" id="usuario">Usuario:</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control" name="user" placeholder="Nombre de usuario" id="user">
+									</div>
+								</div>
+								<!- Area->
+								<div class="form-group">
+									<label class="control-label col-sm-2" id="area">Area:</label>
+									<div class="col-sm-10">
+										<select class="form-control" name="area" id="area">
+											<?php
+												include "conexion.php";
+												//Utilizamos el metodo almacenado para seleccionar las areas
+												$mysqli = "Call SelectAreas()";
+												//Ejecutamos la petición al servidor
+												$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+												while ($area= mysqli_fetch_array($resultado)){
+													echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
+												}
+											?>
+										</select>
+
 									</div>
 								</div>
 								<!-Botón enviar->
 								<div class="form-group"> 
 									<div class="col-sm-offset-2 col-sm-10">
 										<button type="submit" class="btn btn-default">Enviar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal para Registrarse Usuarios Técnicos-->
+			<div class="collapse navbar-collapse" id="collapsibleNavbarRT">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+
+							<h4 class="modal-title">Registro</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" action="Registro.php" method="post">
+								<!- Nombre->
+								<div class="form-group">
+									<label class="control-label col-sm-2" >Nombre de usuario:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="nombre" placeholder="Nombre de usuario" required id="nombre" onKeyUp="nameUser()">
+									</div>
+								</div>
+								<!- Password->
+								<div class="form-group">
+									<label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
+									<div class="col-sm-10">
+										<input type="password" class="form-control" name="password" placeholder="Contrase&ntilde;a" id="password" >
+									</div>
+								</div>
+								<!-Confirmación del Password->
+								<div class="form-group">
+									<label class="control-label col-sm-2" id="pass">Confirma Contrase&ntilde;a:</label>
+									<div class="col-sm-10">
+										<input type="password" class="form-control" name="password2" placeholder="Repite la Contrase&ntilde;a" id="password2" onKeyUp="verificarPassword()">
+										<input type="text" class="form-control" id="resultado">
+									</div>
+								</div>
+								<!-Botón enviar->
+								<div class="form-group"> 
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="submit" class="btn btn-default" id="btnEnviar">Enviar</button>
 									</div>
 								</div>
 							</form>
@@ -91,6 +173,42 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title">Iniciar Sesi&oacute;n</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" action="InicioSesion.php" method="post">
+								<div class="form-group">
+									<label class="control-label col-sm-2" >Usuario Normal:</label>
+									<div class="col-sm-10">
+                                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapsibleNavbar4">Iniciar Sesi&oacute;n</button>
+      
+										<!--<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>-->
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Administrador:</label>
+									<div class="col-sm-10"> 
+                                    <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#collapsibleNavbar3">Iniciar Sesi&oacute;n</button>
+
+										<!--<input type="password" class="form-control" name="password" id="pass" placeholder="Contrase&ntilde;a" required>-->
+									</div>
+								</div>
+								<!--<div class="form-group"> 
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+									</div>
+								</div>-->
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+            <!-- Modal para Iniciar Sesion Admin-->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar3">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Iniciar Sesi&oacute;n Técnico</h4>
 						</div>
 						<div class="modal-body">
 							<form class="form-horizontal" action="InicioSesion.php" method="post">
@@ -116,7 +234,38 @@
 					</div>
 				</div>
 			</div>
-
+            <!-- Modal para Iniciar Sesion Normal-->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar4">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Iniciar Sesi&oacute;n Normal</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" action="InicioSesion.php" method="post">
+								<div class="form-group">
+									<label class="control-label col-sm-2" >Usuario:</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
+									</div>
+								</div>
+								<!--<div class="form-group">
+									<label class="control-label col-sm-2">Contrae&ntilde;a:</label>
+									<div class="col-sm-10"> 
+										<input type="password" class="form-control" name="password" id="pass" placeholder="Contrase&ntilde;a" required>
+									</div>
+								</div>-->
+								<div class="form-group"> 
+									<div class="col-sm-offset-2 col-sm-10">
+										<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</nav>
 		<br>
 		
@@ -171,5 +320,11 @@
 		<div class="container">
 
 		</div>
+            
+<footer class="container-fluid text-center" style="background-color:gold;">
+
+  <p style='color:white'>WebDesign By Servicio Social</p>
+</footer>
+            
 	</body>
 </html>
