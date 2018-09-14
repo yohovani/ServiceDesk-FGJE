@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-09-2018 a las 21:36:45
+-- Tiempo de generación: 14-09-2018 a las 02:45:00
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.7
 
@@ -11,14 +11,14 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
+CREATE DATABASE `servicedesk`;
+USE `servicedesk`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-CREATE DATABASE `servicedesk`;
-use `servicedesk`;
+
 --
 -- Base de datos: `servicedesk`
 --
@@ -27,8 +27,14 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `FinalizarServicio` (IN `idS` INT(10), IN `hf` TIME, IN `ff` DATE)  MODIFIES SQL DATA
+UPDATE `servicios` SET `fecha_fin` = ff,`horaFin`= hf ,`finalizado`=  1 WHERE  `idServicios` = idS$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarAreaUsuarios` (IN `idUsuario` INT(10), IN `idArea` INT(10))  MODIFIES SQL DATA
 INSERT INTO `areausuarios`(`fk_idUsuario`, `fk_idArea`) VALUES (idUsuario,idArea)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarFalla` (IN `fecha` VARCHAR(20), IN `hi` TIME, IN `tipo` VARCHAR(50), IN `descripcion` VARCHAR(100), IN `area` VARCHAR(100), IN `tecnico` INT(10))  MODIFIES SQL DATA
+INSERT INTO `servicios`(`fecha`, `horaInicio`, `tipoServicio`, `descripcion`, `ubicacion`, `tecnico`, `finalizado`) VALUES (fecha,hi,tipo,descripcion,area,tecnico,false)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarTecnico` (IN `name` VARCHAR(50), IN `pass` VARCHAR(50))  NO SQL
 INSERT INTO `tecnicos`(`nombre`, `password`, `admin`) VALUES (name,pass,false)$$
@@ -36,14 +42,41 @@ INSERT INTO `tecnicos`(`nombre`, `password`, `admin`) VALUES (name,pass,false)$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarUsuario` (IN `name` VARCHAR(50), IN `ap` VARCHAR(50), IN `usuario` VARCHAR(50))  MODIFIES SQL DATA
 INSERT INTO `usuarios`(nombre, apellidos, usuario) VALUES (name,ap,usuario)$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionServiciosTecnicos` (IN `idServicio` INT(10), IN `idTecnico` INT(10))  MODIFIES SQL DATA
+INSERT INTO `serviciostecnicos`(`fk_idServicios`, `fk_idTecnicos`) VALUES (idServicio,idTecnico)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionServiciosUsuarios` (IN `idUsuario` INT(10), IN `idServicio` INT(10))  MODIFIES SQL DATA
+INSERT INTO `serviciosusuarios`(`fk_idServicios`, `fk_idUsuarios`) VALUES (idServicio,idUsuario)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarFallas` ()  READS SQL DATA
+SELECT * FROM servicios WHERE 1$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarTecnico` (IN `name` VARCHAR(50), IN `pass` VARCHAR(50))  READS SQL DATA
 SELECT * FROM `tecnicos` WHERE name = `nombre` AND pass = `password`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarTecnicoFalla` ()  READS SQL DATA
+SELECT * FROM `tecnicos` WHERE 1 ORDER BY RAND()$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarUsuario` (IN `name` VARCHAR(50))  READS SQL DATA
 SELECT * FROM `usuarios` WHERE name = `usuario`$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectAreas` ()  READS SQL DATA
 SELECT * FROM areas$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectAreaUsuario` (IN `id` INT(10))  NO SQL
+SELECT a.nombre FROM areas a INNER JOIN usuarios u INNER JOIN areausuarios au ON au.fk_idUsuario = u.idUsuarios AND au.fk_idArea = a.idArea WHERE u.idUsuarios = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `selectRegistrosServicios` ()  READS SQL DATA
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE 1 ORDER BY s.idServicios$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosNoFinalizados` ()  NO SQL
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE s.finalizado = 0 ORDER BY s.idServicios$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosNoFinalizadosIndividuales` (IN `idTec` INT(10))  READS SQL DATA
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE s.finalizado = 0 AND t.idTecnicos = idTec ORDER BY s.idServicios$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosUsuario` (IN `idUsuario` INT(10))  READS SQL DATA
+SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios WHERE u.idUsuarios = idUsuario AND s.finalizado = 0$$
 
 DELIMITER ;
 
@@ -120,7 +153,8 @@ CREATE TABLE `areausuarios` (
 --
 
 INSERT INTO `areausuarios` (`fk_idUsuario`, `fk_idArea`) VALUES
-(1, 29);
+(1, 29),
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -225,14 +259,36 @@ CREATE TABLE `prestamosusuarios` (
 CREATE TABLE `servicios` (
   `idServicios` int(11) NOT NULL,
   `fecha` date NOT NULL,
+  `fecha_fin` date DEFAULT NULL,
   `horaInicio` time NOT NULL,
-  `horaFin` varchar(5) NOT NULL,
+  `horaFin` time DEFAULT NULL,
   `tipoServicio` varchar(100) NOT NULL,
   `descripcion` varchar(150) NOT NULL,
-  `ubicacion` varchar(10) NOT NULL,
+  `ubicacion` varchar(100) NOT NULL,
   `tecnico` int(11) NOT NULL,
   `finalizado` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` (`idServicios`, `fecha`, `fecha_fin`, `horaInicio`, `horaFin`, `tipoServicio`, `descripcion`, `ubicacion`, `tecnico`, `finalizado`) VALUES
+(1, '2012-09-18', '0000-00-00', '18:33:00', NULL, 'Internet', 'El internet no funciona', 'DEPARTAMEN', 1, 0),
+(2, '2018-09-12', '0000-00-00', '19:07:04', NULL, 'Internet', 'No abre facebook', 'DEPARTAMEN', 1, 0),
+(3, '2018-09-13', '0000-00-00', '11:14:37', NULL, 'Impresora', 'La impresiÃ³n sale rayada', 'DEPARTAMEN', 7, 0),
+(4, '2018-09-13', '0000-00-00', '11:15:28', NULL, 'Impresora', 'La impresiÃ³n sale rayada', 'DEPARTAMEN', 7, 0),
+(5, '2018-09-13', '0000-00-00', '11:16:20', NULL, 'Impresora', 'La impresiÃ³n sale rayada', 'DEPARTAMEN', 1, 0),
+(6, '2018-09-13', '0000-00-00', '11:17:56', NULL, 'Excel', 'Prueba 1', 'DEPARTAMEN', 1, 0),
+(7, '2018-09-13', '2018-09-13', '11:22:05', '17:50:00', 'Excel', 'Prueba 2', 'DEPARTAMEN', 1, 1),
+(8, '2018-09-13', '0000-00-00', '11:29:27', NULL, 'Permisos de Red', 'Prueba 3', 'DEPARTAMEN', 7, 0),
+(9, '2018-09-13', '0000-00-00', '11:30:21', NULL, 'Permisos de Red', 'Prueba 4', 'DEPARTAMEN', 1, 0),
+(10, '2018-09-13', '2018-09-13', '11:31:37', '17:51:00', 'Permisos de Red', 'Prueba 5', 'DEPARTAMEN', 1, 1),
+(11, '2018-09-13', '2018-09-13', '17:56:45', '19:28:10', 'Internet', 'Prueba x', 'DEPARTAMEN', 1, 1),
+(12, '2018-09-13', '2018-09-13', '17:58:38', '19:29:09', 'Impresora', 'Prueba x1', 'DEPARTAMEN', 1, 1),
+(13, '2018-09-13', '2018-09-13', '17:58:49', '19:29:18', 'Word', 'Word ghjg', 'DEPARTAMEN', 7, 1),
+(14, '2018-09-13', '2018-09-13', '17:59:05', '19:44:34', 'Permisos de Red', 'Error', 'DEPARTAMEN', 7, 1),
+(15, '2018-09-13', '2018-09-13', '19:13:43', '19:44:31', 'Internet', 'test', 'DEPARTAMENTO DE RECURSOS FINANCIEROS', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -245,6 +301,18 @@ CREATE TABLE `serviciostecnicos` (
   `fk_idTecnicos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `serviciostecnicos`
+--
+
+INSERT INTO `serviciostecnicos` (`fk_idServicios`, `fk_idTecnicos`) VALUES
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 7),
+(14, 7),
+(15, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -255,6 +323,19 @@ CREATE TABLE `serviciosusuarios` (
   `fk_idServicios` int(11) NOT NULL,
   `fk_idUsuarios` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `serviciosusuarios`
+--
+
+INSERT INTO `serviciosusuarios` (`fk_idServicios`, `fk_idUsuarios`) VALUES
+(7, 2),
+(10, 2),
+(11, 2),
+(12, 2),
+(13, 2),
+(14, 2),
+(15, 2);
 
 -- --------------------------------------------------------
 
@@ -295,7 +376,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`idUsuarios`, `nombre`, `apellidos`, `usuario`) VALUES
-(1, 'Jaime', 'Fernandez', 'JaFernandez');
+(1, 'Jaime', 'Fernandez', 'JaFernandez'),
+(2, 'test', 'test', 'test');
 
 --
 -- Índices para tablas volcadas
@@ -424,7 +506,7 @@ ALTER TABLE `prestamos`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
@@ -436,7 +518,7 @@ ALTER TABLE `tecnicos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
