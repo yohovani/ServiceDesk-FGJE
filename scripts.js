@@ -1,8 +1,18 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+$(document).ready(function() {
+    $("#reportesModal").html('<p>Busqueda vacia</p>');
+});
+
+function verReportes(){
+	var funct = $("#funcion").val();
+	if (funct != "") {
+		$.post("consultas.php", {funct: funcion}, function(mensaje) {
+			$("#reportesModal").html(mensaje);
+		});
+	}else { 
+		("#reportesModal").html("si esta funcionando");
+	};
+}
+
 function nameUser(){
 	//Obtenes la información desde el index mediante el Id de los campos de registro
 	var name = document.getElementById('nombre').value;
@@ -57,4 +67,3 @@ function verificarPassword(){
 		btn.disabled = true;
 	}
 }
-
