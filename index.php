@@ -292,11 +292,17 @@
 				//Adminsitradores
 				if(isset($_SESSION['admin'])){
 					if($_SESSION['admin'] == true){
-					echo " <div> 
-					<center>
-						<h2>Reportes</h2>
-						<button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Reportes' onclick='verReportes()' value='1' name='funcion' id='funcion'>Ver</button>
-					</center></div>";
+						echo"<div class='container'>
+							<table class='table table-hover'>
+								<thead>
+									<tr><center>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Usuarios' onclick='verUsuarios()' value='2' name='verUsuarios' id='verUsuarios'>Ver Usuarios</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Usuarios' onclick='verTecnicos()' value='3' name='verTecnicos' id='verTecnicos'>Ver Tecnicos</button></th>
+									</center><tr>
+								<thead>
+							</table>
+							</div>";
 					}
 				}else{
 					if(isset($_SESSION['user'])){
@@ -358,10 +364,9 @@
 	</div>";
 		}
 	?>
-		
-
 
 <!-- Modal para ver Reportes-->
+<div class="container">
 	<div id='Reportes' class='modal fade' role='dialog'>
 		<div class='modal-dialog modal-lg'>
 			<!-- Modal content-->
@@ -369,60 +374,8 @@
 				<div class='modal-header'>
 					<h4 class='modal-title'>Monitoreo de Reportes</h4>
 				</div>
-				<div id='reportesModal' class='modal-body'>
-					<?php
-					Include 'conexion.php';
-					$registros = "CALL selectRegistrosServicios()";
-					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
-
-					echo"<table class='table table-hover'>
-							<thead>
-								<tr>
-									<th>Id</th>
-									<th>Fecha</th>
-									<th>Fecha Fin</th>
-									<th>Hora Inicio</th>
-									<th>Hora Fin</th>
-									<th>Tipo de Servicio</th>
-									<th>Descripci&oacute;n</th>
-									<th>Area</th>
-									<th>Tecnico</th>
-									<th>Finalizado</th>
-								</tr>
-							</thead>
-							<tbody>";
-					while($b= mysqli_fetch_array($resultado)){
-						if($b['finalizado'] == false){
-							echo"<tr>
-									<td>".$b['idServicios']."</td>
-									<td>".$b['fecha']."</td>
-									<td>".$b['fecha_fin']."</td>
-									<td>".$b['horaInicio']."</td>
-									<td>".$b['horaFin']."</td>
-									<td>".$b['tipoServicio']."</td>
-									<td>".$b['descripcion']."</td>
-									<td>".$b['ubicacion']."</td>
-									<td>".$b['nombre']."</td>
-									<td bgcolor='#FD8A00'>No</td>
-								";
-						}else{
-							echo"<tr>
-									<td>".$b['idServicios']."</td>
-									<td>".$b['fecha']."</td>
-									<td>".$b['fecha_fin']."</td>
-									<td>".$b['horaInicio']."</td>
-									<td>".$b['horaFin']."</td>
-									<td>".$b['tipoServicio']."</td>
-									<td>".$b['descripcion']."</td>
-									<td>".$b['ubicacion']."</td>
-									<td>".$b['nombre']."</td>
-									<td bgcolor='#16F409'>Si</td>
-								";
-						}
-					}
-			echo"</tbody>
-		</table>";
-			?>
+				<div class='container modal-body' id='reportesModal'>
+					
 				</div>
 				<div class='modal-footer'>
 				    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
@@ -430,6 +383,47 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Modal para ver Usuarios-->
+<div class="container">
+	<div id='Usuarios' class='modal fade' role='dialog'>
+		<div class='modal-dialog modal-lg'>
+			<!-- Modal content-->
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h4 class='modal-title'>Usuarios Registrados</h4>
+				</div>
+				<div class='container modal-body container' id='usuariosModal'>
+					
+				</div>
+				<div class='modal-footer'>
+				    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal para ver Tecnicos-->
+<div class="container">
+	<div id='Tecnicos' class='modal fade' role='dialog'>
+		<div class='modal-dialog modal-lg'>
+			<!-- Modal content-->
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h4 class='modal-title'>Tecnicos Registrados</h4>
+				</div>
+				<div class='container modal-body container' id='tecnicosModal'>
+					
+				</div>
+				<div class='modal-footer'>
+				    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <!-- Modal para registrar Prestamos-->
@@ -442,19 +436,19 @@
 				</div>
 				<div class='modal-body'>
 					<?php
-						echo "<form class='form-horizontal' action='fallas.php' method='post'>
+						echo "<form class='form-horizontal' action='prestamos.php' method='post'>
 							<!- Descripcion->
 							<div class='form-group'>
 								<label class='control-label col-sm-2' >Descripción:</label>
 								<div class='col-sm-10'>
-									<textarea class='form-control' rows='5' id='descripcion' placeholder='Ejemplo: Laptop con cargador'></textarea>
+									<textarea class='form-control' rows='5' id='descripcion' name='descripcion' placeholder='Ejemplo: Laptop con cargador'></textarea>
 								</div>
 							</div>
 							<!- Motivo->
 							<div class='form-group'>
 								<label class='control-label col-sm-2' id='pass'>Motivo:</label>
 								<div class='col-sm-10'>
-									<textarea class='form-control' rows='5' id='motivo' placeholder='Ejemplo: Prestamo'></textarea>
+									<textarea class='form-control' rows='5' id='motivo' name='motivo' placeholder='Ejemplo: Prestamo'></textarea>
 								</div>
 							</div>
 							<!-Botón enviar->
@@ -538,12 +532,12 @@
 				</div>
 				<div class='modal-body'>
 					<?php
-						echo "<form class='form-horizontal' action='fallas.php' method='post'>
-								<!- Articulo->
+						echo "<form class='form-horizontal' action='compras.php' method='post'>
+								<!- Compra->
 								<div class='form-group'>
 									<label class='control-label col-sm-2' >Articulo:</label>
 									<div class='col-sm-10'>
-										<textarea class='form-control' rows='5' id='Articulo' placeholder='Ejemplo: Tarjeta de red inalambrica'></textarea>
+										<textarea class='form-control' rows='5' id='compra' name='compra' placeholder='Ejemplo: Tarjeta de red inalambrica'></textarea>
 									</div>
 								</div>
 								<!- Planeaciión->
@@ -569,9 +563,10 @@
 		</div>
 	</div>
 
+<! Modal para que el usuario pueda ver los reportes que aun no se han resuelto->
 	<?php
-		if(isset($_SESSION['user'])){
-			 echo "<div class='text-center'>
+		if(isset($_SESSION['user']) && !isset($_SESSION['admin'])){
+			echo "<div class='text-center'>
 						<h2>Reportes no resueltos</h2>
 						<h4></h4>
 					</div>
@@ -590,9 +585,7 @@
 							<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
 							<p><strong>Area: </strong> ".$b['ubicacion']."</p>
 							<p><strong>Estatus: </strong>No Finalizado</p>";
-
 							$idRegistro = $b['idServicios'];
-
 			echo "</div>
 					<div class='panel-footer'>
 						<form action='FinalizarRegistroFalla.php' method='post'>
@@ -603,11 +596,42 @@
 					</div>
 				</div> ";
 		}
+		echo "</div>";
+		//Liberamos el buffer generado por la consulta sql
+		mysqli_free_result($resultado);
+		mysqli_close($conexion);
+		unset($peticion,$conexion);
+		include "conexion.php";
+		echo "<div class='text-center'>
+						<h2>Prestamos no resueltos</h2>
+						<h4></h4>
+					</div>
+					<div class='row slideanim'>";
+		$sql="CALL SelectPrestamosIndividuales('".$_SESSION['idUser']."')";
+		$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
+		while ($b = mysqli_fetch_array($resultado)){
+			echo"<div class='col-sm-4 col-xs-12'>
+					<div class='panel panel-default text-center'>
+						<div class='panel-heading'>
+							<h5>Prestamo #".$b['idPrestamo']."</h5>
+						</div>
+						<div class='panel-body'>
+							<p><strong>Fecha: </strong> ".$b['fechaActual']."</p>
+							<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
+							<p><strong>Motivo: </strong> ".$b['motivo']."</p>
+							<p><strong>Estatus: </strong>No Finalizado</p>";
+					echo "</div>
+					</div>
+				</div> ";
+		}
+		echo "</div>";
+		
 		}
 	?>
 
 <! Ver registros no finalizados ->
-<?php
+<div class="container">
+	<?php
 	Include 'conexion.php';
 	
 	if(isset($_SESSION['admin'])){
@@ -618,6 +642,10 @@
 			$registros = "CALL SelectServiciosNoFinalizadosIndividuales('".$_SESSION['idUser']."')";
 			$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 		}
+		echo "<div class='text-center'>
+				<h2>Reportes no resueltos</h2>
+			</div>
+		<div class='row slideanim'>";
 		echo"<table class='table table-hover'>
 				<thead>
 					<tr>
@@ -650,12 +678,63 @@
 		}
 				echo"</tbody>
 			</table>";
+		}
+		echo "</div>";
+	?>
+	
+<! Ver Prestamos no finalizados ->
+<div class="container">
+	<?php
+	Include 'conexion.php';
+	
+	if(isset($_SESSION['admin'])){
+		if($_SESSION['admin'] == true){
+			$registros = "CALL SelectPrestamosNoFinalizados()";
+			$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
+			echo "<div class='text-center'>
+				<h2>Prestamos no resueltos</h2>
+			</div>
+		<div class='row slideanim'>";
+			echo"<table class='table table-hover'>
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Fecha</th>
+							<th>Descripci&oacute;n</th>
+							<th>Motivo</th>
+							<th>Usuario</th>
+							<th>Area</th>
+							<th>Finalizar</th>
+						</tr>
+					</thead>
+					<tbody>";
+			while($b= mysqli_fetch_array($resultado)){
+				echo"<tr>
+						<td>".$b['idPrestamo']."</td>
+						<td>".$b['fechaActual']."</td>
+						<td>".$b['descripcion']."</td>
+						<td>".$b['motivo']."</td>
+						<td>".$b['usuario']."</td>
+						<td>".$b['nombre']."</td>
+						<td><form action='finalizarPrestamo.php' method='post'>
+								<input type='hidden' value='".$b['idPrestamo']."' name='idprestamo'>
+								<input type='submit' class='btn btn-lg' value='Finalizar'>
+							</form>
+						</td>
+					";
+			}
+					echo"</tbody>
+				</table>";
+		}
+		echo "</div>";
 	}
 	?>
+</div>
 
 <footer class="container-fluid text-center" style="background-color:gold;">
   <p style='color:white'>WebDesign By Servicio Social</p>
 </footer>
+
 </script>
 	</body>
 </html>

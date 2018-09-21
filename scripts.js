@@ -1,16 +1,40 @@
 $(document).ready(function() {
-    $("#reportesModal").html('<p>Busqueda vacia</p>');
+	$("#reportesModal").html('<p>Sin registros</p>');
+	$("#usuariosModal").html('<p>Sin registros</p>');
+	$("#verTecnicos").html('<p>Sin registros</p>');
 });
 
 function verReportes(){
-	var funct = $("#funcion").val();
+	var funct = $("#verReportes").val();
 	if (funct != "") {
-		$.post("consultas.php", {funct: funcion}, function(mensaje) {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
 			$("#reportesModal").html(mensaje);
 		});
 	}else { 
-		("#reportesModal").html("si esta funcionando");
-	};
+		$("#reportesModal").html("Ocurrio un error Inesperado");
+	}
+}
+
+function verUsuarios(){
+	var funct = $("#verUsuarios").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#usuariosModal").html(mensaje);
+		});
+	}else { 
+		$("#usuariosModal").html("Ocurrio un error Inesperado");
+	}
+}
+
+function verTecnicos(){
+	var funct = $("#verTecnicos").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#tecnicosModal").html(mensaje);
+		});
+	}else { 
+		$("#tecnicosModal").html("Ocurrio un error Inesperado");
+	}
 }
 
 function nameUser(){
@@ -44,7 +68,6 @@ function nameUser(){
 	//Mostramos el resultado en el cuadro de texto de usuario como placeholder
 	texto.style.display = "block";
 	texto.placeholder = " Usuario Recomendado: "+user;
-
 }
 
 function verificarPassword(){
