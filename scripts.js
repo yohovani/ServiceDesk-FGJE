@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$("#reportesModal").html('<p>Sin registros</p>');
 	$("#usuariosModal").html('<p>Sin registros</p>');
-	$("#verTecnicos").html('<p>Sin registros</p>');
+	$("#usuarioTecnicos").html('<p>Sin registros</p>');
 });
 
 function verReportes(){

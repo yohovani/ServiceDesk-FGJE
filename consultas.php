@@ -19,7 +19,7 @@ function verReportes(){
 	Include 'conexion.php';
 	$registros = "CALL selectRegistrosServicios()";
 	$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
-
+	echo "<div class='container'>";
 	echo"<table class='table table-hover'>
 			<thead>
 				<tr>
@@ -66,14 +66,15 @@ function verReportes(){
 		}
 	}
 			echo"</tbody>
-		</table>";
+		</table>
+	</div>";
 }
 
 function verTecnicos(){
 	Include 'conexion.php';
 	$usuarios = "CALL SelectTecnicos()";
 	$resultado = mysqli_query($conexion,$usuarios) or die(mysqli_error($conexion));
-
+	echo "<div class='container'>";
 	echo"<table class='table table-hover'>
 			<thead>
 				<tr>
@@ -104,6 +105,7 @@ function verTecnicos(){
 	}
 			echo"</tbody>
 		</table>";
+	echo "<div>";
 }
 
 function verUsuarios(){
