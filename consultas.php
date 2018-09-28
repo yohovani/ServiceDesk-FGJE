@@ -82,7 +82,9 @@ function verTecnicos(){
 					<th>Nombre</th>
 					<th>Password</th>
 					<th>Administrador</th>
-					<th>Cambiar priivilegios</th>
+					<th>Recepci&oacute;n</th>
+					<th>Cambiar Administrador</th>
+					<th>Cambiar Recepci&oacute;n</th>
 				</tr>
 			</thead>
 			<tbody>";
@@ -96,12 +98,27 @@ function verTecnicos(){
 		}else{
 			echo"<td>Si</td>";
 		}
-				echo "<td><form action='cambiarAdmin.php' method='post'>
-						<input type='hidden' value='".$b['idTecnicos']."' name='isUsuario' id='name='isUsuario'>
+		if($b['recepcion'] == false){
+			echo"<td>No</td>";
+		}else{
+			echo"<td>Si</td>";
+		}
+			echo"<td>
+					<form action='cambiarPrivilegios.php' method='post'>
+						<input type='hidden' value='".$b['idTecnicos']."' name='idTecnico'>
+						<input type='hidden' value='".$b['admin']."' name='admin'>
 						<input type='submit'class='btn btn-lg'  value='Cambiar'>	
 					</form>
 				</td>	
-			</tr>";
+				<td>
+					<form action='cambiarPrivilegios.php' method='post'>
+						<input type='hidden' value='".$b['idTecnicos']."' name='idTecnico'>
+						<input type='hidden' value='".$b['recepcion']."' name='recepcion'>
+						<input type='submit'class='btn btn-lg'  value='Cambiar'>	
+					</form>
+				</td>	
+		</tr>";
+		
 	}
 			echo"</tbody>
 		</table>";

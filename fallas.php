@@ -20,7 +20,7 @@ if(!preg_match("[A-Za-z]", $area) && !preg_match("[A-Za-z]", $tipo) && !preg_mat
 	mysqli_close($conexion);
 	unset($resultado,$conexion);
 	include "conexion.php";
-	$sqlFalla = "CALL RegistrarFalla('".$fecha."','".$hora_inicio."','".$tipo."','".$descripcion."','".$area."','".$tecnico."')";
+	$sqlFalla = "CALL RegistrarFalla('".$fecha."','".$hora_inicio."','".$tipo."','".$descripcion."','".$area."')";
 	$resultado = mysqli_query($conexion,$sqlFalla) or die(mysqli_error($conexion));
 	//Liberamos el buffer generado por la consulta sql
 	mysqli_free_result($resultado);

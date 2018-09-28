@@ -80,6 +80,7 @@ function inicioSesionTecnico(){
 				$encontrado = 1;
 				$id = $b['idTecnicos'];
 				$admin = $b['admin'];
+				$recepcion = $b['recepcion'];
 				break;
 			}
 		}
@@ -92,6 +93,7 @@ function inicioSesionTecnico(){
 			$_SESSION['nombre'] = $nombre;
 			$_SESSION['admin'] = $admin;
 			$_SESSION['password'] = $password;
+			$_SESSION['recepcion'] = $recepcion;
 			//Asignamos una cookie se sesión con una duración de 1 hora, dicha cookie sera valida en todo el sistema y solo sera visible mediante una conexión segura
 			session_set_cookie_params(3600, "http://localhost/ServiceDesk/");
 			//Guardamos la cookie en una variable de sesión para verificar que esta no se cambie y asi obtener un poco mas de seguridad

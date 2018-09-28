@@ -233,6 +233,12 @@
 												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#RegistroCompras'>Compras relacionadas con tecnolog&iacute;a</button>
 											</div>
 										</th>
+										<th>
+											<div> 
+												<!-- Trigger the modal with a button -->
+												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#ReportarEquipo'>Reportar Equipo</button>
+											</div>
+										</th>
 									</tr>
 								</thead>
 							</table>";
@@ -278,7 +284,7 @@
 				<div class='modal-header'>
 					<h4 class='modal-title'>Monitoreo de Reportes</h4>
 				</div>
-				<div class='modal-body' id='reportesModal'>
+				<div class='table-responsive' id='reportesModal'>
 
 				</div>
 				<div class='modal-footer'>
@@ -425,6 +431,60 @@
 				</div>
 			</div>
 		</div>
+	<!-- Modal para registrar Equipo-->
+		<div id='ReportarEquipo' class='modal fade' role='dialog'>
+			<div class='modal-dialog'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Reporte de Fallas</h4>
+					</div>
+					<div class='modal-body'>
+						<?php
+							echo "<form class='form-horizontal' action='reportarEquipo.php' method='post'>
+									<!- Area->
+									<div class='form-group'>
+										<label class='control-label col-sm-2' >Area:</label>
+										<div class='col-sm-10'>
+											<input type='text' class='form-control' name='area' placeholder='Area' value='".$_SESSION['area']."' required id='nombre'>
+										</div>
+									</div>
+									<!- extencion Movil->
+									<div class='form-group'>
+										<label id='pass'>Extenci&oacute;n Movil:</label>
+										<div class='col-sm-10'>
+											<input type='text' class='form-control' name='emovil' placeholder='Extenci&oacute;n Movil' id='emovil'>
+										</div>
+									</div>
+									<!-Descripcion de la falla->
+									<div class='form-group'>
+										<label id='pass'>Descripci&oacute;n de la falla:</label>
+										<div class='col-sm-10'>
+											<textarea class='form-control' rows='5' id='descripcionServ' placeholder='Ejemplo: El equipo no enciende' name='descripcionServ'></textarea>
+										</div>
+									</div>
+									<!-Descripcion del equipo->
+									<div class='form-group'>
+										<label id='pass'>Descripci&oacute;n del equipo:</label>
+										<div class='col-sm-10'>
+											<textarea class='form-control' rows='5' id='descripcionEquipo' name='descripcionEquipo' placeholder='Ejemplo: LAPTOP HP NEGRA'></textarea>
+										</div>
+									</div>
+									<!-Botón enviar->
+									<div class='form-group'> 
+										<div class='col-sm-offset-2 col-sm-10'>
+											<button type='submit' class='btn btn-default' id='btnEnviar'>Enviar</button>
+										</div>
+									</div>
+								</form>";
+						?>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	<!-- Modal para registrar Compras-->
 		<div id='RegistroCompras' class='modal fade' role='dialog'>
 			<div class='modal-dialog'>
@@ -440,14 +500,21 @@
 									<div class='form-group'>
 										<label class='control-label col-sm-2' >Articulo:</label>
 										<div class='col-sm-10'>
-											<textarea class='form-control' rows='5' id='compra' name='compra' placeholder='Ejemplo: Tarjeta de red inalambrica'></textarea>
+											<textarea class='form-control' rows='5' id='articulo' name='articulo' placeholder='Ejemplo: Tarjeta de red inalambrica'></textarea>
+										</div>
+									</div>
+									<!- Dictamen->
+									<div class='form-group'>
+										<label class='control-label col-sm-2' id='pass'>Dictamen:</label>
+										<div class='col-sm-10'>
+											<textarea class='form-control' rows='5' id='dictamen' name='dictamen' placeholder='Ejemplo: No tiene, Se cambia cada x tiempo'></textarea>
 										</div>
 									</div>
 									<!- Planeaciión->
 									<div class='form-group'>
 										<label class='control-label col-sm-2' id='pass'>Planeaci&oacute;n:</label>
 										<div class='col-sm-10'>
-											<textarea class='form-control' rows='5' id='motivo' placeholder='Ejemplo: 1 mes'></textarea>
+											<textarea class='form-control' rows='5' id='planeacion' name='planeacion' placeholder='Ejemplo: 1 mes'></textarea>
 										</div>
 									</div>
 									<!-Botón enviar->
@@ -477,27 +544,31 @@
 			Include 'conexion.php';
 			$sql="CALL SelectServiciosUsuario('".$_SESSION['idUser']."')";
 			$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
-			while ($b = mysqli_fetch_array($resultado)){
-				echo"<div class='col-sm-4 col-xs-12'>
-						<div class='panel panel-default text-center'>
-							<div class='panel-heading'>
-								<h1>".$b['tipoServicio']."</h1>
+			if(mysqli_num_rows($resultado) == 0){
+				echo "<div class='container text-center'><h6>No se encontraron registros</h6></div>";
+			}else{
+				while ($b = mysqli_fetch_array($resultado)){
+					echo"<div class='col-sm-4 col-xs-12'>
+							<div class='panel panel-default text-center'>
+								<div class='panel-heading'>
+									<h1>".$b['tipoServicio']."</h1>
+								</div>
+								<div class='panel-body'>
+									<p><strong>Fecha: </strong> ".$b['fecha']."</p>
+									<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
+									<p><strong>Area: </strong> ".$b['ubicacion']."</p>
+									<p><strong>Estatus: </strong>No Finalizado</p>";
+									$idRegistro = $b['idServicios'];
+					echo "</div>
+							<div class='panel-footer'>
+								<form action='FinalizarRegistroFalla.php' method='post'>
+									<input type='submit' class='btn btn-lg' value='Terminado' />
+									<input type='hidden' name='idServicio' id='idServicio' value='$idRegistro'/>
+							</form>";
+					echo "</div>
 							</div>
-							<div class='panel-body'>
-								<p><strong>Fecha: </strong> ".$b['fecha']."</p>
-								<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
-								<p><strong>Area: </strong> ".$b['ubicacion']."</p>
-								<p><strong>Estatus: </strong>No Finalizado</p>";
-								$idRegistro = $b['idServicios'];
-				echo "</div>
-						<div class='panel-footer'>
-							<form action='FinalizarRegistroFalla.php' method='post'>
-								<input type='submit' class='btn btn-lg' value='Terminado' />
-								<input type='hidden' name='idServicio' id='idServicio' value='$idRegistro'/>
-						</form>";
-				echo "</div>
-						</div>
-					</div> ";
+						</div> ";
+				}
 			}
 			echo "</div>";
 			//Liberamos el buffer generado por la consulta sql
@@ -507,38 +578,104 @@
 			include "conexion.php";
 			echo "<div class='text-center'>
 							<h2>Prestamos no resueltos</h2>
-							<h4></h4>
 						</div>
 						<div class='row slideanim'>";
 			$sql="CALL SelectPrestamosIndividuales('".$_SESSION['idUser']."')";
 			$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
-			while ($b = mysqli_fetch_array($resultado)){
-				echo"<div class='col-sm-4 col-xs-12'>
-						<div class='panel panel-default text-center'>
-							<div class='panel-heading'>
-								<h5>Prestamo #".$b['idPrestamo']."</h5>
+			if(mysqli_num_rows($resultado) == 0){
+				echo "<div class='container text-center'><h6>No se encontraron registros</h6></div>";
+			}else{
+				while ($b = mysqli_fetch_array($resultado)){
+					echo"<div class='col-sm-4 col-xs-12'>
+							<div class='panel panel-default text-center'>
+								<div class='panel-heading'>
+									<h5>Prestamo #".$b['idPrestamo']."</h5>
+								</div>
+								<div class='panel-body'>
+									<p><strong>Fecha: </strong> ".$b['fechaActual']."</p>
+									<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
+									<p><strong>Motivo: </strong> ".$b['motivo']."</p>
+									<p><strong>Estatus: </strong>No Finalizado</p>";
+							echo "</div>
 							</div>
-							<div class='panel-body'>
-								<p><strong>Fecha: </strong> ".$b['fechaActual']."</p>
-								<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
-								<p><strong>Motivo: </strong> ".$b['motivo']."</p>
-								<p><strong>Estatus: </strong>No Finalizado</p>";
-						echo "</div>
-						</div>
-					</div> ";
+						</div> ";
+				}
 			}
 			echo "</div>";
-
+			//Liberamos el buffer generado por la consulta sql
+			mysqli_free_result($resultado);
+			mysqli_close($conexion);
+			unset($peticion,$conexion);
+			include "conexion.php";
+			echo "<div class='text-center'>
+					<h2>Equipo no resuelto</h2>
+				</div>
+			<div class='row slideanim'>";
+			$sql="CALL SelectEquipoUsuario('".$_SESSION['idUser']."')";
+			$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
+			if(mysqli_num_rows($resultado) == 0){
+				echo "<div class='container text-center'><h6>No se encontraron registros</h6></div>";
+			}else{
+				while ($b = mysqli_fetch_array($resultado)){
+					echo"<div class='col-sm-4 col-xs-12'>
+							<div class='panel panel-default text-center'>
+								<div class='panel-heading'>
+									<h1>Id: ".$b['idEquipo']."</h1>
+								</div>
+								<div class='panel-body'>
+									<p><strong>Fecha: </strong> ".$b['fecha']."</p>
+									<p><strong>Planeaci&oacute;n: </strong> ".$b['descripcionSrv']."</p>
+									<p><strong>Planeaci&oacute;n: </strong> ".$b['descripcionEquipo']."</p>";
+									if($b['finalizado'] == false){
+										echo "<p style='background-color:red;'><strong>Estatus: </strong> No Finalizado</p>";
+									}else{
+										echo "<p style='background-color:green;'><strong>Estatus: </strong>Finalizado puede pasar a recogerlo</p>";
+									}
+								echo"</div>
+							</div>
+						</div>";
+				}
 			}
+			echo "</div>";
+			echo "<div class='text-center'>
+					<h2>Compras no resueltas</h2>
+				</div>
+			<div class='row slideanim'>";
+				Include 'conexion.php';
+				$sql="CALL SelectComprasUsuario('".$_SESSION['idUser']."')";
+				$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
+				if(mysqli_num_rows($resultado) == 0){
+					echo "<div class='container text-center'><h6>No se encontraron registros</h6></div>";
+				}else{
+					while ($b = mysqli_fetch_array($resultado)){
+						echo"<div class='col-sm-4 col-xs-12'>
+								<div class='panel panel-default text-center'>
+									<div class='panel-heading'>
+										<h1>".$b['articulo']."</h1>
+									</div>
+									<div class='panel-body'>
+										<p><strong>Fecha: </strong> ".$b['fecha']."</p>
+										<p><strong>Planeaci&oacute;n: </strong> ".$b['planeacion']."</p>
+										<p><strong>Estatus: </strong>No Resuelto</p>
+									</div>
+								</div>
+							</div>";
+					}
+
+
+				}
+			}
+			echo "</div>";
 		?>
+	
 
 		<! Ver registros no finalizados ->
-		<div class="container">
+		<div class="container-fluid">
 			<?php
 			Include 'conexion.php';
 
 			if(isset($_SESSION['admin'])){
-				if($_SESSION['admin'] == true){
+				if($_SESSION['admin'] == true  || $_SESSION['recepcion'] == true){
 					$registros = "CALL SelectServiciosNoFinalizados()";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}else{
@@ -586,12 +723,12 @@
 			?>
 		</div>
 		<! Ver Prestamos no finalizados ->
-		<div class="container">
+		<div class="container-fluid">
 			<?php
 			Include 'conexion.php';
 
 			if(isset($_SESSION['admin'])){
-				if($_SESSION['admin'] == true){
+				if($_SESSION['admin'] == true  || $_SESSION['recepcion'] == true){
 					$registros = "CALL SelectPrestamosNoFinalizados()";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 					echo "<div class='text-center'>
@@ -622,6 +759,110 @@
 								<td><form action='finalizarPrestamo.php' method='post'>
 										<input type='hidden' value='".$b['idPrestamo']."' name='idprestamo'>
 										<input type='submit' class='btn btn-lg' value='Finalizar'>
+									</form>
+								</td>
+							";
+					}
+							echo"</tbody>
+						</table>";
+				}
+				echo "</div>";
+			}
+			?>
+		</div>
+		<! Ver Equipos no entregados ->
+		<div class="container-fluid">
+			<?php
+			Include 'conexion.php';
+			if(isset($_SESSION['admin'])){
+				if($_SESSION['admin'] == true || $_SESSION['recepcion'] == true){
+					$registros = "CALL SelectEquipoNoEntregado()";
+					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
+					echo "<div class='text-center'>
+						<h2>Equipos no entregados</h2>
+					</div>
+				<div class='row slideanim'>";
+					echo"<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Fecha</th>
+									<th>Usuario</th>
+									<th>Area</th>
+									<th>Extenci&oacute;n Movil</th>
+									<th>Servicio</th>
+									<th>Equipo</th>
+									<th>Estatus</th>
+									<th>Entregar</th>
+								</tr>
+							</thead>
+							<tbody>";
+					while($b= mysqli_fetch_array($resultado)){
+						echo"<tr>
+								<td>".$b['idEquipo']."</td>
+								<td>".$b['fecha']."</td>
+								<td>".$b['usuario']."</td>
+								<td>".$b['area']."</td>
+								<td>".$b['extencionMovil']."</td>
+								<td>".$b['descripcionSrv']."</td>
+								<td>".$b['descripcionEquipo']."</td>";
+								if($b['finalizado' == false]){
+									echo "<td bgcolor='#FD8A00'>No finalizado</td>";
+								}else{
+									echo "<td bgcolor='#16F409'>Finalizado</td>";
+								}
+						echo"<td><form action='entregarEquipo.php' method='post'>
+										<input type='hidden' value='".$b['idEquipo']."' name='idEquipo'>
+										<input type='submit' class='btn btn-lg' value='Entregar'>
+									</form>
+								</td>
+							";
+					}
+							echo"</tbody>
+						</table>";
+				}
+				echo "</div>";
+			}
+			?>
+		</div>
+		<! Ver Compras no finalizadas ->
+		<div class="container-fluid">
+			<?php
+			Include 'conexion.php';
+			if(isset($_SESSION['admin'])){
+				if($_SESSION['admin'] == true){
+					$registros = "CALL SelectComprasNoFinalizadas()";
+					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
+					echo "<div class='text-center'>
+						<h2>Compras no resueltas</h2>
+					</div>
+				<div class='row slideanim'>";
+					echo"<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Fecha</th>
+									<th>Usuario</th>
+									<th>Area</th>
+									<th>Articulo</th>
+									<th>Dictamen</th>
+									<th>Planeaci&oacute;n</th>
+									<th>Finalizar</th>
+								</tr>
+							</thead>
+							<tbody>";
+					while($b= mysqli_fetch_array($resultado)){
+						echo"<tr>
+								<td>".$b['idCompras']."</td>
+								<td>".$b['fecha']."</td>
+								<td>".$b['usuario']."</td>
+								<td>".$b['area']."</td>
+								<td>".$b['articulo']."</td>
+								<td>".$b['dictamen']."</td>
+								<td>".$b['planeacion']."</td>";
+						echo"<td><form action='finalizarCompra.php' method='post'>
+										<input type='hidden' value='".$b['idCompras']."' name='idCompras'>
+										<input type='submit' class='btn btn-lg' value='Comprado'>
 									</form>
 								</td>
 							";
