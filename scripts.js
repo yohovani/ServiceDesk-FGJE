@@ -2,6 +2,9 @@ $(document).ready(function() {
 	$("#reportesModal").html('<p>Sin registros</p>');
 	$("#usuariosModal").html('<p>Sin registros</p>');
 	$("#usuarioTecnicos").html('<p>Sin registros</p>');
+	$("#prestamosModal").html('<p>Sin registros</p>');
+	$("#equiposModal").html('<p>Sin registros</p>');
+	$("#comprasModal").html('<p>Sin registros</p>');
 });
 
 function verReportes(){
@@ -34,6 +37,39 @@ function verTecnicos(){
 		});
 	}else { 
 		$("#tecnicosModal").html("Ocurrio un error Inesperado");
+	}
+}
+
+function verEquipos(){
+	var funct = $("#verEquipos").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#equiposModal").html(mensaje);
+		});
+	}else { 
+		$("#equiposModal").html("Ocurrio un error Inesperado");
+	}
+}
+
+function verCompras(){
+	var funct = $("#verCompras").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#comprasModal").html(mensaje);
+		});
+	}else { 
+		$("#comprasModal").html("Ocurrio un error Inesperado");
+	}
+}
+
+function verPrestamos(){
+	var funct = $("#verPrestamos").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#prestamosModal").html(mensaje);
+		});
+	}else { 
+		$("#prestamosModal").html("Ocurrio un error Inesperado");
 	}
 }
 

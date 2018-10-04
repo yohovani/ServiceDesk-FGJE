@@ -204,6 +204,9 @@
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Usuarios' onclick='verUsuarios()' value='2' name='verUsuarios' id='verUsuarios'>Ver Usuarios</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Tecnicos' onclick='verTecnicos()' value='3' name='verTecnicos' id='verTecnicos'>Ver Tecnicos</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Equipos' onclick='verEquipos()' value='4' name='verEquipos' id='verEquipos'>Ver Equipos</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Compras' onclick='verCompras()' value='5' name='verCompras' id='verCompras'>Ver Compras</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Prestamos' onclick='verPrestamos()' value='6' name='verPrestamos' id='verPrestamos'>Ver Prestamos</button></th>
 									</center><tr>
 								<thead>
 							</table>
@@ -324,6 +327,66 @@
 						<h4 class='modal-title'>Tecnicos Registrados</h4>
 					</div>
 					<div class='container modal-body container' id='tecnicosModal'>
+
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal para ver Equipos-->
+	<div class="container">
+		<div id='Equipos' class='modal fade' role='dialog'>
+			<div class='modal-dialog modal-lg'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Servicio de Equipos Registrados</h4>
+					</div>
+					<div class='table-responsive' id='equiposModal'>
+
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal para ver Prestamos-->
+	<div class="container">
+		<div id='Prestamos' class='modal fade' role='dialog'>
+			<div class='modal-dialog modal-lg'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Prestamos Registrados</h4>
+					</div>
+					<div class='table-responsive' id='prestamosModal'>
+
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal para ver Compras-->
+	<div class="container">
+		<div id='Compras' class='modal fade' role='dialog'>
+			<div class='modal-dialog modal-lg'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Compras Registrados</h4>
+					</div>
+					<div class='table-responsive' id='comprasModal'>
 
 					</div>
 					<div class='modal-footer'>
@@ -712,8 +775,37 @@
 							<td>".$b['tipoServicio']."</td>
 							<td>".$b['descripcion']."</td>
 							<td>".$b['ubicacion']."</td>
-							<td>".$b['nombre']."</td>
-							<td bgcolor='#FD8A00'>No</td>
+							<td>";
+								mysqli_close($conexion);
+								unset($conexion);
+								include "conexion.php";
+								$tecnico = "CALL SelectTecnicoServicio('".$b['idServicios']."')";
+								$resultadoTecnico = mysqli_query($conexion,$tecnico) or die(mysqli_error($conexion));
+								if(mysqli_num_rows($resultadoTecnico) == 0){
+									echo "<form action='asignarTecnico.php' method='post'>
+											<input type='hidden' value='".$b['idServicios']."' name='idServicio'>
+											<input type='hidden' value='1' name='tipo'>
+											<select class='form-control' name='tecnicoId'>
+												<option>Asignar</option>";
+												mysqli_close($conexion);
+												unset($conexion);
+												include "conexion.php";
+												$IdsTecnicos = "CALL SelectOnlyTecnicos()";
+												$resultadoTecnicoIds = mysqli_query($conexion,$IdsTecnicos) or die(mysqli_error($conexion));
+												while($c = mysqli_fetch_array($resultadoTecnicoIds)){
+													echo "<option value='".$c['idTecnicos']."' size>".utf8_encode($c['nombre'])."</option>";
+												}
+											echo "</select>"
+												. "<input type='submit' class='btn btn-default' value ='Guardar'>'";
+									echo"</form>";
+								}else{
+									while($c = mysqli_fetch_array($resultadoTecnico)){
+										$tecnicoName = $c['nombre'];
+									}
+									echo $tecnicoName;
+								}
+							echo"</td>";
+							echo "<td bgcolor='#FD8A00'>No</td>
 						";
 				}
 						echo"</tbody>
@@ -722,6 +814,7 @@
 				echo "</div>";
 			?>
 		</div>
+		
 		<! Ver Prestamos no finalizados ->
 		<div class="container-fluid">
 			<?php
@@ -776,7 +869,7 @@
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
 				if($_SESSION['admin'] == true || $_SESSION['recepcion'] == true){
-					$registros = "CALL SelectEquipoNoEntregado()";
+						$registros = "CALL SelectEquipoNoEntregado()";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 					echo "<div class='text-center'>
 						<h2>Equipos no entregados</h2>
@@ -792,6 +885,7 @@
 									<th>Extenci&oacute;n Movil</th>
 									<th>Servicio</th>
 									<th>Equipo</th>
+									<th>Tecnico</th>
 									<th>Estatus</th>
 									<th>Entregar</th>
 								</tr>
@@ -805,8 +899,38 @@
 								<td>".$b['area']."</td>
 								<td>".$b['extencionMovil']."</td>
 								<td>".$b['descripcionSrv']."</td>
-								<td>".$b['descripcionEquipo']."</td>";
-								if($b['finalizado' == false]){
+								<td>".$b['descripcionEquipo']."</td>
+								<td>";
+									mysqli_close($conexion);
+									unset($conexion);
+									include "conexion.php";
+									$tecnico = "CALL SelectTecnicoEquipo('".$b['idEquipo']."')";
+									$resultadoTecnico = mysqli_query($conexion,$tecnico) or die(mysqli_error($conexion));
+									if(mysqli_num_rows($resultadoTecnico) == 0){
+										echo "<form action='asignarTecnico.php' method='post'>
+												<input type='hidden' value='".$b['idEquipo']."' name='idEquipo'>
+												<input type='hidden' value='2' name='tipo'>
+												<select class='form-control' name='tecnicoId'>
+													<option>Asignar</option>";
+													mysqli_close($conexion);
+													unset($conexion);
+													include "conexion.php";
+													$IdsTecnicos = "CALL SelectOnlyTecnicos()";
+													$resultadoTecnicoIds = mysqli_query($conexion,$IdsTecnicos) or die(mysqli_error($conexion));
+													while($c = mysqli_fetch_array($resultadoTecnicoIds)){
+														echo "<option value='".$c['idTecnicos']."' size>".utf8_encode($c['nombre'])."</option>";
+													}
+												echo "</select>"
+													. "<input type='submit' class='btn btn-default' value ='Guardar'>'";
+										echo"</form>";
+									}else{
+										while($c = mysqli_fetch_array($resultadoTecnico)){
+											$tecnicoName = $c['nombre'];
+										}
+										echo $tecnicoName;
+									}
+								echo"</td>";
+								if($b['finalizado'] == false){
 									echo "<td bgcolor='#FD8A00'>No finalizado</td>";
 								}else{
 									echo "<td bgcolor='#16F409'>Finalizado</td>";
@@ -825,6 +949,61 @@
 			}
 			?>
 		</div>
+		
+		<! Ver Equipos no entregados individual ->
+		<div class="container-fluid">
+			<?php
+			Include 'conexion.php';
+			if(isset($_SESSION['admin'])){
+				if($_SESSION['admin'] != true && $_SESSION['recepcion'] != true){
+					$registros = "CALL SelectEquipoTecnicoIndividual('".$_SESSION['idUser']."')";
+					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
+					echo "<div class='text-center'>
+						<h2>Equipos no entregados</h2>
+					</div>
+				<div class='row slideanim'>";
+					echo"<meta http-equiv='refresh' content='3' />";
+					echo"<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Fecha</th>
+									<th>Area</th>
+									<th>Extenci&oacute;n Movil</th>
+									<th>Servicio</th>
+									<th>Equipo</th>
+									<th>Estatus</th>
+									<th>Finalizar</th>
+								</tr>
+							</thead>
+							<tbody>";
+					while($b= mysqli_fetch_array($resultado)){
+						echo"<tr>
+								<td>".$b['idEquipo']."</td>
+								<td>".$b['fecha']."</td>
+								<td>".$b['area']."</td>
+								<td>".$b['extencionMovil']."</td>
+								<td>".$b['descripcionSrv']."</td>
+								<td>".$b['descripcionEquipo']."</td>
+								<td bgcolor='#FD8A00'>No Fianlizado</td>
+								<td>";
+						echo"<form action='finalizarEquipo.php' method='post'>
+										<input type='hidden' value='".$b['idEquipo']."' name='idEquipo'>
+										<input type='submit' class='btn btn-lg' value='Finalizar'>
+									</form>
+								</td>
+							";
+					}
+							echo"</tbody>
+						</table>";
+				}
+				echo "</div>";
+			}
+			?>
+		</div>
+		
+		
+		
 		<! Ver Compras no finalizadas ->
 		<div class="container-fluid">
 			<?php

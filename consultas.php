@@ -13,6 +13,18 @@ switch ($_POST['funcion']){
 		verTecnicos();
 		break;
 	}
+	case 4:{
+		verEquipos();
+		break;
+	}
+	case 5:{
+		verCompras();
+		break;
+	}
+	case 6:{
+		verPrestamos();
+		break;
+	}
 }
 
 function verReportes(){
@@ -155,6 +167,133 @@ function verUsuarios(){
 					</form>
 				</td>	
 			</tr>";
+	}
+			echo"</tbody>
+		</table>";
+}
+
+function verEquipos(){
+	Include 'conexion.php';
+	$usuarios = "CALL selectEquipoAdmin()";
+	$resultado = mysqli_query($conexion,$usuarios) or die(mysqli_error($conexion));
+
+	echo "<table class='table table-hover'>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Fecha</th>
+					<th>Fecha Entrega</th>
+					<th>Area</th>
+					<th>Ext. Movil</th>
+					<th>Servicio</th>
+					<th>Equipo</th>
+					<th>Finalizado</th>
+					<th>Entregado</th>
+					<th>Usuario</th>
+					<th>Tecnico</th>
+				</tr>
+			</thead>
+			<tbody>";
+	while($b= mysqli_fetch_array($resultado)){
+		echo"<tr>
+				<td>".$b['idEquipo']."</td>
+				<td>".$b['fecha']."</td>
+				<td>".$b['fechaEntrega']."</td>
+				<td>".$b['area']."</td>
+				<td>".$b['extencionMovil']."</td>
+				<td>".$b['descripcionSrv']."</td>
+				<td>".$b['descripcionEquipo']."</td>";
+				if($b['finalizado'] == true){
+					echo "<td bgcolor='#16F409'>Si</td>";
+				}else{
+					echo "<td bgcolor='#FD8A00'>No</td>";
+				}
+				if($b['entregado'] == true){
+					echo "<td bgcolor='#16F409'>Si</td>";
+				}else{
+					echo "<td bgcolor='#FD8A00'>No</td>";
+				}
+				echo "<td>".$b['usuario']."</td>"
+					. "<td>".$b['nombre']."</td>";
+		echo "</tr>";
+	}
+			echo"</tbody>
+		</table>";
+}
+
+function verCompras(){
+	Include 'conexion.php';
+	$usuarios = "CALL selectComprasAdmin()";
+	$resultado = mysqli_query($conexion,$usuarios) or die(mysqli_error($conexion));
+
+	echo "<table class='table table-hover'>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Fecha</th>
+					<th>Area</th>
+					<th>Articulo</th>
+					<th>Dictamen</th>
+					<th>Planeaci&oacute;n</th>
+					<th>Usuario</th>
+					<th>Resuelto</th>
+				</tr>
+			</thead>
+			<tbody>";
+	while($b= mysqli_fetch_array($resultado)){
+		echo"<tr>
+				<td>".$b['idCompras']."</td>
+				<td>".$b['fecha']."</td>
+				<td>".$b['area']."</td>
+				<td>".$b['articulo']."</td>
+				<td>".$b['dictamen']."</td>
+				<td>".$b['planeacion']."</td>
+				<td>".$b['usuario']."</td>";
+				if($b['resuelto'] == true){
+					echo "<td bgcolor='#16F409'>Si</td>";
+				}else{
+					echo "<td bgcolor='#FD8A00'>No</td>";
+				}
+		echo "</tr>";
+	}
+			echo"</tbody>
+		</table>";
+}
+
+function verPrestamos(){
+	Include 'conexion.php';
+	$usuarios = "CALL selectPrestamosAdmin()";
+	$resultado = mysqli_query($conexion,$usuarios) or die(mysqli_error($conexion));
+
+	echo "<table class='table table-hover'>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Fecha de Prestamo</th>
+					<th>Descripci&oacute;n</th>
+					<th>Motivo</th>
+					<th>Fecha de Entrega</th>
+					<th>Area</th>
+					<th>Usuario</th>
+					<th>Resuelto</th>
+				</tr>
+			</thead>
+			<tbody>";
+	while($b= mysqli_fetch_array($resultado)){
+		echo"<tr>
+				<td>".$b['idPrestamo']."</td>
+				<td>".$b['fechaActual']."</td>
+				<td>".$b['descripcion']."</td>
+				<td>".$b['motivo']."</td>
+				<td>".$b['fechaEntrega']."</td>
+				<td>".$b['nombre']."</td>
+				<td>".$b['area']."</td>";
+				if($b['entregado'] == true){
+					echo "<td bgcolor='#16F409'>Si</td>";
+				}else{
+					echo "<td bgcolor='#FD8A00'>No</td>";
+				}
+		echo "</tr>";
 	}
 			echo"</tbody>
 		</table>";

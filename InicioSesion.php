@@ -100,6 +100,8 @@ function inicioSesionTecnico(){
 			$_SESSION['coockie'] = session_get_cookie_params();
 			//Redireccionamos al index con la sesión ya iniciada
 			header('Location: /ServiceDesk/index.php');
+		}else{
+			header('Location: /ServiceDesk/index.php');
 		}
 	}
 }
