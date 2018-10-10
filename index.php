@@ -39,7 +39,10 @@
 						if($_SESSION['admin'] == true){
 							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-target='#registroTecnicos'>
 								Registrar T&eacute;cnicos
-							</button>";
+							</button>
+							<button style='color:white' class='navbar-toggler' type='button'>							
+								<a style='color:white' href='/ServiceDesk/excel.php'>Generar Excel</a>
+							</button>";			
 						}
 					}
 					echo "<form class='form-horizontal' action='cerrarSesion.php' method='post'>
