@@ -27,26 +27,26 @@
 			<?php
 				if(!isset($_SESSION['user']))
 					echo "<div id='contenedor' style='align-content: flex-end'>
-						<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-target='#registro'>
+						<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Registrarte' data-target='#registro'>
 							Registrarse
 						</button>
-						<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-target='#login'>
+						<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Iniciar Sesi&oacute;n' data-target='#login'>
 							Iniciar Sesión
 						</button>
 					</div>";
 				else{
 					if(isset($_SESSION['admin'])){
 						if($_SESSION['admin'] == true){
-							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-target='#registroTecnicos'>
+							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' title='Click Aqui Para Registrar Tecnicos' data-target='#registroTecnicos'>
 								Registrar T&eacute;cnicos
 							</button>
-							<button style='color:white' class='navbar-toggler' type='button'>							
+							<button style='color:white' class='navbar-toggler' type='button' data-tooltip='tooltip' title='Click Aqui Para Generar Archivo de excel con los datos existentes en la BD'>							
 								<a style='color:white' href='/ServiceDesk/excel.php'>Generar Excel</a>
-							</button>";			
+							</button>";
 						}
 					}
 					echo "<form class='form-horizontal' action='cerrarSesion.php' method='post'>
-								<center><button style='color:white' class='navbar-toggler' data-toggle='collapse type='submit' >Cerrar Sesi&oacute;n</button></center>
+								<center><button style='color:white' class='navbar-toggler' data-toggle='collapse' type='submit'data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Cerrar Sesi&oacute;n' >Cerrar Sesi&oacute;n</button></center>
 							</form>";
 				}
 			?>
@@ -183,7 +183,7 @@
 							</div>
 							<div class="form-group"> 
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+									<button type="submit"  class="btn btn-default">Iniciar Sesi&oacute;n</button>
 								</div>
 							</div>
 						</form>
@@ -204,12 +204,12 @@
 							<table class='table table-hover'>
 								<thead>
 									<tr><center>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Usuarios' onclick='verUsuarios()' value='2' name='verUsuarios' id='verUsuarios'>Ver Usuarios</button></th>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Tecnicos' onclick='verTecnicos()' value='3' name='verTecnicos' id='verTecnicos'>Ver Tecnicos</button></th>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Equipos' onclick='verEquipos()' value='4' name='verEquipos' id='verEquipos'>Ver Equipos</button></th>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Compras' onclick='verCompras()' value='5' name='verCompras' id='verCompras'>Ver Compras</button></th>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-target='#Prestamos' onclick='verPrestamos()' value='6' name='verPrestamos' id='verPrestamos'>Ver Prestamos</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Reportes' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Usuarios' data-target='#Usuarios' onclick='verUsuarios()' value='2' name='verUsuarios' id='verUsuarios'>Ver Usuarios</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Tecnicos' data-target='#Tecnicos' onclick='verTecnicos()' value='3' name='verTecnicos' id='verTecnicos'>Ver Tecnicos</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Equipos' data-target='#Equipos' onclick='verEquipos()' value='4' name='verEquipos' id='verEquipos'>Ver Equipos</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las Compras' data-target='#Compras' onclick='verCompras()' value='5' name='verCompras' id='verCompras'>Ver Compras</button></th>
+										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Prestamos' data-target='#Prestamos' onclick='verPrestamos()' value='6' name='verPrestamos' id='verPrestamos'>Ver Prestamos</button></th>
 									</center><tr>
 								<thead>
 							</table>
@@ -224,25 +224,25 @@
 										<th>
 											<div> 
 												<!-- Trigger the modal with a button -->
-												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#RegistroFallas'>Reportar Fallas</button>
+												<button type='button' class='btn btn-info btn-lg' data-toggle='modal'data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Reportar una Falla' data-target='#RegistroFallas'>Reportar Fallas</button>
 											</div>
 										</th>
 										<th>
 											<div> 
 												<!-- Trigger the modal with a button -->
-												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#RegistroPrestamo'>Solicitar Prestamos</button>
+												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Solicitar un Prestamo' data-target='#RegistroPrestamo'>Solicitar Prestamos</button>
 											</div>
 										</th>
 										<th>
 											<div> 
 												<!-- Trigger the modal with a button -->
-												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#RegistroCompras'>Compras relacionadas con tecnolog&iacute;a</button>
+												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Compras Relacionadas con la Tecnologia' data-target='#RegistroCompras'>Compras relacionadas con tecnolog&iacute;a</button>
 											</div>
 										</th>
 										<th>
 											<div> 
 												<!-- Trigger the modal with a button -->
-												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#ReportarEquipo'>Reportar Equipo</button>
+												<button type='button' class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Reportar un Equipo' data-target='#ReportarEquipo'>Reportar Equipo</button>
 											</div>
 										</th>
 									</tr>
@@ -268,6 +268,7 @@
 					<!-- Wrapper for slides -->
 					<div class='carousel-inner' role='listbox'>";		
 				echo"<img src='img/logo.png'>";
+                
 				echo"<a class='left carousel-control' href='#myCarousel' role='button' data-slide='prev'>
 						<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
 						<span class='sr-only'>Anterior</span>
@@ -276,8 +277,11 @@
 						<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>
 						<span class='sr-only'>Siguiente</span>
 					</a>
+                    
 				</div>
+                <h1><strong style='color: black;'>Bienvenidos</strong></h1>
 			</div>
+            
 		</div>";
 			}
 		?>
@@ -628,7 +632,7 @@
 					echo "</div>
 							<div class='panel-footer'>
 								<form action='FinalizarRegistroFalla.php' method='post'>
-									<input type='submit' class='btn btn-lg' value='Terminado' />
+									<input type='submit'data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Terminar' class='btn btn-lg' value='Terminado' />
 									<input type='hidden' name='idServicio' id='idServicio' value='$idRegistro'/>
 							</form>";
 					echo "</div>
@@ -736,7 +740,7 @@
 	
 
 		<! Ver registros no finalizados ->
-		<div class="container-fluid">
+		<div class="container">
 			<?php
 			Include 'conexion.php';
 
@@ -799,7 +803,7 @@
 													echo "<option value='".$c['idTecnicos']."' size>".utf8_encode($c['nombre'])."</option>";
 												}
 											echo "</select>"
-												. "<input type='submit' class='btn btn-default' value ='Guardar'>'";
+												. "<input type='submit'data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Guardar' class='btn btn-default' value ='Guardar'>'";
 									echo"</form>";
 								}else{
 									while($c = mysqli_fetch_array($resultadoTecnico)){
@@ -819,7 +823,7 @@
 		</div>
 		
 		<! Ver Prestamos no finalizados ->
-		<div class="container-fluid">
+		<div class="container">
 			<?php
 			Include 'conexion.php';
 
@@ -867,7 +871,7 @@
 			?>
 		</div>
 		<! Ver Equipos no entregados ->
-		<div class="container-fluid">
+		<div class="container">
 			<?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
@@ -954,7 +958,7 @@
 		</div>
 		
 		<! Ver Equipos no entregados individual ->
-		<div class="container-fluid">
+		<div class="container">
 			<?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
@@ -1008,7 +1012,7 @@
 		
 		
 		<! Ver Compras no finalizadas ->
-		<div class="container-fluid">
+		<div class="container">
 			<?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
@@ -1056,7 +1060,12 @@
 			}
 			?>
 		</div>
-		
+        <!--script para tooltip-->
+		<script>
+            $(document).ready(function(){
+                $('[data-tooltip=tooltip]').tooltip();   
+            });
+        </script>
 		<footer class="container-fluid text-center" style="background-color:gold">
 			<p style='color:white'>WebDesign By Servicio Social</p>
 		</footer>
