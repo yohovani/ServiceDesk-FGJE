@@ -25,6 +25,7 @@
 	$objExcel->getActiveSheet()->setCellValue('J1','Tecnico');
 	$objExcel->getActiveSheet()->setCellValue('K1','Usuario');
 	$cells = array("A1","B1","C1","D1","E1","F1","G1","H1","I1","J1","K1");
+	$servicios = array(0,0,0,0,0,0,0);
 	for($x=0;$x<11;$x++){
 		$objExcel->getActiveSheet()
 			->getStyle($cells[$x])
@@ -44,13 +45,45 @@
 		$objExcel->getActiveSheet()->setCellValue('D'.$i,$b['horaInicio']);
 		$objExcel->getActiveSheet()->setCellValue('E'.$i,$b['horaFin']);
 		$objExcel->getActiveSheet()->setCellValue('F'.$i,$b['tipoServicio']);
+		switch ($b['tipoServicio']){
+			case 'Internet':{
+				$servicios[0]+=1;
+				break;
+			}
+			case 'Impresora':{
+				$servicios[1]+=1;
+				break;
+			}
+			case 'Word':{
+				$servicios[2]+=1;
+				break;
+			}
+			case 'Excel':{
+				$servicios[3]+=1;
+				break;
+			}
+			case 'Permisos de Red':{
+				$servicios[4]+=1;
+				break;
+			}
+			case 'Conectividad':{
+				$servicios[5]+=1;
+				break;
+			}
+			case 'Otro':{
+				$servicios[6]+=1;
+				break;
+			}
+			
+		}
 		$objExcel->getActiveSheet()->setCellValue('G'.$i,$b['descripcion']);
 		$objExcel->getActiveSheet()->setCellValue('H'.$i,$b['ubicacion']);
-		if($b['finalizado'] == true)
-			$objExcel->getActiveSheet()->setCellValue('I'.$i,'Si');
-		else
-			$objExcel->getActiveSheet()->setCellValue('I'.$i,'No');
-		$objExcel->getActiveSheet()->setCellValue('J'.$i,$b['nombre']);
+		if ($b['finalizado'] == true) {
+			$objExcel->getActiveSheet()->setCellValue('I' . $i, 'Si');
+		} else {
+			$objExcel->getActiveSheet()->setCellValue('I' . $i, 'No');
+		}
+	$objExcel->getActiveSheet()->setCellValue('J'.$i,$b['nombre']);
 		$objExcel->getActiveSheet()->setCellValue('K'.$i,$b['usuario']);
 		$i+=1;
 	}
@@ -216,12 +249,65 @@
 			->setAutoSize(true);
 	}
 	
-		$objExcel->setActiveSheetIndex(0);
 	
-	header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	header('Content-Disposition: attachment;filename="ServiceDesk.xlsx"');
-	header('Cache-Control: max-age=0');
+	$objExcel->createSheet(4);
+	$objExcel->setActiveSheetIndex(4);
+	$objExcel->getActiveSheet()->setTitle('Graficas');
+	$objExcel->getActiveSheet()->setCellValue('A1','Tipo de Servicio');
+	$objExcel->getActiveSheet()->setCellValue('A2','Internet');
+	$objExcel->getActiveSheet()->setCellValue('A3','Impresora');
+	$objExcel->getActiveSheet()->setCellValue('A4','Word');
+	$objExcel->getActiveSheet()->setCellValue('A5','Excel');
+	$objExcel->getActiveSheet()->setCellValue('A6','Permisos de Red');
+	$objExcel->getActiveSheet()->setCellValue('A7','Conectividad');
+	$objExcel->getActiveSheet()->setCellValue('A8','Otro');
+	$objExcel->getActiveSheet()->setCellValue('B1','Total');
+	$objExcel->getActiveSheet()->setCellValue('B2',$servicios[0]);
+	$objExcel->getActiveSheet()->setCellValue('B3',$servicios[1]);
+	$objExcel->getActiveSheet()->setCellValue('B4',$servicios[2]);
+	$objExcel->getActiveSheet()->setCellValue('B5',$servicios[3]);
+	$objExcel->getActiveSheet()->setCellValue('B6',$servicios[4]);
+	$objExcel->getActiveSheet()->setCellValue('B7',$servicios[5]);
+	$objExcel->getActiveSheet()->setCellValue('B8',$servicios[6]);
 	
-	$objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
-	$objWriter->save('php://output');
+	$objExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+	$objExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 	
+	$dataSeriesLabel1 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$A$1',NULL,1));
+	$labaelXS1 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$A$2:$A$8',NULL,1));
+	$valuesS1 = array(new \PHPExcel_Chart_DataSeriesValues('Number','Graficas!$B$2:$B$8',NULL,1));
+	$series1 = new \PHPExcel_Chart_DataSeries(
+		\PHPExcel_Chart_DataSeries::TYPE_BARCHART,
+		\PHPExcel_Chart_DataSeries::GROUPING_STANDARD,
+		range(0, count($valuesS1) - 1),
+		$dataSeriesLabel1,
+		$labaelXS1,
+		$valuesS1
+	);
+	$series1->setPlotDirection(\PHPExcel_Chart_DataSeries::DIRECTION_COL);
+	$plotarea = new \PHPExcel_Chart_PlotArea(NULL, array($series1));
+	$legend = new \PHPExcel_Chart_Legend(\PHPExcel_Chart_Legend::POSITION_RIGHT, NULL, false);
+	$title = new \PHPExcel_Chart_Title('Servicios');
+	
+	$chart = new \PHPExcel_Chart(
+		'servicios',
+		$title,
+		$legend,
+		$plotarea,
+		true,
+		0,
+		NULL,
+		NULL);
+	$chart->setTopLeftPosition('C2');
+	$chart->setBottomRightPosition('I11');
+	$objExcel->getActiveSheet()->addChart($chart);
+	
+	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
+	$objWriter->setIncludeCharts(true);
+	$objWriter->save("ServiceDesk.xlsx");
+	
+	header('Location: index.php');
+//	echo'<script type="text/javascript">
+//		alert("Click en Aceptar para descargar el archivo");
+//		window.location.href="ServiceDesk.xlsx";
+//    </script>';
