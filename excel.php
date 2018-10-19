@@ -634,6 +634,7 @@
 	
 	$objExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 	$objExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
+	$objExcel->setActiveSheetIndex(0);
 	
 	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
 	$objWriter->setIncludeCharts(true);
