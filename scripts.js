@@ -126,3 +126,27 @@ function verificarPassword(){
 		btn.disabled = true;
 	}
 }
+
+function excel(){
+	var opcion = document.getElementById("excelOption");
+	var fechaI = document.getElementById("tfi");
+	var fechaF = document.getElementById("tff");
+	var fecha1 = document.getElementById("fecha1");
+	var fecha2 = document.getElementById("fecha2");
+	var confExcel = document.getElementById("confExcel");
+	
+	if(opcion.value == 1){
+		fechaI.style.display = "none";
+		fechaF.style.display = "none";
+		fecha1.style.display = "none";
+		fecha2.style.display = "none";
+		confExcel.value = 2;
+	}else{
+		fechaI.style.display = "block";
+		fechaF.style.display = "block";
+		fecha1.style.display = "block";
+		fecha2.style.display = "block";
+		confExcel.value = 1;
+	}
+	
+}

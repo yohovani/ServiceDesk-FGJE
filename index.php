@@ -14,6 +14,9 @@
 		<nav class="navbar" style="background-color:#494983;">
 			<?php
 				session_start();
+				if(isset($_SESSION['admin'])){
+					echo "<meta http-equiv='refresh' content='60'/>";
+				}
 				if(isset($_SESSION['user'])){
 					if(isset($_SESSION['apellidos']))
 						echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']." ".$_SESSION['apellidos']."</strong>";
@@ -22,7 +25,6 @@
 				}else{
 					echo "<strong style='color: white;'>FGJE - Visitante</strong>";
 				}
-				
 			?>
 			<?php
 				if(!isset($_SESSION['user']))
@@ -40,8 +42,8 @@
 							echo"<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' title='Click Aqui Para Registrar Tecnicos' data-target='#registroTecnicos'>
 								Registrar T&eacute;cnicos
 							</button>
-							<button style='color:white' class='navbar-toggler' type='button' data-tooltip='tooltip' title='Click Aqui Para Generar Archivo de excel con los datos existentes en la BD'>							
-								<a style='color:white' href='/ServiceDesk/excel.php'>Generar Excel</a>
+							<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' title='Click Aqui Para Generar Archivo de Excel' data-target='#excel'>
+								Generar Excel
 							</button>
 							<button style='color:white' class='navbar-toggler' type='button' data-tooltip='tooltip' title='Click Aqui Para Descargar el Archivo de excel con los datos existentes en la BD'>							
 								<a style='color:white' href='/ServiceDesk/ServiceDesk.xlsx'>Descargar Archivo Excel</a>
@@ -100,9 +102,21 @@
 											while ($area= mysqli_fetch_array($resultado)){
 												echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
 											}
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<label> ".($area['nombre'])."</label>";
+											}
 										?>
 									</select>
-
+									<?php
+											include "conexion.php";
+											//Utilizamos el metodo almacenado para seleccionar las areas
+											$mysqli = "Call SelectAreas()";
+											//Ejecutamos la petición al servidor
+											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<label> ".utf8_encode($area['nombre'])."</label><br>";
+											}
+										?>
 								</div>
 							</div>
 							<!-Botón enviar->
@@ -198,6 +212,47 @@
 			</div>
 		</div>
 
+		<!-- Modal para Fechas Excel-->
+		<div id="excel" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Configuraci&oacute;n del Archivo de Excel</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" action="excel.php" method="post">
+							<div class="form-group">
+								<h6 class="modal-title" >Delimitar Fecha:</h6>
+								<div class="col-sm-10">
+									<select id="excelOption" class="form-control" name="excelOption" onchange="excel()">
+										<option value="2">Delimitar por fechas</option>
+										<option value="1">Todos los registros</option>
+									</select>
+								</div>
+								<center>
+									<h6 class="modal-title" id="tfi">Fecha Inicio:</h6>
+									<input type="date" class="datepicker" id="fecha1" name="fecha1"><br>
+									<h6 class="modal-title" id="tff">Fecha Fin:</h6>
+									<input type="date" class="datepicker" id="fecha2" name="fecha2"><br>
+									<input type="hidden" value="1" name="confExcel" id="confExcel"> 
+								</center>
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit"  class="btn btn-default">Generar Archivo</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="container">
 			<?php
 				//Adminsitradores
@@ -213,6 +268,7 @@
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Equipos' data-target='#Equipos' onclick='verEquipos()' value='4' name='verEquipos' id='verEquipos'>Ver Equipos</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las Compras' data-target='#Compras' onclick='verCompras()' value='5' name='verCompras' id='verCompras'>Ver Compras</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Prestamos' data-target='#Prestamos' onclick='verPrestamos()' value='6' name='verPrestamos' id='verPrestamos'>Ver Prestamos</button></th>
+                                        <th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para preguntas' data-target='#Preguntas' onclick='verPreguntas()' value='7' name='verPreguntas' id='verPreguntas'>Preguntas</button></th>
 									</center><tr>
 								<thead>
 							</table>
@@ -284,8 +340,14 @@
 				</div>
                 <h1><strong style='color: black;'>Bienvenidos</strong></h1>
 			</div>
-            
+            Area de Preguntas y Respuestas:
 		</div>";
+            
+           
+     
+     include('VerPreguntas.php');
+    
+    
 			}
 		?>
 
@@ -407,6 +469,52 @@
 		</div>
 	</div>
 
+    <!-- Modal para Preguntas-->
+    <div class="container">
+		<div id='Preguntas' class='modal fade' role='dialog'>
+			<div class='modal-dialog modal-lg'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Preguntas</h4>
+					</div>
+					<div class='table-responsive' id='comprasModal'>
+                        <form action="Preguntas.php" method="post">
+                        <table class="table">
+                    
+  <thead>
+      
+    <tr>
+      
+      <th scope="col">Pregunta</th>
+      <th scope="col">Respuesta</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      
+      <td><input type="text"class="form-control" name="p" id="p" /></td>
+      <td><input type="text"class="form-control" name="r" id="r" /></td>
+     
+    </tr>
+    
+    
+  </tbody>
+                        
+                    
+</table>
+                            <button type='submit' class='btn btn-default'>enviar</button>
+                            </form>
+					</div>
+					<div class='modal-footer'>
+                        
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Modal para registrar Prestamos-->
 		<div id='RegistroPrestamo' class='modal fade' role='dialog'>
