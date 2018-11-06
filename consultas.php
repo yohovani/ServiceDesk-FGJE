@@ -150,7 +150,6 @@ function verUsuarios(){
 					<th>Apellidos</th>
 					<th>Nombre de Usuario</th>
 					<th>Area</th>
-					<th>Eliminar</th>
 				</tr>
 			</thead>
 			<tbody>";
@@ -161,11 +160,6 @@ function verUsuarios(){
 				<td>".$b['apellidos']."</td>
 				<td>".$b['usuario']."</td>
 				<td>".$b['area']."</td>
-				<td><form action='eliminarUsuario' method='post'>
-						<input type='hidden' value='".$b['idUsuarios']."' name='isUsuario' id='name='isUsuario'>
-						<input type='submit'class='btn btn-lg'  value='Eliminar'>	
-					</form>
-				</td>	
 			</tr>";
 	}
 			echo"</tbody>

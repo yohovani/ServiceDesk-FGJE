@@ -147,6 +147,38 @@ function excel(){
 		fecha1.style.display = "block";
 		fecha2.style.display = "block";
 		confExcel.value = 1;
+	}	
+}
+
+function Password(){
+	//Obtenes la información desde el index mediante el Id de los campos de registro
+	var pass1 = document.getElementById('passwordActual');
+	var pass2 = document.getElementById('Newpassword');
+	var pass3 = document.getElementById('Newpassword2');
+	var actual = document.getElementById('Actual');
+	var btn = document.getElementById('btnEnviarnewPassword');
+	//Validamos que ambas contraseñas sean iguales
+	if(pass1.value == actual.value){
+		//Si son iguales el fondo de los campos cambia a verde
+		pass1.style.background = "#2AF20B";
+		if(pass2.value == pass3.value && pass2.value != ''){
+			pass2.style.background = "#2AF20B";
+			pass3.style.background = "#2AF20B";
+			//se habilita el boton para hacer el registro
+			btn.disabled = false;
+		}else{
+			//Si son iguales el fondo de los campos cambia a rojo
+			pass2.style.background = "#CD5555";
+			pass3.style.background = "#CD5555";
+			//se desabilita el boton para hacer el registro
+			btn.disabled = true;
+		}
+
+	}else{
+		//Si son iguales el fondo de los campos cambia a rojo
+		pass1.style.background = "#CD5555";
+		pass2.style.background = "#CD5555";
+		//se desabilita el boton para hacer el registro
+		btn.disabled = true;
 	}
-	
 }

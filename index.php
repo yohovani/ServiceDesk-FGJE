@@ -21,7 +21,9 @@
 					if(isset($_SESSION['apellidos']))
 						echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']." ".$_SESSION['apellidos']."</strong>";
 					else
-						echo "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']."</strong>";
+						echo "<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Cambiar Contrase&ntilde;a' data-target='#cambiarPassword'>"
+								. "<strong style='color: white;'>FGJE - ".$_SESSION['nombre']."</strong>"
+							. "</button>";
 				}else{
 					echo "<strong style='color: white;'>FGJE - Visitante</strong>";
 				}
@@ -113,9 +115,6 @@
 											$mysqli = "Call SelectAreas()";
 											//Ejecutamos la petición al servidor
 											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
-											while ($area= mysqli_fetch_array($resultado)){
-												echo "<label> ".utf8_encode($area['nombre'])."</label><br>";
-											}
 										?>
 								</div>
 							</div>
@@ -170,6 +169,56 @@
 							<div class="form-group"> 
 								<div class="col-sm-offset-2 col-sm-10">
 									<button type="submit" class="btn btn-default" id="btnEnviar">Enviar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<!-- Modal para Cambiar Password-->
+		<div class="modal fade" id="cambiarPassword">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+
+						<h4 class="modal-title">Cambiar Password</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" action="updatePassword.php" method="post">
+							<!- Nombre->
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Contrase&ntilde;a actual:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="passwordActual" placeholder="Contraseña actual" required id="passwordActual" onKeyUp="Password()">
+									<?php
+										echo "<input type='hidden' name='Actual'  id='Actual' value='".$_SESSION['password']."'>";
+									?>
+								</div>
+							</div>
+							<!- Password->
+							<div class="form-group">
+								<label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
+								<div class="col-sm-10">
+									<input type="password" class="form-control" name="Newpassword" placeholder="Contrase&ntilde;a" id="Newpassword" >
+								</div>
+							</div>
+							<!-Confirmación del Password->
+							<div class="form-group">
+								<label class="control-label col-sm-2" id="pass">Confirma Contrase&ntilde;a:</label>
+								<div class="col-sm-10">
+									<input type="password" class="form-control" name="Newpassword2" placeholder="Repite la Contrase&ntilde;a" id="Newpassword2" onKeyUp="Password()">
+								</div>
+							</div>
+							<!-Botón enviar->
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-default" id="btnEnviarnewPassword" disabled="true">Enviar</button>
 								</div>
 							</div>
 						</form>
@@ -318,15 +367,9 @@
 		if(!isset($_SESSION['user'])){
 			echo"<div id='portfolio' class='container-fluid text-center bg-grey'>
 				<div id='myCarousel' class='carousel slide text-center' data-ride='carousel'>
-					<!-- Indicators -->
-					<ol class='carousel-indicators'>
-						<li data-target='#myCarousel' data-slide-to='0' class='active'></li>
-						<li data-target='#myCarousel' data-slide-to='1'></li>
-						<li data-target='#myCarousel' data-slide-to='2'></li>
-					</ol>
-					<!-- Wrapper for slides -->
+
 					<div class='carousel-inner' role='listbox'>";		
-				echo"<img src='img/logo.png'>";
+				echo"<img src='img/logo.gif' width='755' height='395'>";
                 
 				echo"<a class='left carousel-control' href='#myCarousel' role='button' data-slide='prev'>
 						<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
@@ -340,16 +383,31 @@
 				</div>
                 <h1><strong style='color: black;'>Bienvenidos</strong></h1>
 			</div>
-            Area de Preguntas y Respuestas:
 		</div>";
-            
-           
-     
-     include('VerPreguntas.php');
-    
-    
-			}
+			echo"<center><a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>preguntas frecuentes</a></center>";
+		}
 		?>
+		
+		<!-- Modal para ver preguntas y respuestas-->
+		<div id="preguntasYrespuestas" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Preguntas frecuentes</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<?php
+							include('VerPreguntas.php');
+						?>
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 	<!-- Modal para ver Reportes-->
 	<div id='Reportes' class='modal fade' role='dialog'>
@@ -479,6 +537,7 @@
 						<h4 class='modal-title'>Preguntas</h4>
 					</div>
 					<div class='table-responsive' id='comprasModal'>
+						<h4>Registrar Preguntas</h4>
                         <form action="Preguntas.php" method="post">
                         <table class="table">
                     
@@ -506,6 +565,47 @@
 </table>
                             <button type='submit' class='btn btn-default'>enviar</button>
                             </form>
+					</div>
+					<div>
+						<h4>Editar/Eliminar preguntas</h4> 
+						
+							<?php
+								if(isset($_SESSION['admin'])){
+									if($_SESSION['admin'] == true){
+										include 'conexion.php';
+										 $sqlPreguntas = "Select * FROM preguntas";
+										 $resultado=mysqli_query($conexion,$sqlPreguntas)or die(mysqli_error($conexion));
+										 while($b = mysqli_fetch_array($resultado)){
+											 echo '<table class="table">
+													<thead>
+													   <tr>
+														   <th scope="col">Pregunta</th>
+														   <th scope="col">Respuesta</th>
+														   <th scope="col">Actulizar</th>
+														   <th scope="col">Eliminar</th>
+													   </tr>
+												   </thead>
+												   <tbody>
+													   <tr><form action="actualizarPregunta.php" method="post">
+																<td><input type="text" id="pregunta" name ="pregunta" class="form-control" value="'.$b['pregunta'].'"></td>
+																<td><input type="text" id="respuesta" name ="respuesta" class="form-control" value="'.$b['respuesta'].'"></td>
+																<input type="hidden" id="tipo" name ="tipo" value="1">
+																	<input type="hidden" id="idPregunta" name ="idPregunta" value="'.$b['id'].'">
+																<td><button type="submit" class="btn btn-default">Actualizar</button></td>
+															</form>
+															<form action="actualizarPregunta.php" method="post">
+																<input type="hidden" id="tipo" name ="tipo" value="2">
+																<input type="hidden" id="idPregunta" name ="idPregunta" value="'.$b['id'].'">
+																<td><button type="submit" class="btn btn-default">Eliminar</button></td>
+															</form>
+													   </tr>
+												   </tbody>
+												</table>';
+										 }
+									}
+								}
+							?>
+						</form>
 					</div>
 					<div class='modal-footer'>
                         
