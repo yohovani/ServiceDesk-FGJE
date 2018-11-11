@@ -15,7 +15,7 @@
 	$respuesta=$_POST['r'];
 	$sql="INSERT INTO `preguntas`(`pregunta`,`respuesta`) VALUES ('".$pregunta."','".$respuesta."')";
 	$ejecutar=mysqli_query($conexion,$sql)or die(mysqli_error($conexion));
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');
 /*
 	if(!$ejecutar){
 		echo"Hubo Algun Error";

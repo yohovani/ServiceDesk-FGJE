@@ -48,6 +48,17 @@ function RegistroUsuarios(){
 			$areaSQL = "Call RegistrarAreaUsuarios('".$id."','".$area."')";
 			//Ejecutamos La petición al servidor
 			$insertar = mysqli_query($conexion,$areaSQL) or die(mysqli_error($conexion));
+			//Recuperamos el area del usuario
+			mysqli_free_result($resultado);
+			mysqli_close($conexion);
+			unset($resultado,$conexion);
+			include "conexion.php";
+			$userArea = "CALL SelectAreaUsuario('".$id."')";
+			//Ejecutamos la petición al servidor
+			$resultado = mysqli_query($conexion,$userArea) or die(mysqli_error($conexion));
+			while($b= mysqli_fetch_array($resultado)){
+				$area = $b['nombre'];
+			}
 			//Iniciamos la sesión con la que se va a trabajar
 			session_start();
 			//Las varables de sesión son utilizadas para poder hacer cambios en la base de datos con un usuario
@@ -55,12 +66,13 @@ function RegistroUsuarios(){
 			$_SESSION['user'] = $name;
 			$_SESSION['nombre'] = $nombre;
 			$_SESSION['apellidos'] = $apellidos;
+			$_SESSION['area'] = $area;
 			//Asignamos una cookie se sesión con una duración de 1 hora, dicha cookie sera valida en todo el sistema y solo sera visible mediante una conexión segura
 			session_set_cookie_params(3600, "http://localhost/ServiceDesk/");
 			//Guardamos la cookie en una variable de sesión para verificar que esta no se cambie y asi obtener un poco mas de seguridad
 			$_SESSION['coockie'] = session_get_cookie_params();
 			//Redireccionamos al index con la sesión ya iniciada
-			header('Location: /ServiceDesk/index.php');
+			header('Location: index.php');
 		}
 
 	}
@@ -103,7 +115,7 @@ function RegistroTecnicos(){
 			}else{
 				echo "<script> alert('Ocurrio un error inesperado, vuelve a intentarlo'); </script>')";
 			}
-			header('Location: /ServiceDesk/index.php');
+			header('Location: index.php');
 		}
 	}
 }

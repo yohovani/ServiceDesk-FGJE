@@ -31,9 +31,9 @@
 		mysqli_free_result($relacion);
 		mysqli_close($conexion);
 		unset($relacion,$conexion);
-		header('Location: /ServiceDesk/index.php');
+		header('Location: index.php');
 	}else{
 		echo "<script>
 		alert('ocurrio un error con tu petici&oacute;n verifica que los datos sean correctos y no introduzcas caracteres especiales');</script>";
-		header('Location: /ServiceDesk/index.php');
+		header('Location: index.php');
 	}

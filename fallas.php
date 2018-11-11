@@ -34,5 +34,5 @@ if(!preg_match("[A-Za-z]", $area) && !preg_match("[A-Za-z]", $tipo) && !preg_mat
 	mysqli_free_result($resultado);
 	mysqli_close($conexion);
 	unset($resultado,$conexion);
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');
 }

@@ -4,10 +4,13 @@
 		<title>FGJE Unidad de Inform&aacute;tica</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 		<script src="scripts.js"></script>
 	</head>
 	<body>
@@ -69,6 +72,35 @@
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" action="Registro.php" method="post">
+							<!- Area->
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Area:</label>
+								<div class="col-sm-10" id="areasUsuario">
+									<select class="form-control" name="area" id="area" onchange="areas()">
+										<?php
+											include "conexion.php";
+											$i;
+											//Utilizamos el metodo almacenado para seleccionar las areas
+											$mysqli = "Call SelectAreas()";
+											//Ejecutamos la petición al servidor
+											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
+												$i=$area['idArea'];
+											}
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<label> ".($area['nombre'])."</label>";
+											}
+											echo "<option value='Otro' size>Otro</option>";
+										?>
+									</select>
+									<div id="agregarAreas" hidden="true">
+										<label>Agregue su Area:</label>
+										<input type="text" id="newArea" name="newArea" class="form-control" placeholder="¿Cual es su area?">
+										<button  class="btn btn-default" onclick="addArea()">Agregar</button>
+									</div>
+								</div>
+							</div>
 							<!- Nombre->
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Nombre:</label>
@@ -90,34 +122,7 @@
 									<input type="text" class="form-control" name="user" placeholder="Nombre de usuario" id="user">
 								</div>
 							</div>
-							<!- Area->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="area">Area:</label>
-								<div class="col-sm-10">
-									<select class="form-control" name="area" id="area">
-										<?php
-											include "conexion.php";
-											//Utilizamos el metodo almacenado para seleccionar las areas
-											$mysqli = "Call SelectAreas()";
-											//Ejecutamos la petición al servidor
-											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
-											while ($area= mysqli_fetch_array($resultado)){
-												echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
-											}
-											while ($area= mysqli_fetch_array($resultado)){
-												echo "<label> ".($area['nombre'])."</label>";
-											}
-										?>
-									</select>
-									<?php
-											include "conexion.php";
-											//Utilizamos el metodo almacenado para seleccionar las areas
-											$mysqli = "Call SelectAreas()";
-											//Ejecutamos la petición al servidor
-											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
-										?>
-								</div>
-							</div>
+							
 							<!-Botón enviar->
 							<div class="form-group"> 
 								<div class="col-sm-offset-2 col-sm-10">
@@ -318,6 +323,7 @@
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las Compras' data-target='#Compras' onclick='verCompras()' value='5' name='verCompras' id='verCompras'>Ver Compras</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Prestamos' data-target='#Prestamos' onclick='verPrestamos()' value='6' name='verPrestamos' id='verPrestamos'>Ver Prestamos</button></th>
                                         <th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para preguntas' data-target='#Preguntas' onclick='verPreguntas()' value='7' name='verPreguntas' id='verPreguntas'>Preguntas</button></th>
+                                        <th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Modificar las Areas' data-target='#ModificarAreas' onclick='verAreas()' value='8' name='verModAreas' id='verModAreas'>Areas</button></th>
 									</center><tr>
 								<thead>
 							</table>
@@ -362,52 +368,52 @@
 			?>
 		</div>
 
-		<!-- Container (Portfolio Section) -->
-		<?php
-		if(!isset($_SESSION['user'])){
-			echo"<div id='portfolio' class='container-fluid text-center bg-grey'>
-				<div id='myCarousel' class='carousel slide text-center' data-ride='carousel'>
+	<!-- Container (Portfolio Section) -->
+	<?php
+	if(!isset($_SESSION['user'])){
+		echo"<div id='portfolio' class='container-fluid text-center bg-grey'>
+			<div id='myCarousel' class='carousel slide text-center' data-ride='carousel'>
 
-					<div class='carousel-inner' role='listbox'>";		
-				echo"<img src='img/logo.gif' width='755' height='395'>";
-                
-				echo"<a class='left carousel-control' href='#myCarousel' role='button' data-slide='prev'>
-						<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
-						<span class='sr-only'>Anterior</span>
-					</a>
-					<a class='right carousel-control' href='#myCarousel' role='button' data-slide='next'>
-						<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>
-						<span class='sr-only'>Siguiente</span>
-					</a>
-                    
-				</div>
-                <h1><strong style='color: black;'>Bienvenidos</strong></h1>
+				<div class='carousel-inner' role='listbox'>";		
+			echo"<img src='img/logo.png' width='755' height='395'>";
+
+			echo"<a class='left carousel-control' href='#myCarousel' role='button' data-slide='prev'>
+					<span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
+					<span class='sr-only'>Anterior</span>
+				</a>
+				<a class='right carousel-control' href='#myCarousel' role='button' data-slide='next'>
+					<span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>
+					<span class='sr-only'>Siguiente</span>
+				</a>
+
 			</div>
-		</div>";
-			echo"<center><a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>preguntas frecuentes</a></center>";
-		}
-		?>
+			<h1><strong style='color: black;'>Bienvenidos</strong></h1>
+		</div>
+	</div>";
+		echo"<center><a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>preguntas frecuentes</a></center>";
+	}
+	?>
 		
-		<!-- Modal para ver preguntas y respuestas-->
-		<div id="preguntasYrespuestas" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Preguntas frecuentes</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<?php
-							include('VerPreguntas.php');
-						?>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
+	<!-- Modal para ver preguntas y respuestas-->
+	<div id="preguntasYrespuestas" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Preguntas frecuentes</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<?php
+						include('VerPreguntas.php');
+					?>
+				</div>
+				<div class='modal-footer'>
+					<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	<!-- Modal para ver Reportes-->
 	<div id='Reportes' class='modal fade' role='dialog'>
@@ -498,6 +504,56 @@
 					</div>
 					<div class='table-responsive' id='prestamosModal'>
 
+					</div>
+					<div class='modal-footer'>
+						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal para ver Areas-->
+	<div class="container">
+		<div id='ModificarAreas' class='modal fade' role='dialog'>
+			<div class='modal-dialog modal-lg'>
+				<!-- Modal content-->
+				<div class='modal-content'>
+					<div class='modal-header'>
+						<h4 class='modal-title'>Modificar Areas</h4>
+					</div>
+					<div class='table-responsive' id='AreasModal'>
+						<select class="form-control" name="areaMod" id="areaMod" onchange="MostrarFormAreas()">
+							
+						</select>
+						<div id="MAA">
+							
+						</div>
+						<div id="ModificarAreasFormulario" hidden="true">
+							<table class="table">
+								<br><h4>Modifique el Area:</h4>
+								<thead>
+									<tr>
+										<th>Id</th>
+										<th>Valor</th>
+										<th>Acci&oacute;n</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th><input  disabled="true" size="" type="text" id="IdModificarAreaAdmin" name="ModificarAreaAdmin" class="form-control"></th>
+										<th>
+											<div id="areaResultado">
+
+											</div>
+										</th>
+										<th><button  class="btn btn-default" onclick="ModificarAreas()" data-dismiss="alert" aria-label="Close">Modificar</button></th>
+										<th></th>
+									</tr>
+								</tbody>
+								
+							</table>
+						</div>
 					</div>
 					<div class='modal-footer'>
 						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
@@ -817,6 +873,39 @@
 	<! Seccion para que el usuario pueda ver los reportes que aun no se han resuelto->
 		<?php
 			if(isset($_SESSION['user']) && !isset($_SESSION['admin'])){
+				include 'conexion.php';
+				$sqlNotificar = "CALL selectServiciosNotify('".$_SESSION['idUser']."')";
+				$resultado = mysqli_query($conexion,$sqlNotificar) or die(mysqli_error($conexion));
+				if(mysqli_num_rows($resultado) > 0){
+					while ($b = mysqli_fetch_array($resultado)){
+						$fecha=$b['fecha'];
+						$Servicio=$b['tipoServicio'];
+						$idRegistro=$b['idServicios'];
+
+						echo '<script>';
+							echo'toastr.warning("¿Es correcto?<form action='."FinalizarRegistroFalla.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."Si".' /></form>'
+									. '<br><form action='."registroNoFinalizado.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."No".' /></form>","Servicio finalizado por el tecnico en Fecha: '.$fecha.' , Tipo de servicio: '.$Servicio.'",{
+								"closeButton": true,
+								"debug": false,
+								"newestOnTop": false,
+								"progressBar": false,
+								"positionClass": "toast-top-full-width",
+								"preventDuplicates": false,
+								"onclick": null,
+								"showDuration": "300",
+								"hideDuration": "1000",
+								"timeOut": 0,"extendedTimeOut": 0,
+								"showEasing": "swing","hideEasing": "linear",
+								"showMethod": "fadeIn","hideMethod": "fadeOut",
+								"tapToDismiss": false});
+							</script>';
+
+					}
+				}
+				
+				mysqli_free_result($resultado);
+				mysqli_close($conexion);
+				unset($resultado,$conexion);
 				echo "<div class='text-center'>
 							<h2>Reportes no resueltos</h2>
 							<h4></h4>
@@ -979,8 +1068,14 @@
 								<th>Descripci&oacute;n</th>
 								<th>Area</th>
 								<th>Tecnico</th>
-								<th>Finalizado</th>
-							</tr>
+								<th>Finalizado</th>";
+				if($_SESSION['admin'] == false && $_SESSION['recepcion'] == false){
+					echo"		<th>Finalizado Tecnico</th>
+								<th>Soluci&oacute;n</th>
+								<th>Finalizar</th>";
+				}				
+				
+					echo"	</tr>
 						</thead>
 						<tbody>";
 				while($b= mysqli_fetch_array($resultado)){
@@ -1023,8 +1118,20 @@
 									echo $tecnicoName;
 								}
 							echo"</td>";
-							echo "<td bgcolor='#FD8A00'>No</td>
-						";
+							echo "<td bgcolor='#FD8A00'>No</td>";
+							if($_SESSION['admin'] == false && $_SESSION['recepcion'] == false){
+							echo "<td bgcolor='#FD8A00'>No</td>";
+							echo '<form action="finalizarTecnico.php" method="post">
+									<td>
+									<input type="hidden" name="idServicio" value="'.$b['idServicios'].'">
+										<textarea type="text"  rows="4" cols="10" name="solucionServicioTecnico" required  id="solucionTecnico" placeholder="Escriba su soluci&oacute;n en no mas de 200 caracteres"></textarea>
+									</td>
+									<td>
+										<button type="submit" class="btn btn-default">Finalizar</button>
+									</td>
+								</form>';	
+							}
+
 				}
 						echo"</tbody>
 					</table>";
@@ -1180,7 +1287,6 @@
 						<h2>Equipos no entregados</h2>
 					</div>
 				<div class='row slideanim'>";
-					echo"<meta http-equiv='refresh' content='3' />";
 					echo"<table class='table table-hover'>
 							<thead>
 								<tr>

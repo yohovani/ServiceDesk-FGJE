@@ -16,4 +16,4 @@ $sql = "CALL FinalizarServicio('".$id."','".$hora_fin."','".$fecha."')";
 //Hacemos la petición al servidor
 $ejecutar =  mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
 //Redireccionamos una vez que ya se realizo la consulta hacia el index 
-header('Location: /ServiceDesk/index.php');
+header('Location: index.php');

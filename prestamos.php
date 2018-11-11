@@ -28,5 +28,5 @@
 		include "conexion.php";
 		$sqlRelacion = "CALL RelacionPrestamosUsuarios('".$idUser."','".$idPrestamo."')";
 		$peticion = mysqli_query($conexion,$sqlRelacion) or die(mysqli_error($conexion));
-		header('Location: /ServiceDesk/index.php');
+		header('Location: index.php');
 	}

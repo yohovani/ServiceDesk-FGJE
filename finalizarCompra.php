@@ -6,4 +6,4 @@
 	mysqli_free_result($finalizar);
 	mysqli_close($conexion);
 	unset($finalizar,$conexion);
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');

@@ -4,5 +4,5 @@
 		include 'conexion.php';
 		$sql = "UPDATE `tecnicos` SET `password`='".$_POST['Newpassword']."' WHERE `idTecnicos` = '".$_SESSION['idUser']."'";
 		$resultado=mysqli_query($conexion,$sql)or die(mysqli_error($conexion));
-		header('Location: /ServiceDesk/index.php');
+		header('Location: index.php');
 	}

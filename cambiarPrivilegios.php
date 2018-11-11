@@ -12,7 +12,7 @@ function cambiarAdmin(){
 	mysqli_free_result($cambio);
 	mysqli_close($conexion);
 	unset($cambio,$conexion);
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');
 }
 
 function cambiarRecepcion(){
@@ -22,5 +22,5 @@ function cambiarRecepcion(){
 	mysqli_free_result($cambio);
 	mysqli_close($conexion);
 	unset($cambio,$conexion);
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');
 }

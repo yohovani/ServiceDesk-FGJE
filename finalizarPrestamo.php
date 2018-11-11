@@ -8,4 +8,4 @@
 	
 	$Peticion =  mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
 	//Redireccionamos una vez que ya se realizo la consulta hacia el index 
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');

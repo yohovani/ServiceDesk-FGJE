@@ -73,6 +73,17 @@ function verPrestamos(){
 	}
 }
 
+function verAreas(){
+	var funct = $("#verModAreas").val();
+	if (funct != "") {
+		$.post("consultas.php", {funcion: funct}, function(mensaje) {
+			$("#areaMod").html(mensaje);
+		});
+	}else { 
+		$("#prestamosModal").html("Ocurrio un error Inesperado");
+	}
+}
+
 function nameUser(){
 	//Obtenes la información desde el index mediante el Id de los campos de registro
 	var name = document.getElementById('nombre').value;
@@ -181,4 +192,72 @@ function Password(){
 		//se desabilita el boton para hacer el registro
 		btn.disabled = true;
 	}
+}
+
+function areas(){
+	var areas = document.getElementById('area');
+	var formulario = document.getElementById('agregarAreas');
+	if(areas.value == "Otro"){
+		formulario.hidden = false;
+	}else{
+		formulario.hidden = true;
+	}
+}
+
+function MostrarFormAreas(){
+	var areas = document.getElementById('areaMod');
+	var formulario = document.getElementById('ModificarAreasFormulario');
+	var areaText = document.getElementById('IdModificarAreaAdmin');
+	formulario.hidden = false;
+	areaText.value = areas.value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			document.getElementById("areaResultado").innerHTML = xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "modificarAreas.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("operacion="+1+"&idArea="+areas.value+"");
+}
+
+function addArea() {
+	var area = document.getElementById('newArea').value;
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			document.getElementById("areasUsuario").innerHTML = xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "agregarArea.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("newArea="+area+"");
+}
+
+function ModificarAreas(){
+	var areaId = document.getElementById('IdModificarAreaAdmin');
+	var areaText = document.getElementById('TextModificarAreaAdmin');
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			document.getElementById("MAA").innerHTML = xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "ModificarAreas.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("operacion="+2+"&idArea="+areaId.value+"&textArea="+areaText.value);
+}
+
+function sesionTecnicos(){
+	var usuario = document.getElementById('usuario');
+	var password = document.getElementById('pass');
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			document.getElementById("resultadoIS").innerHTML = xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "validarPassword.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("user="+usuario.value+"&password="+password.value+"");
 }

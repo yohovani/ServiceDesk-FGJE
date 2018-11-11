@@ -11,6 +11,7 @@
 		<script src="scripts.js"></script>
 	</head>
 	<body>
+		
 		<nav class="navbar" style="background-color:#494983;">
 
 			<?php
@@ -35,25 +36,32 @@
 							<h4 class="modal-title">Iniciar Sesi&oacute;n Técnico</h4>
 						</div>
 						<div class="modal-body">
-							<form class="form-horizontal" action="InicioSesion.php" method="post">
-								<div class="form-group">
-									<label class="control-label col-sm-2" >Usuario:</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
+							
+							<div id="sesionTecnicos">
+								<form action="InicioSesion.php" method="post">
+									<div class="form-group">
+										<label class="control-label col-sm-2" >Usuario:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label class="control-label col-sm-2">Contrae&ntilde;a:</label>
-									<div class="col-sm-10"> 
-										<input type="password" class="form-control" name="password" id="pass" placeholder="Contrase&ntilde;a" required>
+									<div class="form-group">
+										<label class="control-label col-sm-2">Contrae&ntilde;a:</label>
+										<div class="col-sm-10"> 
+											<input type="password" class="form-control" name="password" id="pass" onkeyup="sesionTecnicos()" placeholder="Contrase&ntilde;a" required>
+										</div>
 									</div>
-								</div>
-								<div class="form-group"> 
-									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+									<div class="form-group"> 
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+										</div>
+
+									<div id="resultadoIS">
+
 									</div>
-								</div>
-							</form>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -62,6 +70,5 @@
   <p style='color:white'>WebDesign By Servicio Social</p>
 </footer>
 
-</script>
 	</body>
 </html>

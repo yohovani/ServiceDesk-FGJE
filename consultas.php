@@ -25,6 +25,10 @@ switch ($_POST['funcion']){
 		verPrestamos();
 		break;
 	}
+	case 8:{
+		verAreas();
+		break;
+	}
 }
 
 function verReportes(){
@@ -291,4 +295,19 @@ function verPrestamos(){
 	}
 			echo"</tbody>
 		</table>";
+}
+
+function verAreas(){
+	include "conexion.php";
+	//Utilizamos el metodo almacenado para seleccionar las areas
+	$mysqli = "Call SelectAreas()";
+	//Ejecutamos la petición al servidor
+	$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+	while ($area= mysqli_fetch_array($resultado)){
+		echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
+		$i=$area['idArea'];
+	}
+	while ($area= mysqli_fetch_array($resultado)){
+		echo "<label> ".($area['nombre'])."</label>";
+	}
 }

@@ -18,6 +18,6 @@ session_unset();
 // destroy the session 
 session_destroy(); 
 if($redireccionamiento == 1){
-	header('Location: SesionTecnicos.php');
+	header('Location: sesionTecnicos.php');
 }else
 	header('Location: index.php');

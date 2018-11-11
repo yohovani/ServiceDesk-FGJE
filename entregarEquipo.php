@@ -9,4 +9,4 @@
 	mysqli_free_result($entrega);
 	mysqli_close($conexion);
 	unset($entrega,$conexion);
-	header('Location: /ServiceDesk/index.php');
+	header('Location: index.php');

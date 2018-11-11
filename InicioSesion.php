@@ -55,9 +55,9 @@ function inicioSesionUsuario(){
 			//Guardamos la cookie en una variable de sesión para verificar que esta no se cambie y asi obtener un poco mas de seguridad
 			$_SESSION['coockie'] = session_get_cookie_params();
 			//Redireccionamos al index con la sesión ya iniciada
-			header('Location: /ServiceDesk/index.php');
+			header('Location: index.php');
 		}else{
-			header('Location: /ServiceDesk/index.php');
+			header('Location: index.php');
 		}
 	}
 }
@@ -69,6 +69,7 @@ function inicioSesionTecnico(){
 	
 	//Verificamos que el usuario solo contenga letras y numeros
 	if(!preg_match("[^A-Za-z0-9]",$name) && !preg_match("[^A-Za-z0-9]",$password)){
+		$encontrado = 0;
 		//Utilizamos el procedimiento almacenado para SeleccinarUsuario para validar que el registro se haya echo de manera exitosa
 		//El resultado del procedimiento almacenado lo almacenamos en la variable $user
 		$user = "CALL SeleccionarTecnico('".$name."','".$password."')";
@@ -95,13 +96,18 @@ function inicioSesionTecnico(){
 			$_SESSION['password'] = $password;
 			$_SESSION['recepcion'] = $recepcion;
 			//Asignamos una cookie se sesión con una duración de 1 hora, dicha cookie sera valida en todo el sistema y solo sera visible mediante una conexión segura
-			session_set_cookie_params(3600, "http://localhost/ServiceDesk/");
 			//Guardamos la cookie en una variable de sesión para verificar que esta no se cambie y asi obtener un poco mas de seguridad
 			$_SESSION['coockie'] = session_get_cookie_params();
 			//Redireccionamos al index con la sesión ya iniciada
-			header('Location: /ServiceDesk/index.php');
+			header('Location: index.php');
+			
 		}else{
-			header('Location: /ServiceDesk/index.php');
+			echo '<br><div class="alert alert-danger ">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Error:</strong> Tus credenciales son erroneas.
+			</div>';
 		}
 	}
 }
+?>
+
