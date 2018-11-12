@@ -71,7 +71,7 @@
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" action="Registro.php" method="post">
+						<form class="form-horizontal" action="registro.php" method="post">
 							<!- Area->
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Area:</label>

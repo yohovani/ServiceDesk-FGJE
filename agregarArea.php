@@ -1,7 +1,7 @@
 <?php
 	include "conexion.php";
 	
-	if(!preg_match("[^A-Za-z0-9]",$_POST['newArea'])){
+	if(!preg_match("[^A-Za-z0-9]",$_POST['newArea']) && $_POST['newArea'] != null){
 		$sqlNewArea = "INSERT INTO `areas`(`nombre`) VALUES ('".$_POST['newArea']."')";
 		$resultado = mysqli_query($conexion,$sqlNewArea) or die(mysqli_error($conexion));
 		echo 'Su area se registro correctamente';
@@ -22,7 +22,7 @@
 			echo "<option value='Otro' size>Otro</option>";
 		echo '</select>';
 	}else{
-		echo 'Por seguridad No se permiten catacteres especiales';
+		echo 'El area ingresada contiene caracteres no validos o esta vacia';
 		echo '<select class="form-control" name="area" id="area" onchange="areas()">';
 			include "conexion.php";
 			$i;
