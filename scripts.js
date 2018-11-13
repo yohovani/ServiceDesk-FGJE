@@ -112,9 +112,20 @@ function nameUser(){
 	}else{
 		user+=apellidos[0];
 	}
-	//Mostramos el resultado en el cuadro de texto de usuario como placeholder
-	texto.style.display = "block";
-	texto.placeholder = " Usuario Recomendado: "+user;
+	
+	
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			document.getElementById("resultadoNombreUsuario").innerHTML = xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "recomendarUsuario.php", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.send("nombre="+user+"");
+	
+	var nu = document.getElementById("nameUsuario");
+	texto.value = nu.value
 }
 
 function verificarPassword(){

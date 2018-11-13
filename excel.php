@@ -45,10 +45,26 @@
 	mysqli_close($conexion);
 	unset($resultado,$conexion);
 	include "conexion.php";
+	$numAreas = array();
+	$nombreArea = array();
+	$SQLselectArea = "CALL selectAreas()";
+	$resultado = mysqli_query($conexion,$SQLselectArea) or die(mysqli_error($conexion));
 	
+	while($b= mysqli_fetch_array($resultado)){
+		$nombreArea[] = utf8_encode($b['nombre']);
+	}
+	$nombreArea[count($nombreArea)-1] = "Otro";
+	
+	for($x=0;$x<count($nombreArea);$x++){
+		$numAreas[$x] = 0;
+	}
+	
+	mysqli_free_result($resultado);
+	mysqli_close($conexion);
+	unset($resultado,$conexion);
+	include "conexion.php";
 	$cells = array("A1","B1","C1","D1","E1","F1","G1","H1","I1","J1","K1");
 	$servicios = array(0,0,0,0,0,0,0);
-	$areas = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 	for($x=0;$x<11;$x++){
 		$objExcel->getActiveSheet()
 			->getStyle($cells[$x])
@@ -65,7 +81,7 @@
 	
 	$resultado = mysqli_query($conexion,$SQLreportes) or die(mysqli_error($conexion));
 	$i=2;
-
+	
 	while($b= mysqli_fetch_array($resultado)){
 		$objExcel->getActiveSheet()->setCellValue('A'.$i,$b['idServicios']);
 		$objExcel->getActiveSheet()->setCellValue('B'.$i,$b['fecha']);
@@ -106,168 +122,17 @@
 		}
 		$objExcel->getActiveSheet()->setCellValue('G'.$i,$b['descripcion']);
 		$objExcel->getActiveSheet()->setCellValue('H'.$i,$b['ubicacion']);
-		switch ($b['ubicacion']){
-			case 'DEPARTAMENTO DE RECURSOS FINANCIEROS':{
-				$areas[0]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE RECURSOS HUMANOS':{
-				$areas[1]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE RECURSOS MATERIALES':{
-				$areas[2]+=1;
-				break;
-			}
-			case 'DIRECCIÓN GENERAL DE INVESTIGACIONES':{
-				$areas[3]+=1;
-				break;
-			}
-			case 'AGENCIAS DEL MINISTERIO PéBLICO ESPECIALES':{
-				$areas[4]+=1;
-				break;
-			}
-			case 'AGENCIAS DEL MINISTERIO PéBLICO ESPECIALES':{
-				$areas[5]+=1;
-				break;
-			}
-			case 'AGENCIAS DEL MINISTERIO PéBLICO INSTRUCTORAS':{
-				$areas[6]+=1;
-				break;
-			}
-			case 'CENTRO DE OPERACIàN ESTRATGICA PARA EL NARCOMENUDEO':{
-				$areas[7]+=1;
-				break;
-			}
-			case 'AGENCIA DEL MINISTERIO ESPECIALIZADA PARA EL DELITO FEMINICIDIO':{
-				$areas[8]+=1;
-				break;
-			}
-			case 'COORDINACIÓN DE UNIDADES ESPECIALIZADAS DE INVESTIGACIÓN':{
-				$areas[9]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA ROBO':{
-				$areas[10]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL DELITO DE ACTOS U OMISIONES CULPOSAS':{
-				$areas[11]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL ORDEN DE LA FAMILIA':{
-				$areas[12]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA LA LIBERTAD SEXUAL EN LA INTEGRIDAD':{
-				$areas[13]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL ROBO DE VEHÍCULOS':{
-				$areas[14]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL SECUESTRO':{
-				$areas[15]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DEL DELITO DE HOMICIDIOS':{
-				$areas[16]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DEL DELITO MIXTA':{
-				$areas[17]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DE ADOLESCENTES EN CONFLICTO CON LA LEY PENAL':{
-				$areas[18]+=1;
-				break;
-			}
-			case 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIÓN DE DELITOS DE SERVIDORES PÚBLICOS':{
-				$areas[19]+=1;
-				break;
-			}
-			case 'COORDINACIàN DEL MàDULO DE ATENCIàN TEMPRANA':{
-				$areas[20]+=1;
-				break;
-			}
-			case 'COORDINACIàN DE CENTRO DE JUSTICIA ALTERNATIVA':{
-				$areas[21]+=1;
-				break;
-			}
-			case 'DIRECCIàN GENERAL DE PROCEDIMIENTOS JURISDICCIONALES':{
-				$areas[22]+=1;
-				break;
-			}
-			case 'AGENCIAS DEL MINISTERIO PÚBLICO ADSCRITAS A LOS JUZGADOS':{
-				$areas[23]+=1;
-				break;
-			}
-			case 'UNIDAD DE AMPAROS':{
-				$areas[24]+=1;
-				break;
-			}
-			case 'DIRECCIàN DE APREHENSIONES COLABORACIONES Y EXTRADICIONES INTERNACIONALES':{
-				$areas[25]+=1;
-				break;
-			}
-			case 'UNIDAD DE EXPEDICIàN DE CARTAS DE NO ANTECEDENTES PENALES':{
-				$areas[26]+=1;
-				break;
-			}
-			case 'DIRECCIÓN DE PREVENCIÓN Y ATENCIÓN A VÍCTIMAS DEL DELITO':{
-				$areas[27]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE TRABAJO SOCIAL':{
-				$areas[28]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE INVESTIGACIÓN Y DIFUSIÓN':{
-				$areas[29]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE PREVENCIàN DEL DELITO':{
-				$areas[30]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO PARA LA LOCALIZACIàN DE PERSONAS DESAPARECIDAS':{
-				$areas[31]+=1;
-				break;
-			}
-			case 'DEPARTAMENTO DE ATENCIàN A VICTIMAS DEL DELITO':{
-				$areas[32]+=1;
-				break;
-			}
-			case 'DIRECCIÓN DE CONTROL Y DERECHOS HUMANOS':{
-				$areas[33]+=1;
-				break;
-			}
-			case 'AGENCIA DEL MINISTERIO PéBLICO INSTRUCTORA':{
-				$areas[34]+=1;
-				break;
-			}
-			case 'AGENCIA DEL MINISTERIO PéBLICO ADSCRITA':{
-				$areas[35]+=1;
-				break;
-			}
-			case 'AGENCIA DEL MINISTERIO PéBLICO CONCILIADORA':{
-				$areas[36]+=1;
-				break;
-			}
-			case 'SUBDIRECCIàN GENERAL OPERATIVA':{
-				$areas[37]+=1;
-				break;
-			}
-			case 'COORDINACIàN OPERAIVA':{
-				$areas[38]+=1;
-				break;
-			}
-			case 'VINCULACIàN ADMINISTRATIVA':{
-				$areas[39]+=1;
-				break;
+		$flagArea = true;
+		for($x=0;$x<count($nombreArea)-1;$x++){
+			if(utf8_encode($b['ubicacion']) == $nombreArea[$x]){
+				$numAreas[$x]+=1;
+				$flagArea = false;
 			}
 		}
+		if($flagArea){
+			$nombreArea[count($nombreArea)-1]+=1;
+		}
+		
 		if ($b['finalizado'] == true) {
 			$objExcel->getActiveSheet()->setCellValue('I' . $i, 'Si');
 		} else {
@@ -516,7 +381,7 @@
 	$j=0;
 	while($b= mysqli_fetch_array($resultado)){
 		$objExcel->getActiveSheet()->setCellValue('A'.$i,utf8_encode($b['nombre']));
-		$objExcel->getActiveSheet()->setCellValue('B'.$i,$areas[$j]);
+		$objExcel->getActiveSheet()->setCellValue('B'.$i,$numAreas[$j]);
 		$i+=1;
 		$j+=1;
 	}
@@ -551,20 +416,22 @@
 	$objExcel->getActiveSheet()->addChart($chart2);
 	
 	//Cantidad de servicios
+	$aux = $i;
+	$i=14+count($numAreas);
+	$objExcel->getActiveSheet()->setCellValue('A'.$i.'','Cantidad  de servicios por tecnico');
+	$i+=1;
+	$objExcel->getActiveSheet()->setCellValue('A'.$i.'','Tecnico');
+	$objExcel->getActiveSheet()->setCellValue('B'.$i.'','Cantidad');
 	
-	$objExcel->getActiveSheet()->setCellValue('A54','Cantidad  de servicios por tecnico');
-	$objExcel->getActiveSheet()->setCellValue('A55','Tecnico');
-	$objExcel->getActiveSheet()->setCellValue('B55','Cantidad');
 	
-	$i=56;
 	for($x=0;$x<count($tecnicos);$x++,$i++){
 		$objExcel->getActiveSheet()->setCellValue('A'.$i,$tecnicos[$x]);
 		$objExcel->getActiveSheet()->setCellValue('B'.$i,$numTecnicos[$x]);
 	}
-	
-	$dataSeriesLabel3 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$A$54',NULL,1));
-	$labaelXS3 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$A$56:$A$'.$i.'',NULL,1));
-	$valuesS3 = array(new \PHPExcel_Chart_DataSeriesValues('Number','Graficas!$B$56:$B$'.$i.'',NULL,1));
+	$i+=1;
+	$dataSeriesLabel3 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$'.$i.'',NULL,1));
+	$labaelXS3 = array(new \PHPExcel_Chart_DataSeriesValues('String','Graficas!$A$'.$aux.':$A$'.$i.'',NULL,1));
+	$valuesS3 = array(new \PHPExcel_Chart_DataSeriesValues('Number','Graficas!$B$'.$aux.':$B$'.$i.'',NULL,1));
 	$series3 = new \PHPExcel_Chart_DataSeries(
 		\PHPExcel_Chart_DataSeries::TYPE_BARCHART,
 		\PHPExcel_Chart_DataSeries::GROUPING_STANDARD,

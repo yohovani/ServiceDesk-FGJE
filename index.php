@@ -105,22 +105,22 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Nombre:</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre" onKeyUp="nameUser()">
+									<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre" >
 								</div>
 							</div>
 							<!- Apellidos->
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Apellidos:</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onKeyUp="nameUser()">
+									<input type="text" required class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onkeyup="nameUser()">
 								</div>
 							</div>
 							<!- Usuario->
 							<div class="form-group">
-								<label class="control-label col-sm-2" id="usuario">Usuario:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="user" placeholder="Nombre de usuario" id="user">
+								<label class="control-label col-sm-2" id="usuario" >Usuario:</label>
+								<div id="resultadoNombreUsuario">
 								</div>
+
 							</div>
 							
 							<!-Botón enviar->
@@ -885,7 +885,7 @@
 						echo '<script>';
 							echo'toastr.warning("¿Es correcto?<form action='."FinalizarRegistroFalla.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."Si".' /></form>'
 									. '<br><form action='."registroNoFinalizado.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."No".' /></form>","Servicio finalizado por el tecnico en Fecha: '.$fecha.' , Tipo de servicio: '.$Servicio.'",{
-								"closeButton": true,
+								"closeButton": false,
 								"debug": false,
 								"newestOnTop": false,
 								"progressBar": false,
@@ -1078,7 +1078,9 @@
 					echo"	</tr>
 						</thead>
 						<tbody>";
+					$solucion="";
 				while($b= mysqli_fetch_array($resultado)){
+					$solucion = $b['solucion'];
 					echo"<tr>
 							<td>".$b['idServicios']."</td>
 							<td>".$b['fecha']."</td>
@@ -1124,7 +1126,7 @@
 							echo '<form action="finalizarTecnico.php" method="post">
 									<td>
 									<input type="hidden" name="idServicio" value="'.$b['idServicios'].'">
-										<textarea type="text"  rows="4" cols="10" name="solucionServicioTecnico" required  id="solucionTecnico" placeholder="Escriba su soluci&oacute;n en no mas de 200 caracteres"></textarea>
+										<textarea type="text"  rows="4" cols="10" name="solucionServicioTecnico" required  id="solucionTecnico"  placeholder="Escriba su soluci&oacute;n en no mas de 200 caracteres">'.utf8_encode($solucion).'</textarea>
 									</td>
 									<td>
 										<button type="submit" class="btn btn-default">Finalizar</button>

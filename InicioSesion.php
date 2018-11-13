@@ -14,13 +14,13 @@ if(isset($_POST['password'])){
 function inicioSesionUsuario(){
 	include "conexion.php";
 	$name = $_POST['user'];
-
+	$name = strtolower($name);
 	//Verificamos que el usuario solo contenga letras y numeros
 	if(!preg_match("[^A-Za-z0-9]",$name)){
 		//Utilizamos el procedimiento almacenado para SeleccinarUsuario para validar que el registro se haya echo de manera exitosa
 		//El resultado del procedimiento almacenado lo almacenamos en la variable $user
 		$user = 
-		$user = "SELECT * FROM `usuarios` WHERE lower(`nombre`) = lower('".$nombre."')";
+		$user = "SELECT * FROM `usuarios` WHERE lower(`nombre`) = lower('".$name."')";
 		//Ejecutamos la petición al servidor
 		$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
 		while ($b= mysqli_fetch_array($resultado)){
