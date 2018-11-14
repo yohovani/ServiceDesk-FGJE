@@ -103,7 +103,7 @@ function inicioSesionTecnico(){
 			header('Location: index.php');
 			
 		}else{
-			echo '<br><div class="alert alert-danger ">
+			echo '<div class="alert alert-danger ">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 				<strong>Error:</strong> Tus credenciales son erroneas.
 			</div>';

@@ -1049,7 +1049,7 @@
 					$registros = "CALL SelectServiciosNoFinalizados()";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}else{
-					$registros = "CALL SelectServiciosNoFinalizadosIndividuales('".$_SESSION['idUser']."')";
+					$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado,s.solucion FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE s.finalizado = 0 AND t.idTecnicos = '".$_SESSION['idUser']."' AND s.mostrar = false ORDER BY s.idServicios";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}
 				echo "<div class='text-center'>
@@ -1080,7 +1080,9 @@
 						<tbody>";
 					$solucion="";
 				while($b= mysqli_fetch_array($resultado)){
-					$solucion = $b['solucion'];
+					if(isset($b['solucion'])){
+						$solucion = $b['solucion'];
+					}
 					echo"<tr>
 							<td>".$b['idServicios']."</td>
 							<td>".$b['fecha']."</td>
