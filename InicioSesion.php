@@ -20,7 +20,7 @@ function inicioSesionUsuario(){
 		//Utilizamos el procedimiento almacenado para SeleccinarUsuario para validar que el registro se haya echo de manera exitosa
 		//El resultado del procedimiento almacenado lo almacenamos en la variable $user
 		$user = 
-		$user = "SELECT * FROM `usuarios` WHERE lower(`nombre`) = lower('".$name."')";
+		$user = "SELECT * FROM `usuarios` WHERE lower(`usuario`) = lower('".$name."')";
 		//Ejecutamos la petición al servidor
 		$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
 		while ($b= mysqli_fetch_array($resultado)){
@@ -32,7 +32,7 @@ function inicioSesionUsuario(){
 				break;
 			}
 		}
-		if($encontrado==1){
+		if($encontrado>0){
 			mysqli_free_result($resultado);
 			mysqli_close($conexion);
 			unset($resultado,$conexion);
