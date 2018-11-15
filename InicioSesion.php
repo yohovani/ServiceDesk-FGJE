@@ -24,7 +24,7 @@ function inicioSesionUsuario(){
 		//Ejecutamos la petición al servidor
 		$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
 		while ($b= mysqli_fetch_array($resultado)){
-			if (($b['usuario']==$name)){
+			if ((strtolower($b['usuario'])==$name)){
 				$nombre = $b['nombre'];
 				$apellidos = $b['apellidos'];
 				$encontrado=1;
@@ -77,7 +77,7 @@ function inicioSesionTecnico(){
 		//Ejecutamos la petición al servidor
 		$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
 		while ($b= mysqli_fetch_array($resultado)){
-			if (($b['nombre']==$name)){
+			if ((strtolower($b['nombre'])==$name)){
 				$nombre = $b['nombre'];
 				$encontrado = 1;
 				$id = $b['idTecnicos'];

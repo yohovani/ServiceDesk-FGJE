@@ -148,7 +148,7 @@
 						<h4 class="modal-title">Registro</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" action="Registro.php" method="post">
+						<form class="form-horizontal" action="registro.php" method="post">
 							<!- Nombre->
 							<div class="form-group">
 								<label class="control-label col-sm-2" >Nombre de usuario:</label>

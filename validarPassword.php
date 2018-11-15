@@ -14,7 +14,7 @@ if(!preg_match("[^A-Za-z0-9]",$name) && !preg_match("[^A-Za-z0-9]",$password)){
 	//Ejecutamos la petición al servidor
 	$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
 	while ($b= mysqli_fetch_array($resultado)){
-		if (($b['nombre']==$name)){
+		if ((strtolower($b['nombre'])==$name)){
 			$encontrado = 1;
 			break;
 		}
