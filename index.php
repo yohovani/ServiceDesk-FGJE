@@ -395,7 +395,7 @@
 	</div>";
 	
 		echo"<br><center><button class='btn btn-info btn-lg' type='button' data-tooltip='tooltip' title='Click Aqui Para Descargar el Manual de usuario del sistema'>							
-								<a style='color:white' href='/ServiceDesk/Manual.pdf'>Manual de usuario</a>
+								<a style='color:white' href='Manual.pdf' download='Manual'>Manual de usuario</a>
 							</button></center><br>";
 		echo"<center><button class='btn btn-info btn-lg' type='button' data-tooltip='tooltip' title='Preguntas y soluciones frecuentes'>
 		<a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>Preguntas Frecuentes</a>
