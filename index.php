@@ -1004,8 +1004,8 @@
 								</div>
 								<div class='panel-body'>
 									<p><strong>Fecha: </strong> ".$b['fecha']."</p>
-									<p><strong>Planeaci&oacute;n: </strong> ".$b['descripcionSrv']."</p>
-									<p><strong>Planeaci&oacute;n: </strong> ".$b['descripcionEquipo']."</p>";
+									<p><strong>Descripci&oacute;n: </strong> ".$b['descripcionSrv']."</p>
+									<p><strong>Equipo: </strong> ".$b['descripcionEquipo']."</p>";
 									if($b['finalizado'] == false){
 										echo "<p style='background-color:red;'><strong>Estatus: </strong> No Finalizado</p>";
 									}else{
