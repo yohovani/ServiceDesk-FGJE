@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link rel="shortcut icon" href="img/logoSD.png">
 		<title>FGJE Unidad de Inform&aacute;tica</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,7 @@
 		<script src="scripts.js"></script>
 	</head>
 	<body>
-		<nav class="navbar" style="background-color:#494983;">
+		<nav class="navbar" style="background-color:#212650;">
 			<?php
 				session_start();
 				if(isset($_SESSION['admin'])){
@@ -387,10 +388,19 @@
 				</a>
 
 			</div>
-			<h1><strong style='color: black;'>Bienvenidos</strong></h1>
+			<h1><strong style='color: black;'>Centro de atenci&oacute;n al usuario de la Coordinaci&oacute;n de Inform&aacute;tica</strong></h1>
+			<h1>Fiscal&iacute;a General de Justicia del Estado de Zacatecas</h1>
+			<h5>Te damos la bienvenida a este punto de contacto con el departamento de soporte t&eacute;cnico</h5>
 		</div>
 	</div>";
-		echo"<center><a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>preguntas frecuentes</a></center>";
+	
+		echo"<br><center><button class='btn btn-info btn-lg' type='button' data-tooltip='tooltip' title='Click Aqui Para Descargar el Manual de usuario del sistema'>							
+								<a style='color:white' href='/ServiceDesk/Manual.pdf'>Manual de usuario</a>
+							</button></center><br>";
+		echo"<center><button class='btn btn-info btn-lg' type='button' data-tooltip='tooltip' title='Preguntas y soluciones frecuentes'>
+		<a data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver las preguntas mas frecuentes' data-target='#preguntasYrespuestas' name='verPreguntas y respuestas'>Preguntas Frecuentes</a>
+		</button>
+		</center><br>";
 	}
 	?>
 		
@@ -1387,7 +1397,7 @@
                 $('[data-tooltip=tooltip]').tooltip();   
             });
         </script>
-		<footer class="container-fluid text-center" style="background-color:gold">
+		<footer class="container-fluid text-center" style="background-color:#ad8a3e">
 			<p style='color:white'>WebDesign By Servicio Social</p>
 		</footer>
 	</body>

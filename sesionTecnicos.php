@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link rel="shortcut icon" href="img/logo.png">
 		<title>FGJE Unidad de Inform&aacute;tica</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +13,7 @@
 	</head>
 	<body>
 		
-		<nav class="navbar" style="background-color:#494983;">
+		<nav class="navbar" style="background-color:#212650;">
 
 			<?php
 				session_start();
@@ -66,7 +67,7 @@
 					</div>
 				</div>
 			</div>
-<footer class="container-fluid text-center" style="background-color:gold;">
+<footer class="container-fluid text-center" style="background-color:#ad8a3e;">
   <p style='color:white'>WebDesign By Servicio Social</p>
 </footer>
 
