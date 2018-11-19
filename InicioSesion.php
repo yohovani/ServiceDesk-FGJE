@@ -19,7 +19,7 @@ function inicioSesionUsuario(){
 	if(!preg_match("[^A-Za-z0-9]",$name)){
 		//Utilizamos el procedimiento almacenado para SeleccinarUsuario para validar que el registro se haya echo de manera exitosa
 		//El resultado del procedimiento almacenado lo almacenamos en la variable $user
-		$user = 
+		$encontrado = 0;
 		$user = "SELECT * FROM `usuarios` WHERE lower(`usuario`) = lower('".$name."')";
 		//Ejecutamos la petición al servidor
 		$resultado = mysqli_query($conexion,$user) or die(mysqli_error($conexion));
@@ -58,7 +58,148 @@ function inicioSesionUsuario(){
 			//Redireccionamos al index con la sesión ya iniciada
 			header('Location: index.php');
 		}else{
-			header('Location: index.php');
+			echo '<!DOCTYPE html>
+					<html lang="en">
+					<head>
+						<link rel="shortcut icon" href="img/logo.png">
+						<title>FGJE Unidad de Inform&aacute;tica</title>
+						<meta charset="utf-8">
+						<meta name="viewport" content="width=device-width, initial-scale=1">
+						<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+						<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+						<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+						<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+						<script src="scripts.js"></script>
+					</head>
+				<body>
+					<nav class="navbar" style="background-color:#212650;">';
+					echo "<strong style='color: white;'>FGJE - Visitante</strong>"
+			. "</nav>";
+				echo '<div class="container" id="collapsibleNavbar3">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Usuario no encontrado</h4>
+						</div>
+						<div class="modal-body">
+						<div class="alert alert-danger ">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<h5>El usuario: <strong>'.$_POST['user'].'</strong> no se encuentra registrado intenta con un usuario diferente o bien registrate para acceder</h5>
+			</div>
+							
+							<div id="sesion">
+				
+						<form class="form-horizontal" action="InicioSesion.php" method="post">
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Usuario:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
+								</div>
+							</div>
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit"  class="btn btn-default">Iniciar Sesi&oacute;n</button>
+								</div>
+								<br>
+								<div class="col-sm-offset-2 col-sm-10">
+									<button class="btn btn-default" type="button" data-toggle="modal" data-tooltip="tooltip" data-placement="bottom" title="Click Aqui Para Registrarte" data-target="#registro">
+										Registrarse
+									</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="container-fluid text-center" style="background-color:#ad8a3e;">
+				  <p style="color:white">WebDesign By Servicio Social</p>
+			</footer>
+
+		</body>
+		</html>';
+				
+				echo '		<!-- Modal para Registrarse Usuarios Comunes-->
+		<div class="modal fade" id="registro">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Registro</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" action="registro.php" method="post">
+							<!- Area->
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Area:</label>
+								<div class="col-sm-10" id="areasUsuario">
+									<select class="form-control" name="area" id="area" onchange="areas()">';
+										
+											include "conexion.php";
+											$i;
+											//Utilizamos el metodo almacenado para seleccionar las areas
+											$mysqli = "Call SelectAreas()";
+											//Ejecutamos la petición al servidor
+											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<option value='".$area["idArea"]."' size>".utf8_encode($area["nombre"])."</option>";
+												$i=$area["idArea"];
+											}
+											while ($area= mysqli_fetch_array($resultado)){
+												echo "<label> ".($area["nombre"])."</label>";
+											}
+											echo "<option value='Otro' size>Otro</option>";
+										
+									echo '</select>
+									<div id="agregarAreas" hidden="true">
+										<label>Agregue su Area:</label>
+										<input type="text" id="newArea" name="newArea" class="form-control" placeholder="¿Cual es su area?">
+										<button  class="btn btn-default" onclick="addArea()">Agregar</button>
+									</div>
+								</div>
+							</div>
+							<!- Nombre->
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Nombre:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre" >
+								</div>
+							</div>
+							<!- Apellidos->
+							<div class="form-group">
+								<label class="control-label col-sm-2" >Apellidos:</label>
+								<div class="col-sm-10">
+									<input type="text" required class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onkeyup="nameUser()">
+								</div>
+							</div>
+							<!- Usuario->
+							<div class="form-group">
+								<label class="control-label col-sm-2" id="usuario" >Usuario:</label>
+								<div id="resultadoNombreUsuario">
+								</div>
+
+							</div>
+							
+							<!-Botón enviar->
+							<div class="form-group"> 
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-default">Enviar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+			</div>
+				</div>
+			</div>
+		</div>';
 		}
 	}
 }
