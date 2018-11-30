@@ -50,9 +50,6 @@
 							</button>
 							<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' title='Click Aqui Para Generar Archivo de Excel' data-target='#excel'>
 								Generar Excel
-							</button>
-							<button style='color:white' class='navbar-toggler' type='button' data-tooltip='tooltip' title='Click Aqui Para Descargar el Archivo de excel con los datos existentes en la BD'>							
-								<a style='color:white' href='/ServiceDesk/ServiceDesk.xlsx'>Descargar Archivo Excel</a>
 							</button>";
 						}
 					}

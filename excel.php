@@ -130,7 +130,7 @@
 			}
 		}
 		if($flagArea){
-			$nombreArea[count($nombreArea)-1]+=1;
+	//		$nombreArea[count($nombreArea)-1]+=1;
 		}
 		
 		if ($b['finalizado'] == true) {
@@ -368,7 +368,6 @@
 	$objExcel->getActiveSheet()->setCellValue('A11','Departamento');
 	$objExcel->getActiveSheet()->setCellValue('B11','Cantidad');
 	
-	
 	$SQLreportes = "CALL selectAreas()";
 	
 	mysqli_free_result($resultado);
@@ -502,12 +501,19 @@
 	$objExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 	$objExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 	$objExcel->setActiveSheetIndex(0);
+//	
+//	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
+//	$objWriter->setIncludeCharts(true);
+//	$objWriter->save("ServiceDesk.xlsx");
 	
-	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
-	$objWriter->setIncludeCharts(true);
-	$objWriter->save("ServiceDesk.xlsx");
-	
-	header('Location: index.php');
+	header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	header('Content-Disposition: attachment;filename="ServiceDesk.xlsx"');
+	header('Cache-Control: max-age=0');
+//	
+	$objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+	$objWriter->save('php://output');
+//	$objWriter->save("ServiceDesk.xlsx");
+//	header('Location: index.php');
 //	echo'<script type="text/javascript">
 //		alert("Click en Aceptar para descargar el archivo");
 //		window.location.href="ServiceDesk.xlsx";
