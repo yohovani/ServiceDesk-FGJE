@@ -11,7 +11,7 @@ $hora_inicio = date("H:i:s");
 
 //Verificamos con la función preg_match que el nombre solo contenga letras y no caracteres especiales 
 if(!preg_match("[A-Za-z]", $area) && !preg_match("[A-Za-z]", $tipo) && !preg_match("[A-Za-z]", $descripcion)){
-	$sqlFalla = "CALL RegistrarFalla('".$fecha."','".$hora_inicio."','".$tipo."','".$descripcion."','".$area."')";
+	$sqlFalla = "CALL RegistrarFalla('".$fecha."','".$hora_inicio."','".$tipo."','".$descripcion."')";
 	$resultado = mysqli_query($conexion,$sqlFalla) or die(mysqli_error($conexion));
 	//Liberamos el buffer generado por la consulta sql
 	mysqli_free_result($resultado);
@@ -23,6 +23,13 @@ if(!preg_match("[A-Za-z]", $area) && !preg_match("[A-Za-z]", $tipo) && !preg_mat
 	while($b= mysqli_fetch_array($resultado)){
 		$id = $b['idServicios'];
 	}
+	//Liberamos el buffer generado por la consulta sql
+	mysqli_free_result($resultado);
+	mysqli_close($conexion);
+	unset($resultado,$conexion);
+	include "conexion.php";
+	$sqlRelacionServicioArea = "CALL RelacionServicioArea('".$id."','".$_SESSION['idArea']."')";
+	$resultado = mysqli_query($conexion,$sqlRelacionServicioArea) or die(mysqli_error($conexion));
 	//Liberamos el buffer generado por la consulta sql
 	mysqli_free_result($resultado);
 	mysqli_close($conexion);

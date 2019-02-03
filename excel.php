@@ -124,7 +124,7 @@
 		$objExcel->getActiveSheet()->setCellValue('H'.$i,$b['ubicacion']);
 		$flagArea = true;
 		for($x=0;$x<count($nombreArea)-1;$x++){
-			if(utf8_encode($b['ubicacion']) == $nombreArea[$x]){
+			if(utf8_encode($b['area']) == $nombreArea[$x]){
 				$numAreas[$x]+=1;
 				$flagArea = false;
 			}

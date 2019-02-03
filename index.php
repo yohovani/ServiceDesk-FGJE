@@ -735,7 +735,7 @@
 									<div class='form-group'>
 										<label class='control-label col-sm-2' >Area:</label>
 										<div class='col-sm-10'>
-											<input type='text' class='form-control' name='area' placeholder='Area' value='".$_SESSION['area']."' required id='nombre'>
+											<input type='text' class='form-control' name='area' placeholder='Area' value='".  utf8_encode($_SESSION['area'])."' required id='nombre'>
 										</div>
 									</div>
 									<!- Tipo de problema->
