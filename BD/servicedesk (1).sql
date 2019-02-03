@@ -425,9 +425,6 @@ CREATE TABLE `servicios` (
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`idServicios`, `fecha`, `fecha_fin`, `horaInicio`, `horaFin`, `tipoServicio`, `descripcion`, `finalizado`, `finalizadoTecnico`, `solucion`, `mostrar`) VALUES
-(1, '2019-02-03', NULL, '15:11:20', NULL, 'Internet', 'test', 0, 0, '', 0),
-(2, '2019-02-03', NULL, '15:22:41', NULL, 'Impresora', 'test', 0, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -440,12 +437,6 @@ CREATE TABLE `serviciostecnicos` (
   `fk_idTecnicos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `serviciostecnicos`
---
-
-INSERT INTO `serviciostecnicos` (`fk_idServicios`, `fk_idTecnicos`) VALUES
-(2, 2);
 
 -- --------------------------------------------------------
 
@@ -458,13 +449,6 @@ CREATE TABLE `serviciosusuarios` (
   `fk_idUsuarios` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `serviciosusuarios`
---
-
-INSERT INTO `serviciosusuarios` (`fk_idServicios`, `fk_idUsuarios`) VALUES
-(1, 1),
-(2, 1);
 
 -- --------------------------------------------------------
 
@@ -485,8 +469,7 @@ CREATE TABLE `tecnicos` (
 --
 
 INSERT INTO `tecnicos` (`idTecnicos`, `nombre`, `password`, `admin`, `recepcion`) VALUES
-(1, 'admin', 'admin', 1, 0),
-(2, 'yoho', '12345', 0, 0);
+(1, 'admin', 'admin', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -501,12 +484,6 @@ CREATE TABLE `usuarios` (
   `usuario` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`idUsuarios`, `nombre`, `apellidos`, `usuario`) VALUES
-(1, 'Yohovani', 'VArgas', 'yohvargas');
 
 --
 -- Índices para tablas volcadas
@@ -654,19 +631,19 @@ ALTER TABLE `prestamos`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idServicios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `idTecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idTecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUsuarios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- Restricciones para tablas volcadas
