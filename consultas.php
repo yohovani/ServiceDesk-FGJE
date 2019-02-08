@@ -62,7 +62,7 @@ function verReportes(){
 					<td>".$b['horaFin']."</td>
 					<td>".$b['tipoServicio']."</td>
 					<td>".$b['descripcion']."</td>
-					<td>".$b['ubicacion']."</td>
+					<td>".$b['area']."</td>
 					<td>".$b['nombre']."</td>
 					<td bgcolor='#FD8A00'>No</td>
 				";

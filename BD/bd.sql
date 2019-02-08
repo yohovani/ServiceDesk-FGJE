@@ -163,7 +163,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectPrestamosNoFinalizados` ()  R
 SELECT p.idPrestamo,p.fechaActual,p.descripcion,p.motivo,u.usuario,a.nombre FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areausuarios au INNER JOIN areas a ON p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = pu.fk_idUsuarios AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE `entregado` = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectRegistrosServicios` ()  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE 1 ORDER BY s.idServicios;
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND sa.fk_idServicio = s.idServicios AND sa.fk_idArea = a.idArea WHERE 1 ORDER BY s.idServicios;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosNoFinalizados` ()  NO SQL
 SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.finalizado = 0 ORDER BY s.idServicios;
@@ -193,7 +193,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectTecnicoServicio` (IN `id` INT
 SELECT t.nombre FROM tecnicos t INNER JOIN servicios s INNER JOIN serviciostecnicos st ON st.fk_idServicios = s.idServicios AND st.fk_idTecnicos = t.idTecnicos WHERE s.idServicios = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectUsuarios` ()  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN servicioarea sa INNER JOIN areausuarios au ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea AND au.fk_idUsuario = u.idUsuarios AND a.idArea = au.fk_idArea WHERE u.idUsuarios = idUsuario AND s.finalizado = 0;
+SELECT u.idUsuarios,u.nombre,u.apellidos,u.usuario,a.nombre as area FROM `usuarios` u INNER JOIN areas a INNER JOIN areausuarios au ON au.fk_idUsuario = u.idUsuarios AND au.fk_idArea = a.idArea WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `servicioNoFinalizado` (IN `id` INT(10))  MODIFIES SQL DATA
 UPDATE `servicios` SET `mostrar`=false, `finalizadoTecnico`=false WHERE `idServicios` = id;
