@@ -21,8 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `servicedesk`
 --
-CREATE DATABASE IF NOT EXISTS servicedesk;
-USE servicedesk;
+CREATE DATABASE IF NOT EXISTS test;
+USE test;
 
 
 DELIMITER ;
