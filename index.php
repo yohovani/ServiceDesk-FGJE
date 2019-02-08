@@ -933,7 +933,7 @@
 								<div class='panel-body'>
 									<p><strong>Fecha: </strong> ".$b['fecha']."</p>
 									<p><strong>Descripci&oacute;n</strong> ".$b['descripcion']."</p>
-									<p><strong>Area: </strong> ".$b['ubicacion']."</p>
+									<p><strong>Area: </strong> ".$b['area']."</p>
 									<p><strong>Estatus: </strong>No Finalizado</p>";
 									$idRegistro = $b['idServicios'];
 					echo "</div>
@@ -1056,7 +1056,7 @@
 					$registros = "CALL SelectServiciosNoFinalizados()";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}else{
-					$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado,s.solucion FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE s.finalizado = 0 AND t.idTecnicos = '".$_SESSION['idUser']."' AND s.mostrar = false ORDER BY s.idServicios";
+					$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,t.nombre,s.finalizado,s.solucion,a.nombre as area FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND sa.fk_idServicio = s.idServicios AND sa.fk_idArea = a.idArea WHERE s.finalizado = 0 AND t.idTecnicos = '".$_SESSION['idUser']."' AND s.mostrar = false ORDER BY s.idServicios";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}
 				echo "<div class='text-center'>
@@ -1098,7 +1098,7 @@
 							<td>".$b['horaFin']."</td>
 							<td>".$b['tipoServicio']."</td>
 							<td>".$b['descripcion']."</td>
-							<td>".$b['ubicacion']."</td>
+							<td>".$b['area']."</td>
 							<td>";
 								mysqli_close($conexion);
 								unset($conexion);

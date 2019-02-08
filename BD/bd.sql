@@ -22,181 +22,181 @@ SET time_zone = "+00:00";
 -- Base de datos: `sdf`
 --
 
-DELIMITER $$
+DELIMITER ;
 --
 -- Procedimientos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cambiarAdmin` (IN `idTecnico` INT(10), IN `cambio` BOOLEAN)  MODIFIES SQL DATA
-UPDATE `tecnicos` SET `admin`=cambio WHERE tecnicos.idTecnicos = idTecnico$$
+UPDATE `tecnicos` SET `admin`=cambio WHERE tecnicos.idTecnicos = idTecnico;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cambiarRecepcion` (IN `idTecnico` INT(10), IN `cambio` BOOLEAN)  MODIFIES SQL DATA
-UPDATE `tecnicos` SET `recepcion`=cambio WHERE tecnicos.idTecnicos = idTecnico$$
+UPDATE `tecnicos` SET `recepcion`=cambio WHERE tecnicos.idTecnicos = idTecnico;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `entregarEquipo` (IN `fecha` DATE, IN `id` INT)  MODIFIES SQL DATA
-UPDATE `equipo` SET `fechaEntrega`= fecha ,`entregado`= true WHERE `idEquipo` = id$$
+UPDATE `equipo` SET `fechaEntrega`= fecha ,`entregado`= true WHERE `idEquipo` = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `finalizarCompra` (IN `idCompra` INT(10))  MODIFIES SQL DATA
-UPDATE `compras` SET `resuelto`= true WHERE `idCompras` = idCompra$$
+UPDATE `compras` SET `resuelto`= true WHERE `idCompras` = idCompra;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `finalizarEquipo` (IN `id` INT(10))  NO SQL
-UPDATE `equipo` SET `finalizado`= true WHERE `idEquipo` = id$$
+UPDATE `equipo` SET `finalizado`= true WHERE `idEquipo` = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `FinalizarPrestamo` (IN `idP` INT(10), IN `fecha` DATE)  MODIFIES SQL DATA
-UPDATE `prestamos` SET `fechaEntrega` = fecha,`entregado`= true WHERE `idPrestamo` = idP$$
+UPDATE `prestamos` SET `fechaEntrega` = fecha,`entregado`= true WHERE `idPrestamo` = idP;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `FinalizarServicio` (IN `idS` INT(10), IN `hf` TIME, IN `ff` DATE)  MODIFIES SQL DATA
-UPDATE `servicios` SET `fecha_fin` = ff,`horaFin`= hf ,`finalizado`=  1 WHERE  `idServicios` = idS$$
+UPDATE `servicios` SET `fecha_fin` = ff,`horaFin`= hf ,`finalizado`=  1 WHERE  `idServicios` = idS;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarAreaUsuarios` (IN `idUsuario` INT(10), IN `idArea` INT(10))  MODIFIES SQL DATA
-INSERT INTO `areausuarios`(`fk_idUsuario`, `fk_idArea`) VALUES (idUsuario,idArea)$$
+INSERT INTO `areausuarios`(`fk_idUsuario`, `fk_idArea`) VALUES (idUsuario,idArea);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarCompra` (IN `fecha` DATE, IN `area` VARCHAR(100), IN `articulo` VARCHAR(200), IN `dictamen` VARCHAR(200), IN `planeacion` VARCHAR(200))  MODIFIES SQL DATA
-INSERT INTO `compras`(`fecha`, `area`, `articulo`, `dictamen`, `planeacion`, `resuelto`) VALUES (fecha,area,articulo,dictamen,planeacion,false)$$
+INSERT INTO `compras`(`fecha`, `area`, `articulo`, `dictamen`, `planeacion`, `resuelto`) VALUES (fecha,area,articulo,dictamen,planeacion,false);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarEquipo` (IN `fecha` DATE, IN `area` VARCHAR(100), IN `movil` VARCHAR(100), IN `servicio` VARCHAR(100), IN `equipo` VARCHAR(150))  MODIFIES SQL DATA
-INSERT INTO `equipo`(`fecha`, `area`, `extencionMovil`, `descripcionSrv`, `descripcionEquipo`, `finalizado`, `entregado`) VALUES (fecha,area,movil,servicio,equipo,false,false)$$
+INSERT INTO `equipo`(`fecha`, `area`, `extencionMovil`, `descripcionSrv`, `descripcionEquipo`, `finalizado`, `entregado`) VALUES (fecha,area,movil,servicio,equipo,false,false);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarFalla` (IN `fecha` VARCHAR(20), IN `hi` TIME, IN `tipo` VARCHAR(50), IN `descripcion` VARCHAR(100))  MODIFIES SQL DATA
-INSERT INTO `servicios`(`fecha`, `horaInicio`, `tipoServicio`, `descripcion`, `finalizado`) VALUES (fecha,hi,tipo,descripcion,false)$$
+INSERT INTO `servicios`(`fecha`, `horaInicio`, `tipoServicio`, `descripcion`, `finalizado`) VALUES (fecha,hi,tipo,descripcion,false);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarPrestamo` (IN `fecha` DATE, IN `descripcion` VARCHAR(200), IN `mot` VARCHAR(200))  MODIFIES SQL DATA
-INSERT INTO `prestamos`(`fechaActual`, `descripcion`, `motivo`,`entregado`) VALUES (fecha,descripcion,mot,false)$$
+INSERT INTO `prestamos`(`fechaActual`, `descripcion`, `motivo`,`entregado`) VALUES (fecha,descripcion,mot,false);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarTecnico` (IN `name` VARCHAR(50), IN `pass` VARCHAR(50))  NO SQL
-INSERT INTO `tecnicos`(`nombre`, `password`, `admin`) VALUES (name,pass,false)$$
+INSERT INTO `tecnicos`(`nombre`, `password`, `admin`) VALUES (name,pass,false);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarUsuario` (IN `name` VARCHAR(50), IN `ap` VARCHAR(50), IN `usuario` VARCHAR(50))  MODIFIES SQL DATA
-INSERT INTO `usuarios`(nombre, apellidos, usuario) VALUES (name,ap,usuario)$$
+INSERT INTO `usuarios`(nombre, apellidos, usuario) VALUES (name,ap,usuario);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionComprasUsuarios` (IN `idUser` INT(10), IN `idCompra` INT(10))  MODIFIES SQL DATA
-INSERT INTO `comprasusuarios`(`fk_idCompras`, `fk_idUsuarios`) VALUES (idCompra,idUser)$$
+INSERT INTO `comprasusuarios`(`fk_idCompras`, `fk_idUsuarios`) VALUES (idCompra,idUser);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `relacionEquiposTecnicos` (IN `idEquipo` INT(10), IN `idTecnico` INT(10))  MODIFIES SQL DATA
-INSERT INTO `equipotecnicos`(`fk_idEquipo`, `ifk_dTecnico`) VALUES (idEquipo,idTecnico)$$
+INSERT INTO `equipotecnicos`(`fk_idEquipo`, `ifk_dTecnico`) VALUES (idEquipo,idTecnico);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionEquipoUsuarios` (IN `idEquipo` INT(10), IN `idUsuario` INT(10))  READS SQL DATA
-INSERT INTO `equipousuarios`(`fk_idEquipo`, `fk_idUsuarios`) VALUES (idEquipo,idUsuario)$$
+INSERT INTO `equipousuarios`(`fk_idEquipo`, `fk_idUsuarios`) VALUES (idEquipo,idUsuario);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionPrestamosUsuarios` (IN `idUser` INT(10), IN `idPrestamo` INT(10))  MODIFIES SQL DATA
-INSERT INTO `prestamosusuarios`(`fk_idUsuarios`, `fk_idPrestamos`) VALUES (idUser,idPrestamo)$$
+INSERT INTO `prestamosusuarios`(`fk_idUsuarios`, `fk_idPrestamos`) VALUES (idUser,idPrestamo);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionServicioArea` (IN `idServicio` INT(11), IN `idArea` INT(11))  MODIFIES SQL DATA
-INSERT INTO `servicioarea`(`fk_idServicio`, `fk_idArea`) VALUES (idServicio,idArea)$$
+INSERT INTO `servicioarea`(`fk_idServicio`, `fk_idArea`) VALUES (idServicio,idArea);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionServiciosTecnicos` (IN `idServicio` INT(10), IN `idTecnico` INT(10))  MODIFIES SQL DATA
-INSERT INTO `serviciostecnicos`(`fk_idServicios`, `fk_idTecnicos`) VALUES (idServicio,idTecnico)$$
+INSERT INTO `serviciostecnicos`(`fk_idServicios`, `fk_idTecnicos`) VALUES (idServicio,idTecnico);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RelacionServiciosUsuarios` (IN `idUsuario` INT(10), IN `idServicio` INT(10))  MODIFIES SQL DATA
-INSERT INTO `serviciosusuarios`(`fk_idServicios`, `fk_idUsuarios`) VALUES (idServicio,idUsuario)$$
+INSERT INTO `serviciosusuarios`(`fk_idServicios`, `fk_idUsuarios`) VALUES (idServicio,idUsuario);
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarFallas` ()  READS SQL DATA
-SELECT * FROM servicios WHERE 1$$
+SELECT * FROM servicios WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarTecnico` (IN `name` VARCHAR(50), IN `pass` VARCHAR(50))  READS SQL DATA
-SELECT * FROM `tecnicos` WHERE name = `nombre` AND pass = `password`$$
+SELECT * FROM `tecnicos` WHERE name = `nombre` AND pass = `password`;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarTecnicoFalla` ()  READS SQL DATA
-SELECT * FROM `tecnicos` WHERE 1 ORDER BY RAND()$$
+SELECT * FROM `tecnicos` WHERE 1 ORDER BY RAND();
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SeleccionarUsuario` (IN `name` VARCHAR(50))  READS SQL DATA
-SELECT * FROM `usuarios` WHERE name = `usuario`$$
+SELECT * FROM `usuarios` WHERE name = `usuario`;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectAreas` ()  READS SQL DATA
-SELECT * FROM areas$$
+SELECT * FROM areas;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectAreaUsuario` (IN `id` INT(10))  NO SQL
-SELECT a.nombre,a.idArea FROM areas a INNER JOIN usuarios u INNER JOIN areausuarios au ON au.fk_idUsuario = u.idUsuarios AND au.fk_idArea = a.idArea WHERE u.idUsuarios = id$$
+SELECT a.nombre,a.idArea FROM areas a INNER JOIN usuarios u INNER JOIN areausuarios au ON au.fk_idUsuario = u.idUsuarios AND au.fk_idArea = a.idArea WHERE u.idUsuarios = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectCompras` ()  READS SQL DATA
-SELECT * FROM compras WHERE 1$$
+SELECT * FROM compras WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectComprasAdmin` ()  READS SQL DATA
-Select c.*,u.usuario FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON cu.fk_idCompras = c.idCompras AND cu.fk_idUsuarios = u.idUsuarios WHERE 1$$
+Select c.*,u.usuario FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON cu.fk_idCompras = c.idCompras AND cu.fk_idUsuarios = u.idUsuarios WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectComprasExcel` ()  READS SQL DATA
-SELECT c.*,u.usuario FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON c.idCompras = cu.fk_idCompras AND u.idUsuarios = cu.fk_idUsuarios WHERE 1$$
+SELECT c.*,u.usuario FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON c.idCompras = cu.fk_idCompras AND u.idUsuarios = cu.fk_idUsuarios WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectComprasNoFinalizadas` ()  READS SQL DATA
-SELECT c.idCompras,c.fecha,u.usuario,c.area,c.articulo,c.dictamen,c.planeacion FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON cu.fk_idCompras = c.idCompras AND cu.fk_idUsuarios = u.idUsuarios WHERE c.resuelto = false$$
+SELECT c.idCompras,c.fecha,u.usuario,c.area,c.articulo,c.dictamen,c.planeacion FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON cu.fk_idCompras = c.idCompras AND cu.fk_idUsuarios = u.idUsuarios WHERE c.resuelto = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectComprasUsuario` (IN `userid` INT(10))  READS SQL DATA
-SELECT c.idCompras,c.fecha,c.articulo,c.planeacion FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON c.idCompras = cu.fk_idCompras AND u.idUsuarios = cu.fk_idUsuarios WHERE u.idUsuarios = userid AND c.resuelto = false$$
+SELECT c.idCompras,c.fecha,c.articulo,c.planeacion FROM compras c INNER JOIN usuarios u INNER JOIN comprasusuarios cu ON c.idCompras = cu.fk_idCompras AND u.idUsuarios = cu.fk_idUsuarios WHERE u.idUsuarios = userid AND c.resuelto = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectEquipoAdmin` ()  READS SQL DATA
-SELECT e.*,u.usuario,t.nombre FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et INNER JOIN usuarios u INNER JOIN equipousuarios eu ON eu.fk_idEquipo = e.idEquipo AND eu.fk_idUsuarios = u.idUsuarios AND et.fk_idEquipo = e.idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE 1$$
+SELECT e.*,u.usuario,t.nombre FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et INNER JOIN usuarios u INNER JOIN equipousuarios eu ON eu.fk_idEquipo = e.idEquipo AND eu.fk_idUsuarios = u.idUsuarios AND et.fk_idEquipo = e.idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectEquipoExcel` ()  READS SQL DATA
-SELECT e.*,u.usuario,t.nombre FROM equipo e INNER JOIN usuarios u INNER JOIN equipousuarios eu INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON u.idUsuarios = eu.fk_idUsuarios AND e.idEquipo = eu.fk_idEquipo AND et.fk_idEquipo = e.idEquipo AND t.idTecnicos = et.ifk_dTecnico WHERE 1$$
+SELECT e.*,u.usuario,t.nombre FROM equipo e INNER JOIN usuarios u INNER JOIN equipousuarios eu INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON u.idUsuarios = eu.fk_idUsuarios AND e.idEquipo = eu.fk_idEquipo AND et.fk_idEquipo = e.idEquipo AND t.idTecnicos = et.ifk_dTecnico WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectEquipoNoEntregado` ()  READS SQL DATA
-SELECT e.idEquipo,e.fecha,u.usuario,e.area,e.extencionMovil,e.descripcionSrv,e.descripcionEquipo,e.finalizado FROM equipo e INNER JOIN usuarios u INNER JOIN equipousuarios eu ON e.idEquipo = eu.fk_idEquipo AND u.idUsuarios = eu.fk_idUsuarios WHERE entregado = false$$
+SELECT e.idEquipo,e.fecha,u.usuario,e.area,e.extencionMovil,e.descripcionSrv,e.descripcionEquipo,e.finalizado FROM equipo e INNER JOIN usuarios u INNER JOIN equipousuarios eu ON e.idEquipo = eu.fk_idEquipo AND u.idUsuarios = eu.fk_idUsuarios WHERE entregado = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectEquipos` ()  READS SQL DATA
-SELECT * FROM equipo WHERE 1$$
+SELECT * FROM equipo WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectEquipoTecnicoIndividual` (IN `id` INT(10))  READS SQL DATA
-SELECT e.idEquipo,e.fecha,e.area,e.extencionMovil,e.descripcionSrv,e.descripcionEquipo,e.finalizado FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON et.fk_idEquipo = e.idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE e.finalizado = false AND t.idTecnicos = id$$
+SELECT e.idEquipo,e.fecha,e.area,e.extencionMovil,e.descripcionSrv,e.descripcionEquipo,e.finalizado FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON et.fk_idEquipo = e.idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE e.finalizado = false AND t.idTecnicos = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectEquipoUsuario` (IN `idUser` INT(10))  READS SQL DATA
 SELECT e.idEquipo,e.fecha,e.descripcionSrv,e.descripcionEquipo,e.finalizado FROM equipo e INNER JOIN usuarios u INNER JOIN equipousuarios eu ON eu.fk_idEquipo = e.idEquipo AND eu.fk_idUsuarios = u.idUsuarios
- WHERE e.entregado = false AND u.idUsuarios = idUser$$
+ WHERE e.entregado = false AND u.idUsuarios = idUser;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectIdArea` (IN `area` VARCHAR(200))  READS SQL DATA
-SELECT areas.idArea FROM areas WHERE areas.nombre = area$$
+SELECT areas.idArea FROM areas WHERE areas.nombre = area;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectOnlyTecnicos` ()  READS SQL DATA
-SELECT t.idTecnicos, t.nombre FROM tecnicos t WHERE t.admin =false and t.recepcion = false$$
+SELECT t.idTecnicos, t.nombre FROM tecnicos t WHERE t.admin =false and t.recepcion = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectPrestamos` ()  READS SQL DATA
-SELECT * FROM `prestamos` WHERE 1$$
+SELECT * FROM `prestamos` WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectPrestamosAdmin` ()  READS SQL DATA
-SELECT p.*,u.nombre,a.nombre as area FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areas a INNER JOIN areausuarios au ON u.idUsuarios = pu.fk_idUsuarios AND p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = au.fk_idUsuario AND a.idArea = au.fk_idArea WHERE 1$$
+SELECT p.*,u.nombre,a.nombre as area FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areas a INNER JOIN areausuarios au ON u.idUsuarios = pu.fk_idUsuarios AND p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = au.fk_idUsuario AND a.idArea = au.fk_idArea WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectPrestamosExcel` ()  READS SQL DATA
-SELECT p.*,u.nombre,a.nombre AS area FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areas a INNER JOIN areausuarios au ON pu.fk_idUsuarios = u.idUsuarios AND pu.fk_idPrestamos = p.idPrestamo AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE 1$$
+SELECT p.*,u.nombre,a.nombre AS area FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areas a INNER JOIN areausuarios au ON pu.fk_idUsuarios = u.idUsuarios AND pu.fk_idPrestamos = p.idPrestamo AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectPrestamosIndividuales` (IN `idUser` INT(10))  READS SQL DATA
-SELECT p.idPrestamo,p.fechaActual,p.descripcion,p.motivo,u.usuario,a.nombre FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areausuarios au INNER JOIN areas a ON p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = pu.fk_idUsuarios AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE `entregado` = false and u.idUsuarios = idUser$$
+SELECT p.idPrestamo,p.fechaActual,p.descripcion,p.motivo,u.usuario,a.nombre FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areausuarios au INNER JOIN areas a ON p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = pu.fk_idUsuarios AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE `entregado` = false and u.idUsuarios = idUser;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectPrestamosNoFinalizados` ()  READS SQL DATA
-SELECT p.idPrestamo,p.fechaActual,p.descripcion,p.motivo,u.usuario,a.nombre FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areausuarios au INNER JOIN areas a ON p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = pu.fk_idUsuarios AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE `entregado` = false$$
+SELECT p.idPrestamo,p.fechaActual,p.descripcion,p.motivo,u.usuario,a.nombre FROM prestamos p INNER JOIN usuarios u INNER JOIN prestamosusuarios pu INNER JOIN areausuarios au INNER JOIN areas a ON p.idPrestamo = pu.fk_idPrestamos AND u.idUsuarios = pu.fk_idUsuarios AND a.idArea = au.fk_idArea AND u.idUsuarios = au.fk_idUsuario WHERE `entregado` = false;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectRegistrosServicios` ()  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE 1 ORDER BY s.idServicios$$
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos WHERE 1 ORDER BY s.idServicios;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosNoFinalizados` ()  NO SQL
-SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado,a.nombre FROM servicios s INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.finalizado = 0 ORDER BY s.idServicios$$
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.finalizado = 0 ORDER BY s.idServicios;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosNoFinalizadosIndividuales` (IN `idTec` INT(10))  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado,s.solucion FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND sa.fk_idServicio = s.idServicios AND sa.fk_idArea = a.idArea WHERE s.finalizado = 0 AND t.idTecnicos = idTec AND s.mostrar = false ORDER BY s.idServicios$$
+SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,t.nombre,s.finalizado,s.solucion FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND sa.fk_idServicio = s.idServicios AND sa.fk_idArea = a.idArea WHERE s.finalizado = 0 AND t.idTecnicos = idTec AND s.mostrar = false ORDER BY s.idServicios;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectServiciosNotify` (IN `idUser` INT(100))  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios WHERE u.idUsuarios = idUser AND s.finalizado = 0 AND s.mostrar = true$$
+SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN areausuarios au ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND a.idArea = au.fk_idArea AND s.idServicios = au.fk_idUsuario WHERE u.idUsuarios = idUser AND s.finalizado = 0 AND s.mostrar = true;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectServiciosUsuario` (IN `idUsuario` INT(10))  READS SQL DATA
-SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado,a.nombre FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN servicioarea sa ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE u.idUsuarios = idUsuario AND s.finalizado = 0$$
+SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN servicioarea sa INNER JOIN areausuarios au ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea AND au.fk_idUsuario = u.idUsuarios AND a.idArea = au.fk_idArea WHERE u.idUsuarios = idUsuario AND s.finalizado = 0:
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectServicosExcel` ()  READS SQL DATA
-SELECT s.*,t.nombre,u.usuario,a.idArea,a.nombre as area FROM servicios s INNER JOIN tecnicos t INNER JOIN serviciostecnicos st INNER JOIN usuarios u INNER JOIN serviciosusuarios su INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND u.idUsuarios = su.fk_idUsuarios AND su.fk_idServicios = s.idServicios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE 1 ORDER BY s.idServicios$$
+SELECT s.*,t.nombre,u.usuario,a.idArea,a.nombre as area FROM servicios s INNER JOIN tecnicos t INNER JOIN serviciostecnicos st INNER JOIN usuarios u INNER JOIN serviciosusuarios su INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND u.idUsuarios = su.fk_idUsuarios AND su.fk_idServicios = s.idServicios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE 1 ORDER BY s.idServicios;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `selectServicosExcelFechas` (IN `fecha1` DATE, IN `fecha2` DATE)  READS SQL DATA
-SELECT s.*,t.nombre,u.usuario,a.idArea,a.nombre AS area FROM servicios s INNER JOIN tecnicos t INNER JOIN serviciostecnicos st INNER JOIN usuarios u INNER JOIN serviciosusuarios su INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = t.idTecnicos AND u.idUsuarios = su.fk_idUsuarios AND su.fk_idServicios = s.idServicios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.fecha >= fecha1 AND s.fecha_fin <= fecha2$$
+SELECT s.*,t.nombre,u.usuario,a.idArea,a.nombre AS area FROM servicios s INNER JOIN tecnicos t INNER JOIN serviciostecnicos st INNER JOIN usuarios u INNER JOIN serviciosusuarios su INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = t.idTecnicos AND u.idUsuarios = su.fk_idUsuarios AND su.fk_idServicios = s.idServicios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.fecha >= fecha1 AND s.fecha_fin <= fecha2;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectTecnicoEquipo` (IN `id` INT(10))  READS SQL DATA
-SELECT t.nombre FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON e.idEquipo = et.fk_idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE e.idEquipo = id$$
+SELECT t.nombre FROM equipo e INNER JOIN tecnicos t INNER JOIN equipotecnicos et ON e.idEquipo = et.fk_idEquipo AND et.ifk_dTecnico = t.idTecnicos WHERE e.idEquipo = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectTecnicos` ()  READS SQL DATA
-SELECT * FROM `tecnicos` WHERE 1$$
+SELECT * FROM `tecnicos` WHERE 1;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectTecnicoServicio` (IN `id` INT(10))  NO SQL
-SELECT t.nombre FROM tecnicos t INNER JOIN servicios s INNER JOIN serviciostecnicos st ON st.fk_idServicios = s.idServicios AND st.fk_idTecnicos = t.idTecnicos WHERE s.idServicios = id$$
+SELECT t.nombre FROM tecnicos t INNER JOIN servicios s INNER JOIN serviciostecnicos st ON st.fk_idServicios = s.idServicios AND st.fk_idTecnicos = t.idTecnicos WHERE s.idServicios = id;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelectUsuarios` ()  READS SQL DATA
-SELECT u.idUsuarios,u.nombre,u.apellidos,u.usuario,a.nombre as area FROM `usuarios` u INNER JOIN areas a INNER JOIN areausuarios au ON au.fk_idUsuario = u.idUsuarios AND au.fk_idArea = a.idArea WHERE 1$$
+SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.ubicacion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN servicioarea sa INNER JOIN areausuarios au ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea AND au.fk_idUsuario = u.idUsuarios AND a.idArea = au.fk_idArea WHERE u.idUsuarios = idUsuario AND s.finalizado = 0;
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `servicioNoFinalizado` (IN `id` INT(10))  MODIFIES SQL DATA
-UPDATE `servicios` SET `mostrar`=false, `finalizadoTecnico`=false WHERE `idServicios` = id$$
+UPDATE `servicios` SET `mostrar`=false, `finalizadoTecnico`=false WHERE `idServicios` = id;
 
 DELIMITER ;
 
