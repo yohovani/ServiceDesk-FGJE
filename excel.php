@@ -121,7 +121,7 @@
 			
 		}
 		$objExcel->getActiveSheet()->setCellValue('G'.$i,$b['descripcion']);
-		$objExcel->getActiveSheet()->setCellValue('H'.$i,$b['ubicacion']);
+		$objExcel->getActiveSheet()->setCellValue('H'.$i,$b['area']);
 		$flagArea = true;
 		for($x=0;$x<count($nombreArea)-1;$x++){
 			if(utf8_encode($b['area']) == $nombreArea[$x]){
@@ -500,8 +500,10 @@
 	
 	$objExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 	$objExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
-	$objExcel->setActiveSheetIndex(0);
-//	
+	$objExcel->setActiveSheetIndex(0);	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
+//	$objWriter->setIncludeCharts(true);
+//	$objWriter->save("ServiceDesk.xlsx");
+////	
 //	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
 //	$objWriter->setIncludeCharts(true);
 //	$objWriter->save("ServiceDesk.xlsx");
