@@ -314,7 +314,7 @@
 							<table class='table table-hover'>
 								<thead>
 									<tr><center>
-										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Reportes' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
+										<th align><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Reportes' data-target='#Reportes' onclick='verReportes()' value='1' name='verReportes' id='verReportes'>Ver Reportes</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Usuarios' data-target='#Usuarios' onclick='verUsuarios()' value='2' name='verUsuarios' id='verUsuarios'>Ver Usuarios</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Tecnicos' data-target='#Tecnicos' onclick='verTecnicos()' value='3' name='verTecnicos' id='verTecnicos'>Ver Tecnicos</button></th>
 										<th><button class='btn btn-info btn-lg' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Ver los Equipos' data-target='#Equipos' onclick='verEquipos()' value='4' name='verEquipos' id='verEquipos'>Ver Equipos</button></th>
@@ -1395,7 +1395,17 @@
             });
         </script>
 		<footer class="container-fluid text-center" style="background-color:#ad8a3e">
-			<p style='color:white'>WebDesign By Servicio Social</p>
+			<table width="100%">
+				<th width="33%"></th>
+				<th width="33%"><p style='color:white'>WebDesign By Servicio Social</p></th>
+				<th width="33%"><div align="right">
+					<?php
+						if(!isset($_SESSION['user']))
+							echo "<a href='sesionTecnicos.php'>Soporte</a>";?>
+					</div></th>
+					
+			</table>
+
 		</footer>
 	</body>
 </html>
