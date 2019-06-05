@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link rel="shortcut icon" href="img/logoSD.png">
-		<title>FGJE Unidad de Inform&aacute;tica</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-		<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-		<script src="scripts.js"></script>
-	</head>
-	<body>
-		<nav class="navbar" style="background-color:#212650;">
-			<?php
+
+<head>
+    <link rel="shortcut icon" href="img/logoSD.png">
+    <title>FGJE Unidad de Inform&aacute;tica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <nav class="navbar" style="background-color:#212650;">
+        <?php
 				session_start();
 				if(isset($_SESSION['admin'])){
 					echo "<meta http-equiv='refresh' content='60'/>";
@@ -32,7 +35,7 @@
 					echo "<strong style='color: white;'>FGJE - Visitante</strong>";
 				}
 			?>
-			<?php
+        <?php
 				if(!isset($_SESSION['user']))
 					echo "<div id='contenedor' style='align-content: flex-end'>
 						<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' data-placement='bottom' title='Click Aqui Para Registrarte' data-target='#registro'>
@@ -58,255 +61,272 @@
 							</form>";
 				}
 			?>
-		</nav>
-		<!-- Modal para Registrarse Usuarios Comunes-->
-		<div class="modal fade" id="registro">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Registro</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" action="registro.php" method="post">
-							<!- Area->
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Area:</label>
-								<div class="col-sm-10" id="areasUsuario">
-									<select class="form-control" name="area" id="area" onchange="areas()">
-										<?php
-											include "conexion.php";
-											$i;
-											//Utilizamos el metodo almacenado para seleccionar las areas
-											$mysqli = "Call SelectAreas()";
-											//Ejecutamos la petición al servidor
-											$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
-											while ($area= mysqli_fetch_array($resultado)){
-												echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
-												$i=$area['idArea'];
-											}
-											while ($area= mysqli_fetch_array($resultado)){
-												echo "<label> ".($area['nombre'])."</label>";
-											}
-											echo "<option value='Otro' size>Otro</option>";
-										?>
-									</select>
-									<div id="agregarAreas" hidden="true">
-										<label>Agregue su Area:</label>
-										<input type="text" id="newArea" name="newArea" class="form-control" placeholder="¿Cual es su area?">
-										<button  class="btn btn-default" onclick="addArea()">Agregar</button>
-									</div>
-								</div>
-							</div>
-							<!- Nombre->
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Nombre:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre" >
-								</div>
-							</div>
-							<!- Apellidos->
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Apellidos:</label>
-								<div class="col-sm-10">
-									<input type="text" required class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onkeyup="nameUser()">
-								</div>
-							</div>
-							<!- Usuario->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="usuario" >Usuario:</label>
-								<div id="resultadoNombreUsuario">
-								</div>
+    </nav>
+    <!-- Modal para Registrarse Usuarios Comunes-->
+    <div class="modal fade" id="registro">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registro</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="registro.php" method="post">
+                        <!- Area->
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Area:</label>
+                                <div class="col-sm-10" id="areasUsuario">
+                                    <select class="form-control" name="area" id="area" onchange="areas()">
+																				<?php
+																					if(!isset($_SESSION['user'])){
+																						include "conexion.php";
+																						$i;
+																						//Utilizamos el metodo almacenado para seleccionar las areas
+																						$mysqli = "Call SelectAreas()";
+																						//Ejecutamos la petición al servidor
+																						$resultado = mysqli_query($conexion,$mysqli) or die(mysqli_error($conexion));
+																						while ($area= mysqli_fetch_array($resultado)){
+																							echo "<option value='".$area['idArea']."' size>".utf8_encode($area['nombre'])."</option>";
+																							$i=$area['idArea'];
+																						}
+																						while ($area= mysqli_fetch_array($resultado)){
+																							echo "<label> ".($area['nombre'])."</label>";
+																						}
+																						echo "<option value='Otro' size>Otro</option>";
+																					}
+																				?>
+                                    </select>
+                                    <div id="agregarAreas" hidden="true">
+                                        <label>Agregue su Area:</label>
+                                        <input type="text" id="newArea" name="newArea" class="form-control"
+                                            placeholder="¿Cual es su area?">
+                                        <button class="btn btn-default" onclick="addArea()">Agregar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!- Nombre->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Nombre:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="nombre" placeholder="Nombre(s)" required id="nombre">
+                                    </div>
+                                </div>
+                                <!- Apellidos->
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Apellidos:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" required class="form-control" name="apellidos" placeholder="Apellidos" id="apellidos" onkeyup="nameUser()">
+                                        </div>
+                                    </div>
+                                    <!- Usuario->
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" id="usuario">Usuario:</label>
+                                            <div id="resultadoNombreUsuario">
+                                            </div>
 
-							</div>
-							
-							<!-Botón enviar->
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-default">Enviar</button>
-								</div>
-							</div>
-						</form>
-					</div>
-			<div class='modal-footer'>
-				<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-			</div>
-				</div>
-			</div>
-		</div>
-			
-		<!-- Modal para Registrarse Usuarios Técnicos-->
-		<div class="modal fade" id="registroTecnicos">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
+                                        </div>
 
-						<h4 class="modal-title">Registro</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" action="registro.php" method="post">
-							<!- Nombre->
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Nombre de usuario:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="nombre" placeholder="Nombre de usuario" required id="nombre" onKeyUp="nameUser()">
-								</div>
-							</div>
-							<!- Password->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" name="password" placeholder="Contrase&ntilde;a" id="password" >
-								</div>
-							</div>
-							<!-Confirmación del Password->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="pass">Confirma Contrase&ntilde;a:</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" name="password2" placeholder="Repite la Contrase&ntilde;a" id="password2" onKeyUp="verificarPassword()">
-								</div>
-							</div>
-							<!-Botón enviar->
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-default" id="btnEnviar">Enviar</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
+                                        <!-Botón enviar->
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-default">Enviar</button>
+                                                </div>
+                                            </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
-			
-		<!-- Modal para Cambiar Password-->
-		<div class="modal fade" id="cambiarPassword">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
+    <!-- Modal para Registrarse Usuarios Técnicos-->
+    <div class="modal fade" id="registroTecnicos">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
 
-						<h4 class="modal-title">Cambiar Password</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" action="updatePassword.php" method="post">
-							<!- Nombre->
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Contrase&ntilde;a actual:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="passwordActual" placeholder="Contraseña actual" required id="passwordActual" onKeyUp="Password()">
-									<?php
+                    <h4 class="modal-title">Registro</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="registro.php" method="post">
+                        <!- Nombre->
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Nombre de usuario:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="nombre"
+                                        placeholder="Nombre de usuario" required id="nombre" onKeyUp="nameUser()">
+                                </div>
+                            </div>
+                            <!- Password->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" name="password"
+                                            placeholder="Contrase&ntilde;a" id="password">
+                                    </div>
+                                </div>
+                                <!-Confirmación del Password->
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" id="pass">Confirma
+                                            Contrase&ntilde;a:</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" name="password2"
+                                                placeholder="Repite la Contrase&ntilde;a" id="password2"
+                                                onKeyUp="verificarPassword()">
+                                        </div>
+                                    </div>
+                                    <!-Botón enviar->
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="submit" class="btn btn-default"
+                                                    id="btnEnviar">Enviar</button>
+                                            </div>
+                                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Cambiar Password-->
+    <div class="modal fade" id="cambiarPassword">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Cambiar Password</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="updatePassword.php" method="post">
+                        <!- Nombre->
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Contrase&ntilde;a actual:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="passwordActual"
+                                        placeholder="Contraseña actual" required id="passwordActual"
+                                        onKeyUp="Password()">
+                                    <?php
 										echo "<input type='hidden' name='Actual'  id='Actual' value='".$_SESSION['password']."'>";
 									?>
-								</div>
-							</div>
-							<!- Password->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" name="Newpassword" placeholder="Contrase&ntilde;a" id="Newpassword" >
-								</div>
-							</div>
-							<!-Confirmación del Password->
-							<div class="form-group">
-								<label class="control-label col-sm-2" id="pass">Confirma Contrase&ntilde;a:</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" name="Newpassword2" placeholder="Repite la Contrase&ntilde;a" id="Newpassword2" onKeyUp="Password()">
-								</div>
-							</div>
-							<!-Botón enviar->
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-default" id="btnEnviarnewPassword" disabled="true">Enviar</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
+                                </div>
+                            </div>
+                            <!- Password->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" id="pass">Contrase&ntilde;a:</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" name="Newpassword"
+                                            placeholder="Contrase&ntilde;a" id="Newpassword">
+                                    </div>
+                                </div>
+                                <!-Confirmación del Password->
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" id="pass">Confirma
+                                            Contrase&ntilde;a:</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" name="Newpassword2"
+                                                placeholder="Repite la Contrase&ntilde;a" id="Newpassword2"
+                                                onKeyUp="Password()">
+                                        </div>
+                                    </div>
+                                    <!-Botón enviar->
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <button type="submit" class="btn btn-default" id="btnEnviarnewPassword"
+                                                    disabled="true">Enviar</button>
+                                            </div>
+                                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
 
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<!-- Modal para login-->
-		<div id="login" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Iniciar Sesi&oacute;n</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" action="InicioSesion.php" method="post">
-							<div class="form-group">
-								<label class="control-label col-sm-2" >Usuario:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario" required>
-								</div>
-							</div>
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit"  class="btn btn-default">Iniciar Sesi&oacute;n</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
+    <!-- Modal para login-->
+    <div id="login" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Iniciar Sesi&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="InicioSesion.php" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Usuario:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="user" id="usuario" placeholder="Usuario"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Iniciar Sesi&oacute;n</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<!-- Modal para Fechas Excel-->
-		<div id="excel" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Configuraci&oacute;n del Archivo de Excel</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" action="excel.php" method="post">
-							<div class="form-group">
-								<h6 class="modal-title" >Delimitar Fecha:</h6>
-								<div class="col-sm-10">
-									<select id="excelOption" class="form-control" name="excelOption" onchange="excel()">
-										<option value="2">Delimitar por fechas</option>
-										<option value="1">Todos los registros</option>
-									</select>
-								</div>
-								<center>
-									<h6 class="modal-title" id="tfi">Fecha Inicio:</h6>
-									<input type="date" class="datepicker" id="fecha1" name="fecha1"><br>
-									<h6 class="modal-title" id="tff">Fecha Fin:</h6>
-									<input type="date" class="datepicker" id="fecha2" name="fecha2"><br>
-									<input type="hidden" value="1" name="confExcel" id="confExcel"> 
-								</center>
-							</div>
-							<div class="form-group"> 
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit"  class="btn btn-default">Generar Archivo</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
+    <!-- Modal para Fechas Excel-->
+    <div id="excel" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Configuraci&oacute;n del Archivo de Excel</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="excel.php" method="post">
+                        <div class="form-group">
+                            <h6 class="modal-title">Delimitar Fecha:</h6>
+                            <div class="col-sm-10">
+                                <select id="excelOption" class="form-control" name="excelOption" onchange="excel()">
+                                    <option value="2">Delimitar por fechas</option>
+                                    <option value="1">Todos los registros</option>
+                                </select>
+                            </div>
+                            <center>
+                                <h6 class="modal-title" id="tfi">Fecha Inicio:</h6>
+                                <input type="date" class="datepicker" id="fecha1" name="fecha1"><br>
+                                <h6 class="modal-title" id="tff">Fecha Fin:</h6>
+                                <input type="date" class="datepicker" id="fecha2" name="fecha2"><br>
+                                <input type="hidden" value="1" name="confExcel" id="confExcel">
+                            </center>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Generar Archivo</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="container">
-			<?php
+    <div class="container">
+        <?php
 				//Adminsitradores
 				if(isset($_SESSION['admin'])){
 					if($_SESSION['admin'] == true){
@@ -364,10 +384,10 @@
 					}
 				}
 			?>
-		</div>
+    </div>
 
-	<!-- Container (Portfolio Section) -->
-	<?php
+    <!-- Container (Portfolio Section) -->
+    <?php
 	if(!isset($_SESSION['user'])){
 		echo"<div id='portfolio' class='container-fluid text-center bg-grey'>
 			<div id='myCarousel' class='carousel slide text-center' data-ride='carousel'>
@@ -400,239 +420,242 @@
 		</center><br>";
 	}
 	?>
-		
-	<!-- Modal para ver preguntas y respuestas-->
-	<div id="preguntasYrespuestas" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Preguntas frecuentes</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body">
-					<?php
+
+    <!-- Modal para ver preguntas y respuestas-->
+    <div id="preguntasYrespuestas" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Preguntas frecuentes</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <?php
 						include('VerPreguntas.php');
 					?>
-				</div>
-				<div class='modal-footer'>
-					<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Reportes-->
-	<div id='Reportes' class='modal fade' role='dialog'>
-		<div class='modal-dialog modal-lg'>
-			<!-- Modal content-->
-			<div class='modal-content'>
-				<div class='modal-header'>
-					<h4 class='modal-title'>Monitoreo de Reportes</h4>
-				</div>
-				<div class='table-responsive' id='reportesModal'>
+    <!-- Modal para ver Reportes-->
+    <div id='Reportes' class='modal fade' role='dialog'>
+        <div class='modal-dialog modal-lg'>
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Monitoreo de Reportes</h4>
+                </div>
+                <div class='table-responsive' id='reportesModal'>
 
-				</div>
-				<div class='modal-footer'>
-					<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Usuarios-->
-	<div class="container">
-		<div id='Usuarios' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Usuarios Registrados</h4>
-					</div>
-					<div class='container modal-body container' id='usuariosModal'>
+    <!-- Modal para ver Usuarios-->
+    <div class="container">
+        <div id='Usuarios' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Usuarios Registrados</h4>
+                    </div>
+                    <div class='container modal-body container' id='usuariosModal'>
 
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Tecnicos-->
-	<div class="container">
-		<div id='Tecnicos' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Tecnicos Registrados</h4>
-					</div>
-					<div class='container modal-body container' id='tecnicosModal'>
+    <!-- Modal para ver Tecnicos-->
+    <div class="container">
+        <div id='Tecnicos' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Tecnicos Registrados</h4>
+                    </div>
+                    <div class='container modal-body container' id='tecnicosModal'>
 
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Equipos-->
-	<div class="container">
-		<div id='Equipos' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Servicio de Equipos Registrados</h4>
-					</div>
-					<div class='table-responsive' id='equiposModal'>
+    <!-- Modal para ver Equipos-->
+    <div class="container">
+        <div id='Equipos' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Servicio de Equipos Registrados</h4>
+                    </div>
+                    <div class='table-responsive' id='equiposModal'>
 
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Prestamos-->
-	<div class="container">
-		<div id='Prestamos' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Prestamos Registrados</h4>
-					</div>
-					<div class='table-responsive' id='prestamosModal'>
+    <!-- Modal para ver Prestamos-->
+    <div class="container">
+        <div id='Prestamos' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Prestamos Registrados</h4>
+                    </div>
+                    <div class='table-responsive' id='prestamosModal'>
 
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para ver Areas-->
-	<div class="container">
-		<div id='ModificarAreas' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Modificar Areas</h4>
-					</div>
-					<div class='table-responsive' id='AreasModal'>
-						<select class="form-control" name="areaMod" id="areaMod" onchange="MostrarFormAreas()">
-							
-						</select>
-						<div id="MAA">
-							
-						</div>
-						<div id="ModificarAreasFormulario" hidden="true">
-							<table class="table">
-								<br><h4>Modifique el Area:</h4>
-								<thead>
-									<tr>
-										<th>Id</th>
-										<th>Valor</th>
-										<th>Acci&oacute;n</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th><input  disabled="true" size="" type="text" id="IdModificarAreaAdmin" name="ModificarAreaAdmin" class="form-control"></th>
-										<th>
-											<div id="areaResultado">
+    <!-- Modal para ver Areas-->
+    <div class="container">
+        <div id='ModificarAreas' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Modificar Areas</h4>
+                    </div>
+                    <div class='table-responsive' id='AreasModal'>
+                        <select class="form-control" name="areaMod" id="areaMod" onchange="MostrarFormAreas()">
 
-											</div>
-										</th>
-										<th><button  class="btn btn-default" onclick="ModificarAreas()" data-dismiss="alert" aria-label="Close">Modificar</button></th>
-										<th></th>
-									</tr>
-								</tbody>
-								
-							</table>
-						</div>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </select>
+                        <div id="MAA">
 
-	<!-- Modal para ver Compras-->
-	<div class="container">
-		<div id='Compras' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Compras Registrados</h4>
-					</div>
-					<div class='table-responsive' id='comprasModal'>
+                        </div>
+                        <div id="ModificarAreasFormulario" hidden="true">
+                            <table class="table">
+                                <br>
+                                <h4>Modifique el Area:</h4>
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Valor</th>
+                                        <th>Acci&oacute;n</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th><input disabled="true" size="" type="text" id="IdModificarAreaAdmin"
+                                                name="ModificarAreaAdmin" class="form-control"></th>
+                                        <th>
+                                            <div id="areaResultado">
 
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                            </div>
+                                        </th>
+                                        <th><button class="btn btn-default" onclick="ModificarAreas()"
+                                                data-dismiss="alert" aria-label="Close">Modificar</button></th>
+                                        <th></th>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver Compras-->
+    <div class="container">
+        <div id='Compras' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Compras Registrados</h4>
+                    </div>
+                    <div class='table-responsive' id='comprasModal'>
+
+                    </div>
+                    <div class='modal-footer'>
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal para Preguntas-->
     <div class="container">
-		<div id='Preguntas' class='modal fade' role='dialog'>
-			<div class='modal-dialog modal-lg'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Preguntas</h4>
-					</div>
-					<div class='table-responsive' id='comprasModal'>
-						<h4>Registrar Preguntas</h4>
+        <div id='Preguntas' class='modal fade' role='dialog'>
+            <div class='modal-dialog modal-lg'>
+                <!-- Modal content-->
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h4 class='modal-title'>Preguntas</h4>
+                    </div>
+                    <div class='table-responsive' id='comprasModal'>
+                        <h4>Registrar Preguntas</h4>
                         <form action="Preguntas.php" method="post">
-                        <table class="table">
-                    
-  <thead>
-      
-    <tr>
-      
-      <th scope="col">Pregunta</th>
-      <th scope="col">Respuesta</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      
-      <td><input type="text"class="form-control" name="p" id="p" /></td>
-      <td><input type="text"class="form-control" name="r" id="r" /></td>
-     
-    </tr>
-    
-    
-  </tbody>
-                        
-                    
-</table>
+                            <table class="table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th scope="col">Pregunta</th>
+                                        <th scope="col">Respuesta</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td><input type="text" class="form-control" name="p" id="p" /></td>
+                                        <td><input type="text" class="form-control" name="r" id="r" /></td>
+
+                                    </tr>
+
+
+                                </tbody>
+
+
+                            </table>
                             <button type='submit' class='btn btn-default'>enviar</button>
-                            </form>
-					</div>
-					<div>
-						<h4>Editar/Eliminar preguntas</h4> 
-						
-							<?php
+                        </form>
+                    </div>
+                    <div>
+                        <h4>Editar/Eliminar preguntas</h4>
+
+                        <?php
 								if(isset($_SESSION['admin'])){
 									if($_SESSION['admin'] == true){
 										include 'conexion.php';
@@ -668,27 +691,27 @@
 									}
 								}
 							?>
-						</form>
-					</div>
-					<div class='modal-footer'>
-                        
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </form>
+                    </div>
+                    <div class='modal-footer'>
 
-	<!-- Modal para registrar Prestamos-->
-		<div id='RegistroPrestamo' class='modal fade' role='dialog'>
-			<div class='modal-dialog'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Prestamos</h4>
-					</div>
-					<div class='modal-body'>
-						<?php
+                        <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para registrar Prestamos-->
+    <div id='RegistroPrestamo' class='modal fade' role='dialog'>
+        <div class='modal-dialog'>
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Prestamos</h4>
+                </div>
+                <div class='modal-body'>
+                    <?php
 							echo "<form class='form-horizontal' action='prestamos.php' method='post'>
 								<!- Descripcion->
 								<div class='form-group'>
@@ -712,24 +735,24 @@
 								</div>
 							</form>";
 							?>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Modal para registrar Fallas-->
-		<div id='RegistroFallas' class='modal fade' role='dialog'>
-			<div class='modal-dialog'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Reporte de Fallas</h4>
-					</div>
-					<div class='modal-body'>
-						<?php
+    <!-- Modal para registrar Fallas-->
+    <div id='RegistroFallas' class='modal fade' role='dialog'>
+        <div class='modal-dialog'>
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Reporte de Fallas</h4>
+                </div>
+                <div class='modal-body'>
+                    <?php
 							echo "<form class='form-horizontal' action='fallas.php' method='post'>
 									<!- Area->
 									<div class='form-group'>
@@ -768,23 +791,23 @@
 									</div>
 								</form>";
 						?>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- Modal para registrar Equipo-->
-		<div id='ReportarEquipo' class='modal fade' role='dialog'>
-			<div class='modal-dialog'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Reporte de Fallas</h4>
-					</div>
-					<div class='modal-body'>
-						<?php
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para registrar Equipo-->
+    <div id='ReportarEquipo' class='modal fade' role='dialog'>
+        <div class='modal-dialog'>
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Reporte de Fallas</h4>
+                </div>
+                <div class='modal-body'>
+                    <?php
 							echo "<form class='form-horizontal' action='reportarEquipo.php' method='post'>
 									<!- Area->
 									<div class='form-group'>
@@ -822,23 +845,23 @@
 									</div>
 								</form>";
 						?>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- Modal para registrar Compras-->
-		<div id='RegistroCompras' class='modal fade' role='dialog'>
-			<div class='modal-dialog'>
-				<!-- Modal content-->
-				<div class='modal-content'>
-					<div class='modal-header'>
-						<h4 class='modal-title'>Reporte de Compra</h4>
-					</div>
-					<div class='modal-body'>
-						<?php
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para registrar Compras-->
+    <div id='RegistroCompras' class='modal fade' role='dialog'>
+        <div class='modal-dialog'>
+            <!-- Modal content-->
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h4 class='modal-title'>Reporte de Compra</h4>
+                </div>
+                <div class='modal-body'>
+                    <?php
 							echo "<form class='form-horizontal' action='compras.php' method='post'>
 									<!- Compra->
 									<div class='form-group'>
@@ -869,19 +892,20 @@
 									</div>
 								</form>";
 						?>
-					</div>
-					<div class='modal-footer'>
-						<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
-					</div>
-				</div>
-			</div>
-		</div>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<! Seccion para que el usuario pueda ver los reportes que aun no se han resuelto->
-		<?php
+    <! Seccion para que el usuario pueda ver los reportes que aun no se han resuelto->
+        <?php
 			if(isset($_SESSION['user']) && !isset($_SESSION['admin'])){
 				include 'conexion.php';
-				$sqlNotificar = "CALL selectServiciosNotify('".$_SESSION['idUser']."')";
+				$sqlNotificar ="SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios WHERE u.idUsuarios = '".$_SESSION['idUser']."' AND s.finalizado = 0 AND s.mostrar = true;";
+			//	$sqlNotificar = "CALL selectServiciosNotify('".$_SESSION['idUser']."')";
 				$resultado = mysqli_query($conexion,$sqlNotificar) or die(mysqli_error($conexion));
 				if(mysqli_num_rows($resultado) > 0){
 					while ($b = mysqli_fetch_array($resultado)){
@@ -890,8 +914,8 @@
 						$idRegistro=$b['idServicios'];
 
 						echo '<script>';
-							echo'toastr.warning("¿Es correcto?<form action='."FinalizarRegistroFalla.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."Si".' /></form>'
-									. '<br><form action='."registroNoFinalizado.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".'/><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."No".' /></form>","Servicio finalizado por el tecnico en Fecha: '.$fecha.' , Tipo de servicio: '.$Servicio.'",{
+							echo'toastr.warning("¿Es correcto?<form action='."FinalizarRegistroFalla.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".' ><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."Si".' /></form>'
+									. '<br><form action='."registroNoFinalizado.php".' method='."post".'><input type='."hidden".' name='."idServicio".' id='."idServicio".' value='."$idRegistro".' ><input type='."submit".' data-tooltip='."'tooltip'".' data-placement='."bottom".'  class='."btn btn-lg".' value='."No".' /></form>","Servicio finalizado por el tecnico en Fecha: '.$fecha.' , Tipo de servicio: '.$Servicio.'",{
 								"closeButton": false,
 								"debug": false,
 								"newestOnTop": false,
@@ -919,7 +943,8 @@
 						</div>
 						<div class='row slideanim'>";
 			Include 'conexion.php';
-			$sql="CALL SelectServiciosUsuario('".$_SESSION['idUser']."')";
+			$sql = "SELECT s.idServicios,s.fecha,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre as area FROM servicios s INNER JOIN serviciosusuarios su INNER JOIN usuarios u INNER JOIN areas a INNER JOIN servicioarea sa ON su.fk_idServicios = s.idServicios AND su.fk_idUsuarios = u.idUsuarios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE u.idUsuarios = '".$_SESSION['idUser']."' AND s.finalizado = 0";
+		//	$sql="CALL SelectServiciosUsuario('".$_SESSION['idUser']."')";
 			$resultado = mysqli_query($conexion,$sql) or die(mysqli_error($conexion));
 			if(mysqli_num_rows($resultado) == 0){
 				echo "<div class='container text-center'><h6>No se encontraron registros</h6></div>";
@@ -1044,16 +1069,16 @@
 			}
 			echo "</div>";
 		?>
-	
 
-		<! Ver registros no finalizados ->
-		<div class="container">
-			<?php
+
+        <! Ver registros no finalizados ->
+            <div class="container">
+                <?php
 			Include 'conexion.php';
 
 			if(isset($_SESSION['admin'])){
 				if($_SESSION['admin'] == true  || $_SESSION['recepcion'] == true){
-					$registros = "CALL SelectServiciosNoFinalizados()";
+					$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,s.finalizado,a.nombre FROM servicios s INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE s.finalizado = 0 ORDER BY s.idServicios";
 					$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 				}else{
 					$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,t.nombre,s.finalizado,s.solucion,a.nombre as area FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND sa.fk_idServicio = s.idServicios AND sa.fk_idArea = a.idArea WHERE s.finalizado = 0 AND t.idTecnicos = '".$_SESSION['idUser']."' AND s.mostrar = false ORDER BY s.idServicios";
@@ -1098,7 +1123,7 @@
 							<td>".$b['horaFin']."</td>
 							<td>".$b['tipoServicio']."</td>
 							<td>".$b['descripcion']."</td>
-							<td>".$b['area']."</td>
+							<td>".$b['nombre']."</td>
 							<td>";
 								mysqli_close($conexion);
 								unset($conexion);
@@ -1149,11 +1174,11 @@
 				}
 				echo "</div>";
 			?>
-		</div>
-		
-		<! Ver Prestamos no finalizados ->
-		<div class="container">
-			<?php
+            </div>
+
+            <! Ver Prestamos no finalizados ->
+                <div class="container">
+                    <?php
 			Include 'conexion.php';
 
 			if(isset($_SESSION['admin'])){
@@ -1198,10 +1223,10 @@
 				echo "</div>";
 			}
 			?>
-		</div>
-		<! Ver Equipos no entregados ->
-		<div class="container">
-			<?php
+                </div>
+                <! Ver Equipos no entregados ->
+                    <div class="container">
+                        <?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
 				if($_SESSION['admin'] == true || $_SESSION['recepcion'] == true){
@@ -1284,11 +1309,11 @@
 				echo "</div>";
 			}
 			?>
-		</div>
-		
-		<! Ver Equipos no entregados individual ->
-		<div class="container">
-			<?php
+                    </div>
+
+                    <! Ver Equipos no entregados individual ->
+                        <div class="container">
+                            <?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
 				if($_SESSION['admin'] != true && $_SESSION['recepcion'] != true){
@@ -1335,13 +1360,13 @@
 				echo "</div>";
 			}
 			?>
-		</div>
-		
-		
-		
-		<! Ver Compras no finalizadas ->
-		<div class="container">
-			<?php
+                        </div>
+
+
+
+                        <! Ver Compras no finalizadas ->
+                            <div class="container">
+                                <?php
 			Include 'conexion.php';
 			if(isset($_SESSION['admin'])){
 				if($_SESSION['admin'] == true){
@@ -1387,25 +1412,30 @@
 				echo "</div>";
 			}
 			?>
-		</div>
-        <!--script para tooltip-->
-		<script>
-            $(document).ready(function(){
-                $('[data-tooltip=tooltip]').tooltip();   
-            });
-        </script>
-		<footer class="container-fluid text-center" style="background-color:#ad8a3e">
-			<table width="100%">
-				<th width="33%"></th>
-				<th width="33%"><p style='color:white'>WebDesign By Servicio Social</p></th>
-				<th width="33%"><div align="right">
-					<?php
+                            </div>
+                            <!--script para tooltip-->
+                            <script>
+                            $(document).ready(function() {
+                                $('[data-tooltip=tooltip]').tooltip();
+                            });
+                            </script>
+                            <footer class="container-fluid text-center" style="background-color:#ad8a3e">
+                                <table width="100%">
+                                    <th width="33%"></th>
+                                    <th width="33%">
+                                        <p style='color:white'>WebDesign By Servicio Social</p>
+                                    </th>
+                                    <th width="33%">
+                                        <div align="right">
+                                            <?php
 						if(!isset($_SESSION['user']))
 							echo "<a href='sesionTecnicos.php'>Soporte</a>";?>
-					</div></th>
-					
-			</table>
+                                        </div>
+                                    </th>
 
-		</footer>
-	</body>
+                                </table>
+
+                            </footer>
+</body>
+
 </html>

@@ -1,0 +1,11 @@
+Initializing SQL tools service for the mssql extension.
+Note: mssql commands will be available after installing the service.
+
+Platform: linux, x86_64, name=manjaro, version=unknown (Ubuntu16)
+
+Installing SQL tools service to /root/.vscode/extensions/ms-mssql.mssql-1.6.0/sqltoolsservice/1.6.0/Ubuntu16.
+Downloading https://download.microsoft.com/download/5/E/F/5EF53DE8-1673-4CF7-8ED5-9DD84B5F38FF/microsoft.sqltools.servicelayer-rhel-x64-netcoreapp2.2.tar.gz
+(39850 KB) .................... Done!
+Installing ...
+Done! 400 files unpacked.
+

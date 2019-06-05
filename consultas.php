@@ -33,7 +33,9 @@ switch ($_POST['funcion']){
 
 function verReportes(){
 	Include 'conexion.php';
-	$registros = "CALL selectRegistrosServicios()";
+	$registros = "SELECT s.idServicios,s.fecha,s.fecha_fin,s.horaInicio,s.horaFin,s.tipoServicio,s.descripcion,t.nombre,s.finalizado,a.nombre as area
+	FROM servicios s INNER JOIN serviciostecnicos st INNER JOIN tecnicos t INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios 
+	AND t.idTecnicos = st.fk_idTecnicos AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE 1 ORDER BY s.idServicios";
 	$resultado = mysqli_query($conexion,$registros) or die(mysqli_error($conexion));
 	echo "<div class='container'>";
 	echo"<table class='table table-hover'>
@@ -75,7 +77,7 @@ function verReportes(){
 					<td>".$b['horaFin']."</td>
 					<td>".$b['tipoServicio']."</td>
 					<td>".$b['descripcion']."</td>
-					<td>".$b['ubicacion']."</td>
+					<td>".$b['area']."</td>
 					<td>".$b['nombre']."</td>
 					<td bgcolor='#16F409'>Si</td>
 				";

@@ -31,7 +31,7 @@
 		mysqli_free_result($seleccionar);
 		mysqli_close($conexion);
 		unset($seleccionar,$conexion);
-		header('Location: /ServiceDesk/index.php');
+		header('Location: index.php');
 	}else{
 		echo "<script>
 		alert('ocurrio un error con tu petici&oacute;n verifica que los datos sean correctos y no introduzcas caracteres especiales');</script>";

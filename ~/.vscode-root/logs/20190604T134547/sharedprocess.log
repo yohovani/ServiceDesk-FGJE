@@ -1,0 +1,79 @@
+[2019-06-04 13:45:51.242] [sharedprocess] [info] main {"machineId":"eee0914b35045049886da6b76ec18e704edfc173c921b7bc96f194eb8913896c"}
+[2019-06-04 13:45:51.301] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:45:51.319] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:45:51.321] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:45:51.380] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:45:51.383] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:45:51.386] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:45:51.473] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:45:51.505] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:45:52.048] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:46:27.561] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:46:27.564] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:46:27.664] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:46:27.668] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:46:27.706] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:46:27.747] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 13:46:29.974] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:46:31.254] [sharedprocess] [info] Starting to clean up unused language packs.
+[2019-06-04 13:51:30.934] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 13:56:30.944] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:01:30.971] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:06:30.986] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:11:30.996] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:16:31.015] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:21:31.020] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.645] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.648] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.649] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.655] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.731] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:09.736] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:09.739] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:09.756] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.777] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:09.790] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.792] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:09.831] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:09.833] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:24:17.649] [sharedprocess] [info] Installing extension: felixfbecker.php-debug
+[2019-06-04 14:24:17.652] [sharedprocess] [info] Scanned user extensions: 0
+[2019-06-04 14:24:18.357] [sharedprocess] [info] Downloaded extension: felixfbecker.php-debug /tmp/732373f3-369d-4622-a1c9-92f4f585c2ed
+[2019-06-04 14:24:18.822] [sharedprocess] [info] Extracted extension to /root/.vscode/extensions/.felixfbecker.php-debug-1.13.0: felixfbecker.php-debug
+[2019-06-04 14:24:18.823] [sharedprocess] [info] Renamed to /root/.vscode/extensions/felixfbecker.php-debug-1.13.0
+[2019-06-04 14:24:18.826] [sharedprocess] [info] Installation completed. felixfbecker.php-debug
+[2019-06-04 14:24:18.869] [sharedprocess] [info] Extensions installed successfully: felixfbecker.php-debug
+[2019-06-04 14:24:36.076] [sharedprocess] [info] Installing extension: felixfbecker.php-intellisense
+[2019-06-04 14:24:36.083] [sharedprocess] [info] Scanned user extensions: 1
+[2019-06-04 14:24:37.366] [sharedprocess] [info] Downloaded extension: felixfbecker.php-intellisense /tmp/59e507d7-fcb5-43ae-9588-a392136e3e7c
+[2019-06-04 14:24:38.217] [sharedprocess] [info] Extracted extension to /root/.vscode/extensions/.felixfbecker.php-intellisense-2.3.10: felixfbecker.php-intellisense
+[2019-06-04 14:24:38.217] [sharedprocess] [info] Renamed to /root/.vscode/extensions/felixfbecker.php-intellisense-2.3.10
+[2019-06-04 14:24:38.218] [sharedprocess] [info] Installation completed. felixfbecker.php-intellisense
+[2019-06-04 14:24:38.276] [sharedprocess] [info] Extensions installed successfully: felixfbecker.php-intellisense
+[2019-06-04 14:24:43.958] [sharedprocess] [info] Installing extension: rifi2k.format-html-in-php
+[2019-06-04 14:24:43.972] [sharedprocess] [info] Scanned user extensions: 2
+[2019-06-04 14:24:46.438] [sharedprocess] [info] Downloaded extension: rifi2k.format-html-in-php /tmp/bfd83241-23c5-43df-be5d-c8b7c5d279a7
+[2019-06-04 14:24:46.815] [sharedprocess] [info] Extracted extension to /root/.vscode/extensions/.rifi2k.format-html-in-php-1.5.3: rifi2k.format-html-in-php
+[2019-06-04 14:24:46.815] [sharedprocess] [info] Renamed to /root/.vscode/extensions/rifi2k.format-html-in-php-1.5.3
+[2019-06-04 14:24:46.816] [sharedprocess] [info] Installation completed. rifi2k.format-html-in-php
+[2019-06-04 14:24:46.848] [sharedprocess] [info] Extensions installed successfully: rifi2k.format-html-in-php
+[2019-06-04 14:26:31.053] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:31:31.083] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:36:31.097] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:02.668] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:02.720] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:40:02.786] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:02.810] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:40:17.123] [sharedprocess] [info] Installing extension: ms-mssql.mssql
+[2019-06-04 14:40:17.129] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:17.334] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:17.355] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:40:17.372] [sharedprocess] [info] Scanned user extensions: 3
+[2019-06-04 14:40:17.391] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:40:20.822] [sharedprocess] [info] Downloaded extension: ms-mssql.mssql /tmp/6b787a0d-a29d-46fe-9f40-3dbc1819f287
+[2019-06-04 14:40:23.103] [sharedprocess] [info] Extracted extension to /root/.vscode/extensions/.ms-mssql.mssql-1.6.0: ms-mssql.mssql
+[2019-06-04 14:40:23.104] [sharedprocess] [info] Renamed to /root/.vscode/extensions/ms-mssql.mssql-1.6.0
+[2019-06-04 14:40:23.105] [sharedprocess] [info] Installation completed. ms-mssql.mssql
+[2019-06-04 14:40:23.202] [sharedprocess] [info] Scanned user extensions: 4
+[2019-06-04 14:40:23.264] [sharedprocess] [info] Scanned system extensions: 72
+[2019-06-04 14:40:23.264] [sharedprocess] [info] Extensions installed successfully: ms-mssql.mssql
