@@ -1,6 +1,6 @@
 <?php
 	session_start();
-
+	ini_set("memory_limit", "-1");
 	include 'conexion.php';
 	
 	require_once  'Classes/PHPExcel.php';
