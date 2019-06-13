@@ -74,7 +74,7 @@
 			->setRGB('204D8E');
 	}
 	if($_POST['confExcel'] == 2){
-		$SQLreportes = "CALL selectServicosExcel()";
+		$SQLreportes = "SELECT s.*,t.nombre,u.usuario,a.idArea,a.nombre as area FROM servicios s INNER JOIN tecnicos t INNER JOIN serviciostecnicos st INNER JOIN usuarios u INNER JOIN serviciosusuarios su INNER JOIN areas a INNER JOIN servicioarea sa ON s.idServicios = st.fk_idServicios AND t.idTecnicos = st.fk_idTecnicos AND u.idUsuarios = su.fk_idUsuarios AND su.fk_idServicios = s.idServicios AND s.idServicios = sa.fk_idServicio AND a.idArea = sa.fk_idArea WHERE 1 ORDER BY s.idServicios";
 	}else{
 		$SQLreportes = "CALL selectServicosExcelFechas('".$_POST['fecha1']."','".$_POST['fecha2']."')";
 	}
