@@ -501,19 +501,20 @@
 	$objExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
 	$objExcel->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
 	$objExcel->setActiveSheetIndex(0);	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
-//	$objWriter->setIncludeCharts(true);
-//	$objWriter->save("ServiceDesk.xlsx");
-////	
-//	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
-//	$objWriter->setIncludeCharts(true);
-//	$objWriter->save("ServiceDesk.xlsx");
-	
-	header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	header('Content-Disposition: attachment;filename="ServiceDesk.xlsx"');
-	header('Cache-Control: max-age=0');
+	$objWriter->setIncludeCharts(true);
+	$objWriter->save("ServiceDesk.xlsx");
 //	
-	$objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
-	$objWriter->save('php://output');
+	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
+	$objWriter->setIncludeCharts(true);
+	$objWriter->save("ServiceDesk.xlsx");
+	header('Location: index.php');
+//	header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+//	header('Content-Disposition: attachment;filename="ServiceDesk.xlsx"');
+//	header('Cache-Control: max-age=0');
+////	
+//	$objWriter = PHPExcel_IOFactory::createWriter($objExcel, 'Excel2007');
+//	$objWriter->save('php://output');
+//	
 //	$objWriter->save("ServiceDesk.xlsx");
 //	header('Location: index.php');
 //	echo'<script type="text/javascript">

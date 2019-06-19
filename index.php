@@ -53,7 +53,9 @@
 							</button>
 							<button style='color:white' class='navbar-toggler' type='button' data-toggle='modal' data-tooltip='tooltip' title='Click Aqui Para Generar Archivo de Excel' data-target='#excel'>
 								Generar Excel
-							</button>";
+							</button>
+							<strong style='color: white;'><a href='servicedesk.xlsx' style='color:white'>Descargar Excel</a></strong>";
+							
 						}
 					}
 					echo "<form class='form-horizontal' action='cerrarSesion.php' method='post'>
