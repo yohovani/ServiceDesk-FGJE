@@ -4,6 +4,7 @@
 	include 'conexion.php';
 	
 	require_once  'Classes/PHPExcel.php';
+	PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
 
 	$objExcel = new PHPExcel();
 	
@@ -506,7 +507,7 @@
 //	
 	$objWriter = new PHPExcel_Writer_Excel2007($objExcel);
 	$objWriter->setIncludeCharts(true);
-		$objWriter->save("ServiceDesk.xlsx");
+	$objWriter->save("ServiceDesk.xlsx");
 	header('Location: index.php');
 //	header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 //	header('Content-Disposition: attachment;filename="ServiceDesk.xlsx"');
