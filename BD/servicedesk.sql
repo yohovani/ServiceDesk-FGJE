@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2018 a las 19:31:41
+-- Tiempo de generación: 21-06-2019 a las 21:01:40
 -- Versión del servidor: 10.1.34-MariaDB
 -- Versión de PHP: 7.2.7
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `servicedesk`
+-- Base de datos: `servicedesk
 --
 
 -- --------------------------------------------------------
@@ -32,6 +32,52 @@ CREATE TABLE `areas` (
   `idArea` int(10) NOT NULL,
   `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `areas`
+--
+
+INSERT INTO `areas` (`idArea`, `nombre`) VALUES
+(1, 'DEPARTAMENTO DE RECURSOS FINANCIEROS'),
+(2, 'DEPARTAMENTO DE RECURSOS HUMANOS'),
+(3, 'DEPARTAMENTO DE RECURSOS MATERIALES'),
+(4, 'DIRECCIÓN GENERAL DE INVESTIGACIONES'),
+(5, 'AGENCIAS DEL MINISTERIO PÚBLICO ESPECIALES'),
+(6, 'AGENCIAS DEL MINISTERIO PÚBLICO ESPECIALES'),
+(7, 'AGENCIAS DEL MINISTERIO PÚBLICO INSTRUCTORAS'),
+(8, 'CENTRO DE OPERACIÓN ESTRATÉGICA PARA EL NARCOMENUDEO'),
+(9, 'AGENCIA DEL MINISTERIO ESPECIALIZADA PARA EL DELITO FEMINICIDIO'),
+(10, 'COORDINACIÓN DE UNIDADES ESPECIALIZADAS DE INVESTIGACIÓN'),
+(11, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA ROBO'),
+(12, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL DELITO DE ACTOS U OMISIONES CULPOSAS'),
+(13, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL ORDEN DE LA FAMILIA'),
+(14, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA LA LIBERTAD SEXUAL EN LA INTEGRIDAD'),
+(15, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL ROBO DE VEHÍCULOS'),
+(16, 'UNIDAD ESPECIALIZADA DE DELITO CONTRA EL SECUESTRO'),
+(17, 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DEL DELITO DE HOMICIDIOS'),
+(18, 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DEL DELITO MIXTA'),
+(19, 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIàN DE ADOLESCENTES EN CONFLICTO CON LA LEY PENAL'),
+(20, 'UNIDAD ESPECIALIZADA EN LA INVESTIGACIÓN DE DELITOS DE SERVIDORES PÚBLICOS'),
+(21, 'COORDINACIàN DEL MàDULO DE ATENCIàN TEMPRANA'),
+(22, 'COORDINACIàN DE CENTRO DE JUSTICIA ALTERNATIVA'),
+(23, 'DIRECCIàN GENERAL DE PROCEDIMIENTOS JURISDICCIONALES'),
+(24, 'AGENCIAS DEL MINISTERIO PÚBLICO ADSCRITAS A LOS JUZGADOS'),
+(25, 'UNIDAD DE AMPAROS'),
+(26, 'DIRECCIàN DE APREHENSIONES COLABORACIONES Y EXTRADICIONES INTERNACIONALES'),
+(27, 'UNIDAD DE EXPEDICIàN DE CARTAS DE NO ANTECEDENTES PENALES'),
+(28, 'DIRECCIÓN DE PREVENCIÓN Y ATENCIÓN A VÍCTIMAS DEL DELITO'),
+(29, 'DEPARTAMENTO DE TRABAJO SOCIAL'),
+(30, 'DEPARTAMENTO DE INVESTIGACIÓN Y DIFUSIÓN'),
+(31, 'DEPARTAMENTO DE PREVENCIàN DEL DELITO'),
+(32, 'DEPARTAMENTO PARA LA LOCALIZACIàN DE PERSONAS DESAPARECIDAS'),
+(33, 'DEPARTAMENTO DE ATENCIàN A VICTIMAS DEL DELITO'),
+(34, 'DIRECCIÓN DE CONTROL Y DERECHOS HUMANOS'),
+(35, 'AGENCIA DEL MINISTERIO PÚBLICO INSTRUCTORA'),
+(36, 'AGENCIA DEL MINISTERIO PéBLICO ADSCRITA'),
+(37, 'AGENCIA DEL MINISTERIO PéBLICO CONCILIADORA'),
+(38, 'SUBDIRECCIÓN GENERAL OPERATIVA'),
+(39, 'COORDINACIÓN OPERAIVA'),
+(40, 'VINCULACIÓN ADMINISTRATIVA');
 
 -- --------------------------------------------------------
 
@@ -152,6 +198,17 @@ CREATE TABLE `prestamosusuarios` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `servicioarea`
+--
+
+CREATE TABLE `servicioarea` (
+  `fk_idServicio` int(11) NOT NULL,
+  `fk_idArea` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `servicios`
 --
 
@@ -163,7 +220,6 @@ CREATE TABLE `servicios` (
   `horaFin` time DEFAULT NULL,
   `tipoServicio` varchar(100) NOT NULL,
   `descripcion` varchar(150) NOT NULL,
-  `ubicacion` varchar(100) NOT NULL,
   `finalizado` tinyint(4) NOT NULL,
   `finalizadoTecnico` tinyint(4) NOT NULL,
   `solucion` varchar(200) NOT NULL,
@@ -209,8 +265,10 @@ CREATE TABLE `tecnicos` (
 --
 -- Volcado de datos para la tabla `tecnicos`
 --
+
 INSERT INTO `tecnicos` (`idTecnicos`, `nombre`, `password`, `admin`, `recepcion`) VALUES
 (1, 'admin', 'admin', 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -294,6 +352,13 @@ ALTER TABLE `prestamosusuarios`
   ADD KEY `fk_PU_P` (`fk_idPrestamos`);
 
 --
+-- Indices de la tabla `servicioarea`
+--
+ALTER TABLE `servicioarea`
+  ADD PRIMARY KEY (`fk_idServicio`,`fk_idArea`),
+  ADD KEY `fk_idArea` (`fk_idArea`);
+
+--
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
@@ -333,7 +398,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `areas`
 --
 ALTER TABLE `areas`
-  MODIFY `idArea` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `idArea` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `compras`
@@ -369,7 +434,7 @@ ALTER TABLE `servicios`
 -- AUTO_INCREMENT de la tabla `tecnicos`
 --
 ALTER TABLE `tecnicos`
-  MODIFY `idTecnicos` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -415,6 +480,13 @@ ALTER TABLE `equipousuarios`
 ALTER TABLE `prestamosusuarios`
   ADD CONSTRAINT `fk_PU_P` FOREIGN KEY (`fk_idPrestamos`) REFERENCES `prestamos` (`idPrestamo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_PU_U` FOREIGN KEY (`fk_idUsuarios`) REFERENCES `usuarios` (`idUsuarios`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `servicioarea`
+--
+ALTER TABLE `servicioarea`
+  ADD CONSTRAINT `fk_idArea` FOREIGN KEY (`fk_idArea`) REFERENCES `areas` (`idArea`),
+  ADD CONSTRAINT `fk_idServicio` FOREIGN KEY (`fk_idServicio`) REFERENCES `servicios` (`idServicios`);
 
 --
 -- Filtros para la tabla `serviciostecnicos`
